@@ -1,0 +1,71 @@
+<div class="row">
+    <div class="span12">
+        <div class="clearfix">
+            <h2 class="left"><?= $this->translate($this->grid->getCaption()) ?></h2>
+            <div class="right" style="margin-top: 15px;">
+                <? if ($this->grid->isAllowCreate()): ?>
+                    <a class="btn btn-warning" href="<?= $this->url(null, array('action' => 'create')) ?>"><?= $this->translate('Create new') ?></a>
+                <? endif; ?>
+            </div>
+        </div>
+
+        <?= $this->render('at-datagrid/grid/paginator'); ?>
+        <hr/>
+
+        <div class="atf-grid">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>
+                            <input type="checkbox" onclick="DataGrid.checkAll(this)"/>
+                        </th>
+                        <? foreach ($this->grid as $column) : ?>
+                            <? if ($column->isVisible()): ?>
+                                <th>
+                                    <? if ($column->isSortable()): ?>
+                                        <a class="sortable" href="<?= $this->atBaseQueryParams(array('page' => 1, 'order' => $column->getName() . '~' . $column->getOrderDirection())) ?>">
+                                            <? if ($this->grid->getCurrentOrderColumnName() == $column->getName()): ?>
+                                                <span class="active">
+                                                    <?= $column->getLabel() ?>
+                                                    <? if ($this->grid->getCurrentOrderDirection() == 'asc'): ?>
+                                                        &uarr;
+                                                    <? elseif($this->grid->getCurrentOrderDirection() == 'desc'): ?>
+                                                        &darr;
+                                                    <? endif; ?>
+                                                </span>
+                                            <? else: ?>
+                                                <?= $column->getLabel() ?>
+                                            <? endif; ?>
+                                        </a>
+                                    <? else: ?>
+                                        <?= $column->getLabel() ?>
+                                    <? endif; ?>
+                                </th>
+                            <? endif; ?>
+                        <? endforeach; ?>
+                        <th style="width: <?= count($this->grid->getButtonActions())*50+30 ?>px;"></th>
+                    </tr>
+                </thead>
+                <tbody>
+
+                    <?= $this->render('at-datagrid/grid/filters') ?>
+
+                    <? if (count($this->rows)): ?>
+                        <?= $this->render('at-datagrid/grid/rows/list') ?>
+                    <? endif ?>
+
+                </tbody>
+            </table>
+            <? if (!count($this->rows)): ?>
+                <div><?= $this->translate("No items found.") ?></div>
+            <? endif ?>
+        </div>
+
+        <? if (count($this->rows)): ?>
+            <?= $this->render('at-datagrid/grid/group-actions') ?>
+        <? endif; ?>
+
+        <hr/>
+        <?= $this->render('at-datagrid/grid/paginator'); ?>
+    </div>
+</div>

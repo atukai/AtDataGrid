@@ -1,0 +1,27 @@
+{
+    "name": "atukai/at-datagrid",
+    "description": "A data grid ZF2 module",
+    "type": "library",
+    "keywords": [
+        "grid", "datagrid", "AtDataGrid", "atukai", "at", "zf2"
+    ],
+    "homepage": "https://github.com/atukai/AtDataGrid",
+    "authors": [
+        {
+            "name": "Alexander Tukai",
+            "email": "atukai@gmail.com"
+        }
+    ],
+    "require": {
+        "zendframework/zendframework": "2.*",
+        "atukai/at-base": "dev-master"
+    },
+    "autoload": {
+        "psr-0": {
+            "AtDataGrid\\": "src/"
+        },
+        "classmap": [
+            "./Module.php"
+        ]
+    }
+}

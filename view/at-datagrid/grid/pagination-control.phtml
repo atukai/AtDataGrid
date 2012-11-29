@@ -1,0 +1,36 @@
+<?php if ($this->pageCount > 1): ?>
+<div class="b-pager">
+    <table>
+        <tr>
+            <td>Pages:</td>
+            <td class="prev">
+		        <?php if (isset($this->previous)): ?>
+		          <a href="<?= $this->atBaseQueryParams(array('page' => $this->previous)); ?>" title="<?= $this->translate('Previous page'); ?>">
+		            <i class="icon-arrow-left"></i>
+		          </a>
+		        <?php endif; ?>
+            </td>
+
+            <td class="page">
+                <ul>
+			        <?php foreach ($this->pagesInRange as $page): ?>
+			            <?php if ($page != $this->current): ?>
+			                <li><a href="<?= $this->atBaseQueryParams(array('page' => $page)) ?>"><?= $page ?></a></li>
+			            <?php else: ?>
+			                <li class="active"><?= $page; ?></li>
+			            <?php endif; ?>
+			        <?php endforeach; ?>
+                </ul>
+            </td>
+
+            <td class="next">
+		        <?php if (isset($this->next)): ?>
+                    <a href="<?= $this->atBaseQueryParams(array('page' => $this->next)); ?>" title="<?= $this->translate('Next page'); ?>">
+                        <i class="icon-arrow-right"></i>
+                    </a>
+		        <?php endif; ?>
+            </td>
+        </tr>
+    </table>
+</div>
+<?php endif; ?>

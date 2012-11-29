@@ -1,0 +1,34 @@
+<?php
+
+$form = $this->grid->getForm();
+$form->prepare();
+$form->setAttribute('action', $this->url(null, array(), array(), true));
+$form->setAttribute('method', 'post');
+$form->setAttribute('id', 'datagrid-form');
+$form->setAttribute('class', 'form-horizontal grid-form');
+
+echo $this->form()->openTag($form);
+?>
+
+<?php foreach ($form->getElements() as $element): ?>
+    <div class="control-group">
+        <?php if ($element->getAttribute('type') == 'hidden'): ?>
+            <?= $this->formHidden($element) ?>
+        <?php else: ?>
+            <?php $element->setLabelAttributes(array('class' => 'control-label')); ?>
+            <?= $this->formLabel($element) ?>
+            <div class="controls">
+                <?= $this->formElement($element) ?>
+                <p class="help-block">
+                    <?= $this->formElementErrors($element); ?>
+                </p>
+            </div>
+        <?php endif; ?>
+    </div>
+<?php endforeach; ?>
+
+<div class="form-actions">
+    <button type="submit" class="btn btn-info">Save</button>
+</div>
+
+<?= $this->form()->closeTag(); ?>

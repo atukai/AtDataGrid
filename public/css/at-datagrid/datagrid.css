@@ -1,0 +1,100 @@
+/* Grid */
+.atf-grid table{width:100%;}
+.atf-grid table label {font-size: 1em; width: 50px;}
+.atf-grid table .checkbox {padding: 0; width: 36px; text-align: center;}
+.atf-grid table th, .atf-grid table td {padding: 3px 6px; font-size: 12px; vertical-align: middle; }
+.atf-grid table th input[type="checkbox"], .atf-grid table td input[type="checkbox"] {margin-top: -2px;}
+
+.atf-grid table th a {color: #2D444F; text-decoration: none;}
+.atf-grid table th a:hover {text-decoration: underline;}
+.atf-grid table th.ordered {background-color: #FFFAD2;}
+
+/* List options */
+.show-items-list {margin-left: 0}
+.show-items-list li {float: left; list-style: none; margin: 0 4px;}
+.show-items-list li:first-child {margin-left: 0;}
+
+/* Grid filters */
+.atf-grid table .filters {background-color: #E3EFF1; font-size: 0.9em;}
+.atf-grid table .filters td div {vertical-align: top; white-space: nowrap;}
+.atf-grid table .filters td input {width: 92%; height: 20px; margin: 4px 0;}
+.atf-grid table .filters td select {margin: 4px 0; width: 100%}
+.atf-grid table .filters td input[type=submit] {width: 100%;}
+.atf-grid table .filters td div {clear: both;}
+
+/* Sorting */
+a.sortable:hover {text-decoration: none;}
+.sortable > .active {color: #DD4B39;}
+
+/* Group actions */
+.atf-grid-group-actions {}
+
+/* Edit/create Form */
+.grid-form label.control-label {font-size: 14px; color: #000; width: 300px; padding-top: 3px;}
+.grid-form input, .grid-form select, .grid-form textarea {
+    background-color: #F7F7F7; border-color: #AAA #DDD #DDD; border-style: solid; border-width: 1px;
+}
+.grid-form input, .grid-form textarea {width: 500px;}
+.grid-form input[type="checkbox"] { width: 20px; }
+.grid-form .atf-form-date {width: 100px;}
+.grid-form .atf-form-time {width: 50px;}
+.grid-form .form-actions {padding-left: 320px; background: none;}
+.grid-form .controls {margin-left: 320px;}
+.grid-form .controls label {font-size: inherit; margin-top: 4px}
+.grid-form .controls label input[type="checkbox"] {margin: -3px 0 0 0;}
+.grid-form .help-block {font-size: 11px;}
+
+/* Item */
+.item-info {margin-bottom: 10px; padding-bottom: 10px;}
+.item-info .back {font-size: 11px;}
+.item-info .back a {text-decoration: none;}
+.item-info .info {font-size: 14px;}
+
+/* Pager */
+.b-pager {
+    margin: 0;
+}
+
+.b-pager table {
+    margin-bottom: 0;
+    border: none;
+}
+
+.b-pager td {
+    text-align:center;
+    vertical-align:middle;
+    padding:0 4px;
+}
+
+.b-pager .prev, .b-pager .next {}
+
+.b-pager .page { padding:0 4px; }
+.b-pager .page ul { text-align:center; margin: 0;}
+.b-pager .page li {
+    display:inline;
+    padding:0 4px;
+    text-align:center;
+}
+
+.b-pager .page .active {
+    position:relative;
+    padding:0 5px;
+    color:#fff;
+    background: #999;
+    border-radius: 4px;
+}
+
+.b-pager .page .active i {
+    position:absolute;
+    width:1px;
+    height:1px;
+    background:#f2f2f2;
+}
+
+.b-pager .page .active .tl {left:0; top:0;}
+.b-pager .page .active .tr {right:0; top:0;}
+.b-pager .page .active .bl {left:0; bottom:0;}
+.b-pager .page .active .br {right:0; bottom:0;}
+
+/* Common */
+h1 {font-size: 24px; margin-bottom: 16px;}

@@ -1,0 +1,41 @@
+<div class="row">
+    <div class="span12">
+        <ul class="show-items-list clearfix left">
+            <li><?= $this->translate('View')?> </li>
+            <li>
+                <? if ($this->grid->getItemsPerPage() == 20): ?>
+                    <span class="b">20</span>
+                <? else: ?>
+                    <a href="<?= $this->atBaseQueryParams(array('show_items' => 20)) ?>">20</a>
+                <? endif; ?>
+            </li>
+            <li>
+                <? if ($this->grid->getItemsPerPage() == 30): ?>
+                    <span class="b">30</span>
+                <? else: ?>
+                    <a href="<?= $this->atBaseQueryParams(array('show_items' => 30)) ?>">30</a>
+                <? endif; ?>
+            </li>
+            <li>
+                <? if ($this->grid->getItemsPerPage() == 50): ?>
+                    <span class="b">50</span>
+                <? else: ?>
+                    <a href="<?= $this->atBaseQueryParams(array('show_items' => 50)) ?>">50</a>
+                <? endif; ?>
+            </li>
+            <li>
+                <? if ($this->grid->getItemsPerPage() == 100): ?>
+                    <span class="b">100</span>
+                <? else: ?>
+                    <a href="<?= $this->atBaseQueryParams(array('show_items' => 100)) ?>">100</a>
+                <? endif; ?>
+            </li>
+
+            <li><?= $this->translate('records per page') ?></li>
+
+            <li class="divider-vertical">|</li>
+            <li>Total: <span class="b"><?= $this->paginator->getTotalItemCount(); ?></span> <?= $this->translate('record(s) found') ?></li>
+        </ul>
+        <div class="right"><?= $this->paginationControl($this->paginator, null, 'at-datagrid/grid/pagination-control'); ?></div>
+    </div>
+</div>

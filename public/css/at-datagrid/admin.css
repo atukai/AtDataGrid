@@ -1,0 +1,36 @@
+body {padding: 30px 0; min-height: 100%;}
+body > .container {padding: 30px; min-height: 400px;}
+
+ul {margin: 0; padding: 0;}
+li {list-style: none;}
+
+input[type="text"], input[type="password"] {height: 24px;}
+
+.navbar .nav > li {margin-top: 9px;}
+.navbar .nav > li > a {padding: 2px 8px;}
+
+h1 {font-weight: normal; color: #ACD030; font-size: 36px; margin-bottom:12px;}
+
+/* Forms*/
+label {font-size: 14px;}
+input, textarea, select {width: 250px; font-size: 14px;}
+textarea {min-height: 100px;}
+.form-actions {background: none; padding: 10px 0; margin-bottom: 0;}
+
+/* Misc */
+.left {float: left}
+.right {float: right}
+.center {text-align: center}
+.b {font-weight: bold}
+
+/* Colors */
+.green {color: #68b604;}
+.green2 {color: #58AA00;}
+.magenta {color: #A839B2;}
+.pink {color: #FF0071;}
+.olive {color: #ACD030;}
+.turquoise {color: #00AA78}
+.blue {color: #0074AE}
+
+/* Site */
+.main-menu li {font-size: 10px; text-transform: uppercase;}

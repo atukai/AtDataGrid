@@ -1,0 +1,10 @@
+<div class="span-12">
+		<form method="post" action="#" id="datagrid-list-form">
+		    <?php foreach ($this->rows as $row): ?>
+			    <div>
+			        <div style="padding-left: <?= 30*$row->level ?>px"><?= $row->name ?></div>
+			    </div>
+			<?php endforeach; ?>
+		</form>
+</div>
+		
