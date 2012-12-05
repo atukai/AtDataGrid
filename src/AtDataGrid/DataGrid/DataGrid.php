@@ -65,7 +65,7 @@ class DataGrid implements \Countable, \IteratorAggregate, \ArrayAccess
      *
      * @var array
      */
-    protected $rows = array();
+    protected $data = array();
 
     /**
      * Data source
@@ -194,6 +194,7 @@ class DataGrid implements \Countable, \IteratorAggregate, \ArrayAccess
 
     /**
      * @param $name
+     * @return DataGrid
      */
     public function setIdentifierColumnName($name)
     {
@@ -476,13 +477,14 @@ class DataGrid implements \Countable, \IteratorAggregate, \ArrayAccess
     {
         return $this->getDataSource()->find($key);
     }
-    
+
     /**
      * Returns rows demands on list type. It may be list or tree
-     * 
-     * @return array
+     *
+     * @param string $listType
+     * @return mixed
      */
-    public function getRows($listType = DataSource\AbstractDataSource::LIST_TYPE_PLAIN)
+    public function getData($listType = DataSource\AbstractDataSource::LIST_TYPE_PLAIN)
     {
         $order = null;
 
@@ -490,7 +492,7 @@ class DataGrid implements \Countable, \IteratorAggregate, \ArrayAccess
             $order = $this->getCurrentOrderColumnName() . ' ' . $this->getCurrentOrderDirection();
         }
 
-    	$this->rows = $this->getDataSource()->fetch(
+    	$this->data = $this->getDataSource()->fetch(
             $listType,
             $order,
             $this->currentPage,
@@ -498,7 +500,7 @@ class DataGrid implements \Countable, \IteratorAggregate, \ArrayAccess
             $this->pageRange
         );
 
-        return $this->rows;
+        return $this->data;
     }
 
     // ACTIONS
@@ -874,7 +876,7 @@ class DataGrid implements \Countable, \IteratorAggregate, \ArrayAccess
         $data                = array();
         $data['grid']        = $this;
         $data['columns']     = $this->getColumns();
-        $data['rows']        = $this->getRows();
+        $data['rows']        = $this->getData();
         $data['paginator']   = $this->getDataSource()->getPaginator();
 
         return $this->getRenderer()->render($data);

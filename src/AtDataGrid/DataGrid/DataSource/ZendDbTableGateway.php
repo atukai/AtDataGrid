@@ -3,6 +3,7 @@
 namespace AtDataGrid\DataGrid\DataSource;
 
 use Zend\Db\Adapter\Adapter;
+use Zend\Db\Sql\Select;
 use Zend\Db\TableGateway\TableGateway;
 use Zend\Db\TableGateway\Feature;
 use Zend\Db\ResultSet\ResultSet;
@@ -54,7 +55,6 @@ class ZendDbTableGateway extends AbstractDataSource
 		parent::__construct($options);
 
         $this->tableGateway = new TableGateway($options['table'], $this->getDbAdapter());
-        $this->select = $this->tableGateway->getSql()->select();
         $this->columns = $this->loadColumns();
 	}
 
@@ -99,6 +99,10 @@ class ZendDbTableGateway extends AbstractDataSource
      */
     public function getSelect()
     {
+        if ($this->select == null) {
+            $this->select = $this->tableGateway->getSql()->select();
+        }
+
         return $this->select;
     }
 
@@ -112,58 +116,56 @@ class ZendDbTableGateway extends AbstractDataSource
                 new \Zend\Paginator\Adapter\DbSelect($this->getSelect(), $this->getDbAdapter())
             );
         }
+
         return $this->paginator;
     }
 
     /**
      * Join other table and collect joined columns
      *
-     * @param $tableClass
+     * @param $tableClassName
      * @param $alias
-     * @param $on
+     * @param $keyName
+     * @param $foreignKeyName
      * @param null $columns
-     * @return void
+     * @throws \Exception
      */
-    public function with($tableClass, $alias, $keyName, $foreignKeyName, $columns = null)
+    public function with($joinedTableName, $alias, $keyName, $foreignKeyName, $columns = null)
     {
-        $joinTable = new $tableClass;
-        $joinTableName = $joinTable->info(Zend_Db_Table_Abstract::NAME);
-        $joinTableCols = $joinTable->info(Zend_Db_Table_Abstract::COLS);
+        $tableMetadata = new \Zend\Db\Metadata\Metadata($this->getDbAdapter());
+        $joinedTableColumns = $tableMetadata->getColumns($joinedTableName);
 
-        $this->joinedTables[$alias] = $tableClass;
-
-        // Колонки из приджойненных таблиц
-        $joinedColumns = array();        
+        $joinedColumns = array();
         
-        foreach ($joinTableCols as $col) {
-        	// Добавляем только указанные колонки
+        foreach ($joinedTableColumns as $columnObject) {
+            $columnName = $columnObject->getName();
+
             if (null != $columns) {
-                if (in_array($col, $columns)) {
-                   $joinedColumns[] = $alias . '.' . $col . ' AS ' . $alias . '__' . $col;
-                   $this->joinedColumns[] = $alias . '__' . $col;
+                if (in_array($columnName, $columns)) {
+                   $joinedColumns[$alias . '__' . $columnName] = $columnName;
+                   $this->joinedColumns[] = $alias . '__' . $columnName;
                 }
-            // Добавляем все колонки    
             } else {
-                $joinedColumns[] = $alias . '.' . $col . ' AS ' . $alias . '__' . $col;
-                $this->joinedColumns[] = $alias . '__' . $col;
+                $joinedColumns[$alias . '__' . $columnName] = $columnName;
+                $this->joinedColumns[] = $alias . '__' . $columnName;
             }
         }
 
         $this->getSelect()->join(
-            array($alias => $joinTableName),
-            $this->getTable()->getName(). '.' . $keyName . '='. $alias . '.' . $foreignKeyName,
-            $joinedColumns);
+            array($alias => $joinedTableName),
+            $this->getTableGateway()->getTable(). '.' . $keyName . ' = '. $alias . '.' . $foreignKeyName,
+            $joinedColumns
+        );
     }
 
     /**
-     * @return array
+     * @return array|mixed
      */
     public function loadColumns()
     {
         $columns = array();
         $tableMetadata = new \Zend\Db\Metadata\Metadata($this->getDbAdapter());
         $baseTableColumns = $tableMetadata->getColumns($this->getTableGateway()->getTable());
-        //$baseTableColumns = $this->getTableGateway()->getColumns();
 
         // Setup default settings for base table column fields
         foreach ($baseTableColumns as $columnObject) {
@@ -216,17 +218,16 @@ class ZendDbTableGateway extends AbstractDataSource
     {
         // Get current database name
         $query = 'SELECT DATABASE();';
-        $schema = $this->getTableGateway()->getAdapter()->fetchOne($query);
+        $schema = $this->getDbAdapter()->query($query);
 
         // Set table field comments as column label.
-        $select = $this->getTableGateway()->getAdapter()->select();
-        $select->from('information_schema.COLUMNS', array('name' => 'COLUMN_NAME', 'comment' => 'COLUMN_COMMENT'));
-        $select->where('TABLE_SCHEMA = ?', $schema);
-        $select->where('TABLE_NAME = ?', $this->getTableGateway()->getTable());
+        $select = new Select('information_schema.COLUMNS');
+        $select->columns(array('name' => 'COLUMN_NAME', 'comment' => 'COLUMN_COMMENT'))
+               ->where(array('TABLE_SCHEMA' => $schema))
+               ->where(array('TABLE_NAME', $this->getTableGateway()->getTable()));
         
-        $columnsInfo = $select->query()->fetchAll();
-        $select->reset(); // ???
-        
+        $columnsInfo = $this->getDbAdapter()->query($select->getSqlString(), \Zend\Db\Adapter\Adapter::QUERY_MODE_EXECUTE);
+
         if ($columnsInfo) {
             foreach ($columnsInfo as $column) {
                 if (!empty($column['comment'])) {
@@ -253,7 +254,7 @@ class ZendDbTableGateway extends AbstractDataSource
      * @param $currentPage
      * @param $itemsPerPage
      * @param $pageRange
-     * @return mixed
+     * @return mixed|\Zend\Db\ResultSet\ResultSet
      */
     public function fetch($listType, $order, $currentPage, $itemsPerPage, $pageRange)
     {
@@ -266,12 +267,10 @@ class ZendDbTableGateway extends AbstractDataSource
 	        $paginator->setCurrentPageNumber($currentPage)
                       ->setItemCountPerPage($itemsPerPage)
                       ->setPageRange($pageRange);
-
 	        return $paginator->getItemsByPage($currentPage);
     	} elseif ($listType == AbstractDataSource::LIST_TYPE_TREE) {
-            // @todo: implement forming data for tree
-    	    /*$items = $this->getTableGateway()->fetchAll();
-            return $items;*/
+    	    $items = $this->getTableGateway()->select();
+            return $items;
     	}
     }
 
@@ -308,7 +307,7 @@ class ZendDbTableGateway extends AbstractDataSource
     /**
      * @param $data
      * @param $key
-     * @return mixed
+     * @return int|mixed
      */
     public function update($data, $key)
     {
@@ -316,8 +315,8 @@ class ZendDbTableGateway extends AbstractDataSource
     }
 
     /**
-     * @param $identifier
-     * @return mixed|void
+     * @param $key
+     * @return int|mixed
      */
     public function delete($key)
     {

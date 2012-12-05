@@ -84,9 +84,9 @@ class Html extends AbstractRenderer
         $viewModel = new \Zend\View\Model\ViewModel($variables);
         $viewModel->setTemplate($this->getTemplate());
 
-        if (!empty($this->cssFile)) {
-            //$this->getView()->headLink()->appendStylesheet($this->cssFile);
-        }
+        /*if (!empty($this->cssFile)) {
+            $this->getView()->headLink()->appendStylesheet($this->cssFile);
+        }*/
 
         return $engine->render($viewModel);
     }

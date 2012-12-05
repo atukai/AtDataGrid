@@ -2,7 +2,7 @@
 
 Version 0.0.1
 
-A data grid component for [Zend Framework 2](http://framework.zend.com).
+A data grid component for ZF2.
 
 ## Requirements
 
