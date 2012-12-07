@@ -26,6 +26,8 @@ class DataGridController extends AbstractActionController
      */
     public function listAction()
     {
+        $this->backTo()->setBackUrl();
+
         // Get grid object
     	$grid = $this->getGrid();
 
@@ -68,13 +70,10 @@ class DataGridController extends AbstractActionController
 
         if ($form->isValid()) {
             $formData = $this->preSave($form);
-
             $itemId = $grid->save($formData);
-
             $this->postSave($grid, $itemId);
 
-            //$this->_helper->flashMessenger->addMessage('Запись успешно добавлена');
-            //$this->_helper->backToUrl();
+            $this->backTo()->goBack('Record created.');
         }
 
         $viewModel = new ViewModel(array('grid' => $grid));
@@ -110,13 +109,10 @@ class DataGridController extends AbstractActionController
 
         if ($this->getRequest()->isPost() && $form->isValid()) {
             $data = $this->preSave($form);
-
             $grid->save($data, $itemId);
-
             $this->postSave($grid, $itemId);
 
-            //$this->_helper->flashMessenger->addMessage('Данные записи #' . $itemId . ' успешно сохранены.');
-            //$this->_helper->backToUrl();
+            $this->backTo()->goBack('Record updated.');
         }
 
         $item = $grid->getRow($itemId);
@@ -153,11 +149,7 @@ class DataGridController extends AbstractActionController
 
         $grid->delete($itemId);
 
-        //$this->_helper->flashMessenger->addMessage('Запись #' . $itemId . ' удалена.');
-
-        // Back to previous page
-        //$this->_helper->backToUrl();
-    }
+        $this->backTo()->goBack('Record deleted.');    }
 
     /**
      * Hook before save row
