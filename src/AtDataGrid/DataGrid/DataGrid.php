@@ -6,7 +6,8 @@ use AtDataGrid\DataGrid\DataSource;
 use AtDataGrid\DataGrid\Column;
 
 /**
- *
+ * Class DataGrid
+ * @package AtDataGrid\DataGrid
  */
 class DataGrid implements \Countable, \IteratorAggregate, \ArrayAccess
 {
@@ -73,33 +74,6 @@ class DataGrid implements \Countable, \IteratorAggregate, \ArrayAccess
      * @var
      */
     protected $dataSource;
-
-    /**
-     * Renderer for rows (html, xml, etc.)
-     *
-     * @var
-     */
-    protected $renderer;
-
-    /**
-     * @var bool
-     */
-    protected $allowCreate = true;
-
-    /**
-     * @var bool
-     */
-    protected $allowDelete = true;
-
-    /**
-     * @var bool
-     */
-    protected $allowEdit = true;
-
-    /**
-     * @var \Zend\Form\Form
-     */
-    protected $form;
 
     /**
      * Actions for row
@@ -603,96 +577,6 @@ class DataGrid implements \Countable, \IteratorAggregate, \ArrayAccess
     // CRUD
 
     /**
-     * @param bool $flag
-     * @return DataGrid
-     */
-    public function setAllowCreate($flag = true)
-    {
-        $this->allowCreate = $flag;
-        return $this;
-    }
-
-    /**
-     * Alias for setAllowCreate
-     *
-     * @param bool $flag
-     * @return DataGrid
-     */
-    public function allowCreate($flag = true)
-    {
-        $this->setAllowCreate($flag);
-        return $this;
-    }
-
-    /**
-     * @return bool
-     */
-    public function isAllowCreate()
-    {
-        return $this->allowCreate;
-    }
-
-    /**
-     * @param bool $flag
-     * @return DataGrid
-     */
-    public function setAllowDelete($flag = true)
-    {
-        $this->allowDelete = $flag;
-        return $this;
-    }
-
-    /**
-     * Alias for setAllowDelete
-     *
-     * @param bool $flag
-     * @return DataGrid
-     */
-    public function allowDelete($flag = true)
-    {
-        $this->setAllowDelete($flag);
-        return $this;
-    }
-
-    /**
-     * @return bool
-     */
-    public function isAllowDelete()
-    {
-        return $this->allowDelete;
-    }
-
-    /**
-     * @param bool $flag
-     * @return DataGrid
-     */
-    public function setAllowEdit($flag = true)
-    {
-        $this->allowEdit = $flag;
-        return $this;
-    }
-
-    /**
-     * Alias for setAllowEdit
-     *
-     * @param bool $flag
-     * @return DataGrid
-     */
-    public function allowEdit($flag = true)
-    {
-        $this->setAllowEdit($flag);
-        return $this;
-    }
-
-    /**
-     * @return bool
-     */
-    public function isAllowEdit()
-    {
-        return $this->allowEdit;
-    }
-
-    /**
      * Insert new row to grid
      */
     public function insert($data)
@@ -734,51 +618,6 @@ class DataGrid implements \Countable, \IteratorAggregate, \ArrayAccess
         $this->getDataSource()->delete($identifier);
     }
 
-    // FORMS
-
-    /**
-     * Generate form for create/edit row
-     */
-    public final function getForm($options = array())
-    {
-        if ($this->form == null) {
-            //$form = new ATF_DataGrid_Form();
-            $form = new \Zend\Form\Form('create-form', $options);
-
-            // Collect elements
-            foreach ($this->getColumns() as $column) {
-                if (!$column->isVisibleInForm()) {
-                    continue;
-                }
-
-                /* @var \Zend\Form\Element */
-                $element = $column->getFormElement();
-                $element->setLabel($column->getLabel());
-                $form->add($element);
-            }
-
-            // Hash element to prevent CSRF attack
-            $csrf = new \Zend\Form\Element\Csrf('hash');
-            $form->add($csrf);
-
-            // Use this method to add additional element to form
-            // @todo Use Event instead
-            $form = $this->addExtraFormElements($form);
-
-            $this->form = $form;
-        }
-
-        return $this->form;
-    }
-
-    /**
-     * @param $form
-     * @return mixed
-     */
-    public function addExtraFormElements($form)
-    {
-        return $form;
-    }
 
     // FILTERS
 
@@ -843,43 +682,6 @@ class DataGrid implements \Countable, \IteratorAggregate, \ArrayAccess
         $form->add($apply);
         
         return $form;
-    }
-
-    // RENDERING
-
-    /**
-     * @todo Use interface here
-     * @param $renderer
-     * @return DataGrid
-     */
-    public function setRenderer(\AtDataGrid\DataGrid\Renderer\AbstractRenderer $renderer)
-    {
-        $this->renderer = $renderer;
-        return $this;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getRenderer()
-    {
-        return $this->renderer;
-    }
-
-    /**
-     * Render grid with current renderer
-     *
-     * @return mixed
-     */
-    public function render()
-    {
-        $data                = array();
-        $data['grid']        = $this;
-        $data['columns']     = $this->getColumns();
-        $data['rows']        = $this->getData();
-        $data['paginator']   = $this->getDataSource()->getPaginator();
-
-        return $this->getRenderer()->render($data);
     }
 
     /**

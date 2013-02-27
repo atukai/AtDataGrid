@@ -260,8 +260,14 @@ class ZendDbTableGateway extends AbstractDataSource
     {
     	if ($listType == AbstractDataSource::LIST_TYPE_PLAIN) {
             if ($order) {
+                $orderParts = explode(' ', $order);
+                if (in_array($orderParts[0], $this->tableColumns)) {
+                    $order = $this->getTableGateway()->getTable() . '.' . $order;
+                }
                 $this->getSelect()->order($order);
             }
+
+            //var_dump($this->getSelect()->getSqlString());exit;
 
 	        $paginator = $this->getPaginator();
 	        $paginator->setCurrentPageNumber($currentPage)

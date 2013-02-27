@@ -4,15 +4,10 @@ namespace AtDataGrid\Controller;
 
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
-use AtDataGrid\DataGrid;
+use AtDataGrid\DataGrid\Manager;
 
-class DataGridController extends AbstractActionController
+abstract class AbstractDataGridController extends AbstractActionController
 {
-    /**
-     * @var \AtDataGrid\DataGrid\DataGrid
-     */
-    protected $grid;
-
     /**
      * @return array|\Zend\View\Model\ViewModel
      */
@@ -26,10 +21,16 @@ class DataGridController extends AbstractActionController
      */
     public function listAction()
     {
+        // Save back url to redirect after actions
         $this->backTo()->setBackUrl();
 
-        // Get grid object
-    	$grid = $this->getGrid();
+        // Configure grid
+        $gridManager = $this->getGridManager();
+        $grid = $gridManager->getGrid();
+
+        $grid->setOrder($this->params()->fromQuery('order', $grid->getIdentifierColumnName().'~desc'));
+        $grid->setCurrentPage($this->params()->fromQuery('page'));
+        $grid->setItemsPerPage($this->params()->fromQuery('show_items'));
 
         if (!isset($_POST['cmd'])) {
             $requestParams = $this->getRequest()->getQuery();
@@ -41,7 +42,7 @@ class DataGridController extends AbstractActionController
                 $grid->applyFilters($filtersForm->getData());
             }
 
-            $viewModel = new ViewModel(array('grid' => $grid));
+            $viewModel = new ViewModel(array('gridManager' => $gridManager));
 	        $viewModel->setTemplate('at-datagrid/grid');
 
             return $viewModel;
@@ -57,15 +58,16 @@ class DataGridController extends AbstractActionController
      */
     public function createAction()
     {
-        $grid = $this->getGrid();
+        $gridManager = $this->getGridManager();
+        $grid = $gridManager->getGrid();
 
-        if (!$grid->isAllowCreate()) {
+        if (!$gridManager->isAllowCreate()) {
             throw new \Exception('You are not allowed to do this.');
         }
 
         $requestParams = $this->getRequest()->getPost();
 
-        $form = $grid->getForm();
+        $form = $gridManager->getForm();
         $form->setData($requestParams);
 
         if ($form->isValid()) {
@@ -88,23 +90,21 @@ class DataGridController extends AbstractActionController
      */
     public function editAction()
     {
-        //$this->view->backUrl = $this->_helper->backToUrl->getBackUrl(false);
+        $gridManager = $this->getGridManager();
+        $grid = $gridManager->getGrid();
 
-        $grid = $this->getGrid();
-
-        if (!$grid->isAllowEdit()) {
+        if (!$gridManager->isAllowEdit()) {
             throw new \Exception('You are not allowed to do this.');
         }
 
         $itemId = $this->params('id');
-
         if (!$itemId) {
             throw new \Exception('No record found.');
         }
 
         $requestParams = $this->getRequest()->getPost();
 
-        $form = $grid->getForm();
+        $form = $gridManager->getForm();
         $form->setData($requestParams);
 
         if ($this->getRequest()->isPost() && $form->isValid()) {
@@ -122,8 +122,9 @@ class DataGridController extends AbstractActionController
         //$this->view->panel = $currentPanel;
 
         $viewModel = new ViewModel(array(
-            'grid' => $grid,
-            'item' => $item
+            'grid'    => $grid,
+            'item'    => $item,
+            'backUrl' => $this->backTo()->getBackUrl(false)
         ));
         $viewModel->setTemplate('at-datagrid/edit');
 
@@ -135,21 +136,21 @@ class DataGridController extends AbstractActionController
      */
     public function deleteAction()
     {
-        $grid = $this->getGrid();
+        $gridManager = $this->getGridManager();
+        $grid = $gridManager->getGrid();
 
-        if (!$grid->isAllowDelete()) {
+        if (!$gridManager->isAllowDelete()) {
             throw new \Exception('You are not allowed to do this.');
         }
 
         $itemId = $this->params('id');
-
         if (!$itemId) {
             throw new \Exception('No record found.');
         }
 
         $grid->delete($itemId);
-
-        $this->backTo()->goBack('Record deleted.');    }
+        $this->backTo()->goBack('Record deleted.');
+    }
 
     /**
      * Hook before save row
@@ -177,10 +178,7 @@ class DataGridController extends AbstractActionController
     }
 
     /**
-     * @return \AtAdmin\DataGrid\DataGrid
+     * @return mixed
      */
-    public function getGrid()
-    {
-        return $this->grid;
-    }
+    abstract public function getGridManager();
 }

@@ -2,17 +2,12 @@
 
 namespace AtDataGrid;
 
+/**
+ * Class Module
+ * @package AtDataGrid
+ */
 class Module
 {
-    public function getControllerPluginConfig()
-    {
-        return array(
-            'invokables' => array(
-                'backTo' => 'AtBase\Mvc\Controller\Plugin\BackTo'
-            ),
-        );
-    }
-
     /**
      * @return mixed
      */
@@ -31,6 +26,30 @@ class Module
                 'namespaces' => array(
                     __NAMESPACE__ => __DIR__ . '/src/' . __NAMESPACE__,
                 ),
+            ),
+        );
+    }
+
+    /**
+     * @return array
+     */
+    public function getControllerConfig()
+    {
+        return array(
+            'invokables' => array(
+                'AtDataGrid\Controller\DataGrid' => 'AtDataGrid\Controller\DataGridController'
+            ),
+        );
+    }
+
+    /**
+     * @return array
+     */
+    public function getControllerPluginConfig()
+    {
+        return array(
+            'invokables' => array(
+                'backTo' => 'AtBase\Mvc\Controller\Plugin\BackTo'
             ),
         );
     }

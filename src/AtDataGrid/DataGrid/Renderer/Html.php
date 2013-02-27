@@ -2,17 +2,19 @@
 
 namespace AtDataGrid\DataGrid\Renderer;
 
+use Zend\View\Renderer\RendererInterface;
+
 /**
- * @todo Rename to AtAdmin\DataGrid\Renderer\ZendViewPhpRenderer
+ * Class Html
+ * @package AtDataGrid\DataGrid\Renderer
  */
 class Html extends AbstractRenderer
 {
     /**
-     * View object
-     *
-     * @var \Zend\View\Renderer\PhpRenderer
+     * Template rendering engine
+     * @var \Zend\View\Renderer\RendererInterface
      */
-    protected $engine = null;
+    protected $engine;
 
     /**
      * Html template
@@ -29,16 +31,17 @@ class Html extends AbstractRenderer
     protected $cssFile = '';
 
     /**
-     * Set view object
+     * @param \Zend\View\Renderer\RendererInterface $engine
+     * @return $this
      */
-    public function setEngine(\Zend\View\Renderer\PhpRenderer $engine)
+    public function setEngine(RendererInterface $engine)
     {
     	$this->engine = $engine;
     	return $this;
     }
 
     /**
-     * @return null|\Zend\View\Renderer\PhpRenderer
+     * @return \Zend\View\Renderer\RendererInterface
      */
     public function getEngine()
     {
@@ -47,7 +50,7 @@ class Html extends AbstractRenderer
 
     /**
      * @param $template
-     * @return Html
+     * @return $this
      */
     public function setTemplate($template)
     {
@@ -65,7 +68,7 @@ class Html extends AbstractRenderer
 
     /**
      * @param $path
-     * @return Html
+     * @return $this
      */
     public function setCssFile($path)
     {
@@ -74,8 +77,8 @@ class Html extends AbstractRenderer
     }
 
     /**
-     * @param array $options
-     * @return
+     * @param array $variables
+     * @return string
      */
     public function render($variables = array())
     {
