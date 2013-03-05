@@ -14,7 +14,7 @@
     ],
     "require": {
         "zendframework/zendframework": "2.*",
-        "atukai/at-base": "*"
+        "atukai/at-base": "1.*"
     },
     "autoload": {
         "psr-0": {

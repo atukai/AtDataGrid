@@ -78,7 +78,7 @@ abstract class AbstractDataGridController extends AbstractActionController
             $this->backTo()->goBack('Record created.');
         }
 
-        $viewModel = new ViewModel(array('grid' => $grid));
+        $viewModel = new ViewModel(array('gridManager' => $gridManager));
         $viewModel->setTemplate('at-datagrid/create');
 
         return $viewModel;
@@ -122,9 +122,9 @@ abstract class AbstractDataGridController extends AbstractActionController
         //$this->view->panel = $currentPanel;
 
         $viewModel = new ViewModel(array(
-            'grid'    => $grid,
-            'item'    => $item,
-            'backUrl' => $this->backTo()->getBackUrl(false)
+            'gridManager' => $gridManager,
+            'item'        => $item,
+            'backUrl'     => $this->backTo()->getBackUrl(false)
         ));
         $viewModel->setTemplate('at-datagrid/edit');
 
@@ -178,7 +178,7 @@ abstract class AbstractDataGridController extends AbstractActionController
     }
 
     /**
-     * @return mixed
+     * @return Manager
      */
     abstract public function getGridManager();
 }

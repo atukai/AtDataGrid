@@ -12,7 +12,7 @@
         <div class="btn-group right">
             <a class="btn dropdown-toggle" data-toggle="dropdown" href="#"><?= $this->translate('actions')?> <span class="caret"></span></a>
             <ul class="dropdown-menu">
-                <?php foreach($this->grid->getActions() as $action) : ?>
+                <?php foreach($this->gridManager->getActions() as $action) : ?>
                     <li>
                         <a href="#"
                             <?php if (isset($action['confirm-message'])): ?>
@@ -34,21 +34,6 @@
         <?php endif; ?>
 
         <li <?php if ($this->panel == 'data' || !$this->showSummaryTab): ?>class="active"<?php endif;?>><a href="#data" data-toggle="tab">Edit data</a></li>
-
-        <?php foreach ($this->grid->getDataPanels() as $key => $panel): ?>
-            <li <?php if ($this->panel == $key): ?>class="active"<?php endif;?>>
-                <?php if ($panel['is_ajax']): ?>
-                    <a href="#<?php echo $key ?>" data-toggle="tab"
-                       onclick="DataGrid.loadDataPanel('', '<?php echo $key ?>');">
-                        <?php echo $panel['name'] ?>
-                    </a>
-                <?php else: ?>
-                    <a href="">
-                        <?php echo $panel['name'] ?>
-                    </a>
-                <?php endif; ?>
-            </li>
-        <?php endforeach; ?>
     </ul>
     <div class="tab-content">
         <?php if ($this->showSummaryTab): ?>
@@ -60,10 +45,6 @@
         <div class="tab-pane<?php if ($this->panel == 'data' || !$this->showSummaryTab): ?> active<?php endif;?>" id="data">
             <?= $this->render('at-datagrid/form') ?>
         </div>
-
-        <?php foreach ($this->grid->getDataPanels() as $key => $panel): ?>
-            <div class="tab-pane<?php if ($this->panel == $key): ?> active<?php endif;?>" id="<?php echo $key ?>"></div>
-        <?php endforeach; ?>
     </div>
 </div>
 

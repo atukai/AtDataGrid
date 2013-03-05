@@ -1,6 +1,6 @@
 # AtDataGrid
 
-Version 0.2.0
+Version 0.2.1
 
 A data grid component for ZF2.
 
@@ -14,7 +14,7 @@ A data grid component for ZF2.
 
 ## Installation
 
- 1. Add `"atukai/at-datagrid": "dev-master"` to your `composer.json` file and run `php composer.phar update`.
+ 1. Add `"atukai/at-datagrid": "0.*"` to your `composer.json` file and run `php composer.phar update`.
  2. Add `AtDataGrid` to your `config/application.config.php` file under the `modules` key.
  3. Copy or create a symlink of public/css and public/js to your website root directory
 

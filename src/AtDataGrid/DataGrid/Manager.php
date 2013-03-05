@@ -42,6 +42,16 @@ class Manager
     protected $allowEdit = true;
 
     /**
+     * Actions for row
+     *
+     * @var array
+     */
+    protected $actions = array(
+        'edit'   => array('action' => 'edit', 'label' => 'View & Edit', 'bulk' => false, 'button' => true, 'class' => 'icon-eye-open'),
+        'delete' => array('action' => 'delete', 'label' => 'Delete', 'confirm-message' => 'Are you sure?', 'bulk' => true, 'button' => false)
+    );
+
+    /**
      * @param $grid
      */
     public function __construct(DataGrid $grid)
@@ -153,7 +163,7 @@ class Manager
      * @param array $options
      * @return mixed|\Zend\Form\Form
      */
-    public final function getForm($options = array())
+    public function getForm($options = array())
     {
         if ($this->form == null) {
             //$form = new ATF_DataGrid_Form();
@@ -224,11 +234,106 @@ class Manager
 
         $data                = array();
         $data['gridManager'] = $this;
-        $data['grid']        = $this->getGrid();
+        $data['grid']        = $this->getGrid();  // todo: remove it
         $data['columns']     = $grid->getColumns();
-        $data['rows']        = $grid->getData();
+        $data['data']        = $grid->getData();
         $data['paginator']   = $grid->getDataSource()->getPaginator();
 
         return $this->getRenderer()->render($data);
+    }
+
+    /**
+     * @param $name
+     * @param array $action
+     * @return DataGrid
+     * @throws \Exception
+     */
+    public function addAction($name, $action = array())
+    {
+        if (!is_array($action)) {
+            throw new \Exception('Row action must be an array with `action`, `label` and `confirm-message` keys');
+        }
+
+        if (!array_key_exists('action', $action)) {
+            throw new \Exception('Row action must be an array with `action`, `label` and `confirm-message` keys');
+        }
+
+        if (!array_key_exists('label', $action)) {
+            throw new \Exception('Row action must be an array with `action`, `label` and `confirm-message` keys');
+        }
+
+        if (!array_key_exists('bulk', $action)) {
+            $action['bulk'] = true;
+        }
+
+        if (!array_key_exists('button', $action)) {
+            $action['button'] = false;
+        }
+
+        $this->actions[$name] = $action;
+        return $this;
+    }
+
+    /**
+     * @param array $actions
+     * @return DataGrid
+     */
+    public function addActions($actions = array())
+    {
+        foreach ($actions as $name => $action) {
+            $this->addAction($name, $action);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @param $name
+     * @return DataGrid
+     */
+    public function removeAction($name)
+    {
+        if (array_key_exists($name, $this->actions)) {
+            unset($this->actions[$name]);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @param $name
+     * @return bool
+     */
+    public function getAction($name)
+    {
+        if (array_key_exists($name, $this->actions)) {
+            return $this->actions[$name];
+        }
+
+        return false;
+    }
+
+    /**
+     * @return array
+     */
+    public function getActions()
+    {
+        return $this->actions;
+    }
+
+    /**
+     * @return array
+     */
+    public function getButtonActions()
+    {
+        $actions = array();
+
+        foreach ($this->actions as $action) {
+            if ($action['button'] == true) {
+                $actions[] = $action;
+            }
+        }
+
+        return $actions;
     }
 }

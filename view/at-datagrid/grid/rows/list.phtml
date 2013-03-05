@@ -1,8 +1,8 @@
 <form method="post" action="#" id="datagrid-list-form">
-    <?php foreach ($this->rows as $row) : ?>
+    <?php foreach ($this->data as $row) : ?>
         <tr>
             <td>
-                <input class="grid-table-checker" type="checkbox" value="<?= $row[$this->grid->getIdentifierColumnName()] ?>" id="item_id_<?= $row[$this->grid->getIdentifierColumnName()] ?>" name="items[]"/>
+                <input class="grid-table-checker" type="checkbox" value="<?php echo $row[$this->grid->getIdentifierColumnName()] ?>" id="item_id_<?= $row[$this->grid->getIdentifierColumnName()] ?>" name="items[]"/>
             </td>
 
             <?php foreach ($row as $name => $value) : ?>
@@ -13,24 +13,24 @@
 
             <td>
                 <div class="btn-group right">
-                    <?php foreach($this->grid->getButtonActions() as $action) : ?>
+                    <?php foreach($this->gridManager->getButtonActions() as $action) : ?>
                         <a class="btn btn-small" href="<?= $this->url(null, array('action' => $action['action'], 'id' => $row[$this->grid->getIdentifierColumnName()])) ?>"
                             <?php if (isset($action['confirm-message'])): ?>
-                            onclick="return DataGrid.confirmAction(this, '<?= $action['confirm-message'] ?>')"
+                            onclick="return DataGrid.confirmAction(this, '<?php echo $action['confirm-message'] ?>')"
                             <?php endif;?>>
-                            <i title="<?= $this->translate($action['label']) ?>" class="<?= $action['class'] ?>"></i>
+                            <i title="<?php echo $this->translate($action['label']) ?>" class="<?php echo $action['class'] ?>"></i>
                         </a>
                     <?php endforeach; ?>
                     <a class="btn btn-small dropdown-toggle" data-toggle="dropdown" href="#"><span class="caret"></span></a>
                     <ul class="dropdown-menu">
-                        <?php foreach($this->grid->getActions() as $action) : ?>
+                        <?php foreach($this->gridManager->getActions() as $action) : ?>
                             <?php if ($action['button'] == false): ?>
                             <li>
-                                <a href="<?= $this->url(null, array('action' => $action['action'], 'id' => $row[$this->grid->getIdentifierColumnName()])) ?>"
+                                <a href="<?php echo $this->url(null, array('action' => $action['action'], 'id' => $row[$this->grid->getIdentifierColumnName()])) ?>"
                                     <?php if (isset($action['confirm-message'])): ?>
-                                        onclick="return DataGrid.confirmAction(this, '<?= $action['confirm-message'] ?>')"
+                                        onclick="return DataGrid.confirmAction(this, '<?php echo $action['confirm-message'] ?>')"
                                     <?php endif;?>>
-                                    <?= $this->translate($action['label']) ?>
+                                    <?php echo $this->translate($action['label']) ?>
                                 </a>
                             </li>
                             <?php endif; ?>

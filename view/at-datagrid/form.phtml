@@ -1,6 +1,6 @@
 <?php
 
-$form = $this->grid->getForm();
+$form = $this->gridManager->getForm();
 $form->prepare();
 $form->setAttribute('action', $this->url(null, array(), array(), true));
 $form->setAttribute('method', 'post');
@@ -13,14 +13,14 @@ echo $this->form()->openTag($form);
 <?php foreach ($form->getElements() as $element): ?>
     <div class="control-group">
         <?php if ($element->getAttribute('type') == 'hidden'): ?>
-            <?= $this->formHidden($element) ?>
+            <?php echo $this->formHidden($element) ?>
         <?php else: ?>
             <?php $element->setLabelAttributes(array('class' => 'control-label')); ?>
-            <?= $this->formLabel($element) ?>
+            <?php echo $this->formLabel($element) ?>
             <div class="controls">
-                <?= $this->formElement($element) ?>
+                <?php echo $this->formElement($element) ?>
                 <p class="help-block">
-                    <?= $this->formElementErrors($element); ?>
+                    <?php echo $this->formElementErrors($element); ?>
                 </p>
             </div>
         <?php endif; ?>
@@ -31,4 +31,4 @@ echo $this->form()->openTag($form);
     <button type="submit" class="btn btn-info">Save</button>
 </div>
 
-<?= $this->form()->closeTag(); ?>
+<?php echo $this->form()->closeTag(); ?>
