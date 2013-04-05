@@ -3,7 +3,7 @@
 namespace AtDataGrid\DataGrid;
 
 use AtDataGrid\DataGrid\DataSource;
-use AtDataGrid\DataGrid\Column;
+use AtDataGrid\DataGrid\Column\Column;
 
 /**
  * Class DataGrid
