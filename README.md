@@ -1,6 +1,6 @@
 # AtDataGrid
 
-Version 0.2.1
+Version 0.2.2
 
 A data grid component for ZF2.
 
@@ -10,7 +10,6 @@ A data grid component for ZF2.
 
 * [Zend Framework 2](https://github.com/zendframework/zf2)
 * [AtBase](https://github.com/atukai/AtBase)
-
 
 ## Installation
 

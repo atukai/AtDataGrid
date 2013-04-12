@@ -2,6 +2,7 @@
 
 namespace AtDataGrid\DataGrid\Column\Decorator;
 
+// @todo Use zf2 i18n component
 class DateFormat extends AbstractDecorator
 {
     /**
@@ -33,7 +34,7 @@ class DateFormat extends AbstractDecorator
      * @param  $row
      * @return string
      */
-    public function render($value, $row)
+    public function render($value)
     {
         if ($value) {
             return date($this->format, strtotime($value));

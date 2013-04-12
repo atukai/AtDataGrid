@@ -41,13 +41,12 @@ class HtmlTag extends AbstractDecorator
     }
 
     /**
-     * Render value wrapping into tag
+     * Wrap valueinto tag
      *
      * @param $value
-     * @param $row
      * @return string
      */
-    public function render($value, $row)
+    public function render($value)
     {
         $tag = $this->getTag();
         $content = '<' . $tag . '>' . $value . '</' . $tag . '>';

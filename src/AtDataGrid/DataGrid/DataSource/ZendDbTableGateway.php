@@ -3,11 +3,14 @@
 namespace AtDataGrid\DataGrid\DataSource;
 
 use Zend\Db\Adapter\Adapter;
+use Zend\Db\Metadata\Metadata;
 use Zend\Db\Sql\Select;
 use Zend\Db\TableGateway\TableGateway;
 use Zend\Db\TableGateway\Feature;
 use Zend\Db\ResultSet\ResultSet;
 use AtDataGrid\DataGrid\Column;
+use Zend\Paginator\Adapter\DbSelect;
+use Zend\Paginator\Paginator;
 
 class ZendDbTableGateway extends AbstractDataSource
 {
@@ -112,8 +115,8 @@ class ZendDbTableGateway extends AbstractDataSource
     public function getPaginator()
     {
         if (!$this->paginator) {
-            $this->paginator = new \Zend\Paginator\Paginator(
-                new \Zend\Paginator\Adapter\DbSelect($this->getSelect(), $this->getDbAdapter())
+            $this->paginator = new Paginator(
+                new DbSelect($this->getSelect(), $this->getDbAdapter())
             );
         }
 
@@ -132,7 +135,7 @@ class ZendDbTableGateway extends AbstractDataSource
      */
     public function with($joinedTableName, $alias, $keyName, $foreignKeyName, $columns = null)
     {
-        $tableMetadata = new \Zend\Db\Metadata\Metadata($this->getDbAdapter());
+        $tableMetadata = new Metadata($this->getDbAdapter());
         $joinedTableColumns = $tableMetadata->getColumns($joinedTableName);
 
         $joinedColumns = array();
@@ -164,16 +167,17 @@ class ZendDbTableGateway extends AbstractDataSource
     public function loadColumns()
     {
         $columns = array();
-        $tableMetadata = new \Zend\Db\Metadata\Metadata($this->getDbAdapter());
+        $tableMetadata = new Metadata($this->getDbAdapter());
         $baseTableColumns = $tableMetadata->getColumns($this->getTableGateway()->getTable());
 
         // Setup default settings for base table column fields
-        foreach ($baseTableColumns as $columnObject) {
-            $columnName = $columnObject->getName();
-        	$columnDataType = $columnObject->getDataType();
+        foreach ($baseTableColumns as $column) {
+            $columnName = $column->getName();
+        	$columnDataType = $column->getDataType();
 
             $this->tableColumns[] = $columnName;
 
+            // @todo Move it to separate class
         	switch (true) {
         		case in_array($columnDataType, array('datetime', 'timestamp', 'time')):
         		    $column = new Column\DateTime($columnName);
@@ -226,7 +230,7 @@ class ZendDbTableGateway extends AbstractDataSource
                ->where(array('TABLE_SCHEMA' => $schema))
                ->where(array('TABLE_NAME', $this->getTableGateway()->getTable()));
         
-        $columnsInfo = $this->getDbAdapter()->query($select->getSqlString(), \Zend\Db\Adapter\Adapter::QUERY_MODE_EXECUTE);
+        $columnsInfo = $this->getDbAdapter()->query($select->getSqlString(), Adapter::QUERY_MODE_EXECUTE);
 
         if ($columnsInfo) {
             foreach ($columnsInfo as $column) {

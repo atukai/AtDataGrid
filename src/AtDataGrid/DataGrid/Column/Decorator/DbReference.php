@@ -7,7 +7,7 @@ class DbReference extends AbstractDecorator
     /**
      * @var null|\Zend\Db\TableGateway\TableGateway
      */
-    protected $table = null;
+    protected $tableGateway = null;
 
     /**
      * @var string
@@ -20,13 +20,13 @@ class DbReference extends AbstractDecorator
     protected $resultFieldName = '';
 
     /**
-     * @param \Zend\Db\TableGateway\TableGateway $table
+     * @param \Zend\Db\TableGateway\TableGateway $tableGateway
      * @param $referenceField
      * @param $resultFieldName
      */
-    public function __construct(\Zend\Db\TableGateway\TableGateway $table, $referenceField, $resultFieldName)
+    public function __construct(\Zend\Db\TableGateway\TableGateway $tableGateway, $referenceField, $resultFieldName)
     {
-        $this->table           = $table;
+        $this->tableGateway    = $tableGateway;
         $this->referenceField  = $referenceField;
         $this->resultFieldName = $resultFieldName;
     }
@@ -36,16 +36,16 @@ class DbReference extends AbstractDecorator
      * @param $row
      * @return
      */
-    public function render($value, $row)
+    public function render($value)
     {
         if (!$value) {
             return '';
         }
         
-        $select = $this->table->select()
-                                  ->from($this->table->getName(), array($this->resultFieldName))
-                                  ->where($this->referenceField . ' = ?', $value);
+        $select = $this->tableGateway->select()
+                                         ->from($this->tableGateway->getName(), array($this->resultFieldName))
+                                         ->where($this->referenceField . ' = ?', $value);
 
-        return $this->table->getAdapter()->fetchOne($select);
+        return $this->tableGateway->getAdapter()->fetchOne($select);
     }
 }

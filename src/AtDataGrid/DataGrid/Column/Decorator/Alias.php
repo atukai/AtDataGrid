@@ -24,7 +24,7 @@ class Alias extends AbstractDecorator
      * @param $row
      * @return
      */
-    public function render($value, $row)
+    public function render($value)
     {
         if (!isset($this->renameTo)) {
             return $value;

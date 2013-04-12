@@ -24,9 +24,9 @@ class PhpArray extends AbstractDataSource
     }
 
     /**
-     * Return row by primary key
+     * Return row by key
      */
-    public function getRow($key)
+    public function find($key)
     {
     }
 
@@ -36,9 +36,9 @@ class PhpArray extends AbstractDataSource
      * @param $currentPage
      * @param $itemsPerPage
      * @param $pageRange
-     * @return array|Traversable
+     * @return mixed|void
      */
-    public function getRows($listType, $order, $currentPage, $itemsPerPage, $pageRange)
+    public function fetch($listType, $order, $currentPage, $itemsPerPage, $pageRange)
     {
     }
 

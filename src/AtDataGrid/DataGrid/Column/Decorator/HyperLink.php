@@ -13,9 +13,11 @@ class HyperLink extends AbstractDecorator
      * @var array
      */
     protected $params = array();
-    
+
     /**
-     * 
+     * @param $value
+     * @param $row
+     * @return string
      */
     public function render($value, $row)
     {
