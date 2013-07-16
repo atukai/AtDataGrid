@@ -1,8 +1,8 @@
 # AtDataGrid
 
-Version 0.2.2
+Version 0.2.3-dev
 
-A data grid component for ZF2.
+A data grid component for Zend Framework 2.
 
 >NOTE: This module is still under heavy development. Do not use it in production
 

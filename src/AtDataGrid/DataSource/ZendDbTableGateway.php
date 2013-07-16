@@ -8,7 +8,7 @@ use Zend\Db\Sql\Select;
 use Zend\Db\TableGateway\TableGateway;
 use Zend\Db\TableGateway\Feature;
 use Zend\Db\ResultSet\ResultSet;
-use AtDataGrid\DataGrid\Column;
+use AtDataGrid\Column;
 use Zend\Paginator\Adapter\DbSelect;
 use Zend\Paginator\Paginator;
 
