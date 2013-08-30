@@ -1,8 +1,8 @@
 <div class="row">
-    <div class="span12">
+    <div class="col-md-12">
         <div class="clearfix">
-            <h2 class="left"><?php echo $this->translate($this->grid->getCaption()) ?></h2>
-            <div class="right" style="margin-top: 15px;">
+            <h2 class="pull-left"><?php echo $this->translate($this->grid->getCaption()) ?></h2>
+            <div class="pull-right" style="margin-top: 15px;">
                 <? if ($this->gridManager->isAllowCreate()): ?>
                     <a class="btn btn-warning" href="<?php echo $this->url(null, array('action' => 'create')) ?>">
                         <?php echo $this->translate('Create new') ?>

@@ -12,7 +12,7 @@
             <?php endforeach; ?>
 
             <td>
-                <div class="btn-group right">
+                <div class="btn-group pull-right">
                     <?php foreach($this->gridManager->getButtonActions() as $action) : ?>
                         <a class="btn btn-small" href="<?= $this->url(null, array('action' => $action['action'], 'id' => $row[$this->grid->getIdentifierColumnName()])) ?>"
                             <?php if (isset($action['confirm-message'])): ?>

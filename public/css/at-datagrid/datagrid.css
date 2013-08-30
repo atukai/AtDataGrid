@@ -10,7 +10,7 @@
 .atf-grid table th.ordered {background-color: #FFFAD2;}
 
 /* List options */
-.show-items-list {margin-left: 0}
+.show-items-list {margin-left: 0; padding-left: 0;}
 .show-items-list li {float: left; list-style: none; margin: 0 4px;}
 .show-items-list li:first-child {margin-left: 0;}
 
