@@ -26,11 +26,12 @@ abstract class AbstractCrudController extends AbstractActionController
 
         // Configure grid
         $gridManager = $this->getGridManager();
+        $gridManager->setRequest($this->getRequest());
         $grid = $gridManager->getGrid();
 
-        $grid->setOrder($this->params()->fromQuery('order', $grid->getIdentifierColumnName().'~desc'));
+  /*      $grid->setOrder($this->params()->fromQuery('order', $grid->getIdentifierColumnName().'~desc'));
         $grid->setCurrentPage($this->params()->fromQuery('page'));
-        $grid->setItemsPerPage($this->params()->fromQuery('show_items'));
+        $grid->setItemsPerPage($this->params()->fromQuery('show_items'));*/
 
         if (!isset($_POST['cmd'])) {
             $requestParams = $this->getRequest()->getQuery();

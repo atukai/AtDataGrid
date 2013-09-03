@@ -5,13 +5,14 @@ $form->prepare();
 $form->setAttribute('action', $this->url(null, array(), array(), true));
 $form->setAttribute('method', 'post');
 $form->setAttribute('id', 'datagrid-form');
+$form->setAttribute('role', 'form');
 $form->setAttribute('class', 'form-horizontal grid-form');
 
 echo $this->form()->openTag($form);
 ?>
 
 <?php foreach ($form->getElements() as $element): ?>
-    <div class="control-group">
+    <div class="form-group">
         <?php if ($element->getAttribute('type') == 'hidden'): ?>
             <?php echo $this->formHidden($element) ?>
         <?php else: ?>

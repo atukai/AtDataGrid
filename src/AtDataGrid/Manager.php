@@ -4,13 +4,15 @@ namespace AtDataGrid;
 
 use AtDataGrid\Renderer\AbstractRenderer;
 use Zend\Form\Form;
+use Zend\Http\PhpEnvironment\Request as HttpRequest;
 
-/**
- * Class Manager
- * @package AtDataGrid\DataGrid
- */
 class Manager
 {
+    /**
+     * @var HttpRequest
+     */
+    protected $request;
+
     /**
      * @var DataGrid
      */
@@ -65,6 +67,18 @@ class Manager
     public function getGrid()
     {
         return $this->grid;
+    }
+
+    /**
+     * @param HttpRequest $request
+     */
+    public function setRequest(HttpRequest $request)
+    {
+        $this->request = $request;
+
+        $this->grid->setOrder($this->request->getQuery('order', $this->grid->getIdentifierColumnName().'~desc'));
+        $this->grid->setCurrentPage($this->request->getQuery('page'));
+        $this->grid->setItemsPerPage($this->request->getQuery('show_items'));
     }
 
     /**

@@ -5,10 +5,6 @@ namespace AtDataGrid;
 use AtDataGrid\DataSource;
 use AtDataGrid\Column\Column;
 
-/**
- * Class DataGrid
- * @package AtDataGrid
- */
 class DataGrid implements \Countable, \IteratorAggregate, \ArrayAccess
 {
     /**
