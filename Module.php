@@ -37,19 +37,7 @@ class Module
     {
         return array(
             'invokables' => array(
-                'AtDataGrid\Controller\DataGrid' => 'AtDataGrid\Controller\DataGridController'
-            ),
-        );
-    }
-
-    /**
-     * @return array
-     */
-    public function getControllerPluginConfig()
-    {
-        return array(
-            'invokables' => array(
-                'backTo' => 'AtBase\Mvc\Controller\Plugin\BackTo'
+                'AtDataGrid\Controller\DataGrid' => 'AtDataGrid\Controller\AbstractCrudController'
             ),
         );
     }
