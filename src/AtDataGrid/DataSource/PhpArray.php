@@ -7,11 +7,16 @@ use AtDataGrid\Column;
 class PhpArray extends AbstractDataSource
 {
     /**
+     * @var array
+     */
+    protected $data = array();
+
+    /**
      * @param $options
      */
-    public function __construct($options)
+    public function __construct($data)
     {
-        parent::__construct($options);
+        $this->data = $data;
         $this->columns = $this->loadColumns();
     }
 
@@ -31,14 +36,13 @@ class PhpArray extends AbstractDataSource
     }
 
     /**
-     * @param $listType
      * @param $order
      * @param $currentPage
      * @param $itemsPerPage
      * @param $pageRange
      * @return mixed|void
      */
-    public function fetch($listType, $order, $currentPage, $itemsPerPage, $pageRange)
+    public function fetch($order, $currentPage, $itemsPerPage, $pageRange)
     {
     }
 

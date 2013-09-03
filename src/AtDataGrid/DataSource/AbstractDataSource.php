@@ -5,12 +5,6 @@ namespace AtDataGrid\DataSource;
 abstract class AbstractDataSource
 {
     /**
-     * Rows list types
-     */
-    const LIST_TYPE_PLAIN = 'plain';
-    const LIST_TYPE_TREE  = 'tree';
-
-    /**
      * @var string
      */
     protected $identifierFieldName = 'id';
@@ -26,40 +20,6 @@ abstract class AbstractDataSource
      * @var
      */
     protected $paginator;
-
-    /**
-     * Constructor
-     */
-	public function __construct($options)
-	{
-        if (is_array($options)) {
-            $this->setOptions($options);
-        } elseif ($options instanceof \Zend\Config\Config) {
-            $options = $options->toArray();
-            $this->setOptions($options);
-        } else {
-            throw new \Exception('Data source parameters must be in an array or a \Zend\Config\Config object');
-        }
-	}
-
-    /**
-     * @param array $options
-     * @return AbstractDataSource
-     */
-    public function setOptions(array $options)
-    {
-        unset($options['options']);
-        unset($options['config']);
-
-        foreach ($options as $key => $value) {
-            $method = 'set' . ucfirst($key);
-            if (method_exists($this, $method)) {
-                $this->$method($value);
-            }
-        }
-
-        return $this;
-    }
 
     /**
      * @param $name
@@ -118,17 +78,15 @@ abstract class AbstractDataSource
      * @return mixed
      */
     abstract public function find($id);
-    
+
     /**
-     * @abstract
-     * @param $listType
      * @param $order
      * @param $currentPage
      * @param $itemsPerPage
      * @param $pageRange
      * @return mixed
      */
-    abstract public function fetch($listType, $order, $currentPage, $itemsPerPage, $pageRange);
+    abstract public function fetch($order, $currentPage, $itemsPerPage, $pageRange);
     
     /**
      * @abstract

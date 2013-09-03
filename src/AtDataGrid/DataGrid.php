@@ -432,12 +432,9 @@ class DataGrid implements \Countable, \IteratorAggregate, \ArrayAccess
     }
 
     /**
-     * Returns rows demands on list type. It may be list or tree
-     *
-     * @param string $listType
      * @return mixed
      */
-    public function getData($listType = DataSource\AbstractDataSource::LIST_TYPE_PLAIN)
+    public function getData()
     {
         $order = null;
 
@@ -446,7 +443,6 @@ class DataGrid implements \Countable, \IteratorAggregate, \ArrayAccess
         }
 
     	$this->data = $this->getDataSource()->fetch(
-            $listType,
             $order,
             $this->currentPage,
             $this->itemsPerPage,
