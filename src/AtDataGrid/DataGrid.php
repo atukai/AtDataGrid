@@ -72,13 +72,6 @@ class DataGrid implements \Countable, \IteratorAggregate, \ArrayAccess
     protected $dataSource;
 
     /**
-     * Data panels
-     *
-     * @var array
-     */
-    protected $dataPanels = array();
-
-    /**
      * @param $dataSource
      * @param array $options
      */
@@ -626,28 +619,6 @@ class DataGrid implements \Countable, \IteratorAggregate, \ArrayAccess
         }
 
         return $this;
-    }
-
-    // DATA PANELS
-
-    /**
-     * @param $key
-     * @param $name
-     * @param bool $isAjax
-     * @return DataGrid
-     */
-    public function addDataPanel($key, $name, $isAjax = true)
-    {
-        $this->dataPanels[$key] = array('name' => $name, 'is_ajax' => $isAjax);
-        return $this;
-    }
-
-    /**
-     * @return array
-     */
-    public function getDataPanels()
-    {
-        return $this->dataPanels;
     }
 
     // Interfaces implementation
