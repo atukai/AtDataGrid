@@ -4,10 +4,6 @@ namespace AtDataGrid\Renderer;
 
 use Zend\View\Renderer\RendererInterface;
 
-/**
- * Class Html
- * @package AtDataGrid\DataGrid\Renderer
- */
 class Html extends AbstractRenderer
 {
     /**

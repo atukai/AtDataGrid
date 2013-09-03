@@ -1,6 +1,6 @@
 <div class="row">
     <div class="col-md-12">
-        <ul class="show-items-list clearfix left">
+        <ul class="show-items-list clearfix pull-left">
             <li><?= $this->translate('View')?> </li>
             <li>
                 <? if ($this->grid->getItemsPerPage() == 20): ?>
@@ -36,6 +36,6 @@
             <li class="divider-vertical">|</li>
             <li>Total: <span class="b"><?= $this->paginator->getTotalItemCount(); ?></span> <?= $this->translate('record(s) found') ?></li>
         </ul>
-        <div class="right"><?= $this->paginationControl($this->paginator, null, 'at-datagrid/grid/pagination-control'); ?></div>
+        <div class="pull-right"><?= $this->paginationControl($this->paginator, null, 'at-datagrid/grid/pagination-control'); ?></div>
     </div>
 </div>

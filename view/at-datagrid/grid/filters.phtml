@@ -23,9 +23,9 @@ echo $this->form()->openTag($form);
             <?php endif; ?>
         <?php endforeach; ?>
         <td>
-            <div class="btn-group right">
-                <button class="btn btn-info btn-small" type="submit" title="<?= $this->translate('Apply filters'); ?>"><i class="icon-search icon-white"></i></button>
-                <a class="btn btn-danger btn-small" href="<?= $this->url(null, array(), true)?>" title="<?= $this->translate('Reset filters'); ?>"><i class="icon-remove icon-white"></i></a>
+            <div class="btn-group pull-right">
+                <button class="btn btn-info btn-xs" type="submit" title="<?= $this->translate('Apply filters'); ?>"><i class="glyphicon glyphicon-search glyphicon-white"></i></button>
+                <a class="btn btn-danger btn-xs" href="<?= $this->url(null, array(), true)?>" title="<?= $this->translate('Reset filters'); ?>"><i class="glyphicon glyphicon-remove glyphicon-white"></i></a>
             </div>
         </td>
     </tr>

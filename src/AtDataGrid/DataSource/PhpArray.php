@@ -2,7 +2,7 @@
 
 namespace AtDataGrid\DataSource;
 
-use AtDataGrid\DataGrid\Column;
+use AtDataGrid\Column;
 
 class PhpArray extends AbstractDataSource
 {

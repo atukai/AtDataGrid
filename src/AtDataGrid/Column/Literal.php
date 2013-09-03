@@ -3,17 +3,18 @@
 namespace AtDataGrid\Column;
 
 use AtDataGrid\Column\Decorator;
+use Zend\Form\Element\Text;
 
 class Literal extends Column
 {
     /**
-     * 
+     *
      */
-	public function init()
+    public function init()
 	{
 		parent::init();
 		
 		$this->addDecorator(new Decorator\Literal())
-             ->setFormElement(new \Zend\Form\Element\Text($this->getName()));
+             ->setFormElement(new Text($this->getName()));
 	}
 }

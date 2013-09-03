@@ -1,6 +1,6 @@
 <?php
 
-namespace AtDataGrid;
+namespace AtDataGrid\Action;
 
 class Action
 {
