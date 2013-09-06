@@ -4,6 +4,7 @@ namespace AtDataGrid;
 
 use AtDataGrid\DataSource;
 use AtDataGrid\Column\Column;
+use Zend\Form\Form;
 
 class DataGrid implements \Countable, \IteratorAggregate, \ArrayAccess
 {
@@ -58,6 +59,13 @@ class DataGrid implements \Countable, \IteratorAggregate, \ArrayAccess
     protected $pageRange = 10;
 
     /**
+     * Data source
+     *
+     * @var
+     */
+    protected $dataSource;
+
+    /**
      * Array of rows (items)
      *
      * @var array
@@ -65,11 +73,11 @@ class DataGrid implements \Countable, \IteratorAggregate, \ArrayAccess
     protected $data = array();
 
     /**
-     * Data source
+     * Values from filters form
      *
-     * @var
+     * @var array
      */
-    protected $dataSource;
+    protected $filtersValues = array();
 
     /**
      * @param $dataSource
@@ -119,15 +127,15 @@ class DataGrid implements \Countable, \IteratorAggregate, \ArrayAccess
                 $this->$method($value);
             }
         }
-        
+
         return $this;
     }
-    
+
     // METADATA
 
     /**
      * @param $caption
-     * @return DataGrid
+     * @return $this
      */
     public function setCaption($caption)
     {
@@ -147,7 +155,7 @@ class DataGrid implements \Countable, \IteratorAggregate, \ArrayAccess
 
     /**
      * @param $name
-     * @return DataGrid
+     * @return $this
      */
     public function setIdentifierColumnName($name)
     {
@@ -223,7 +231,7 @@ class DataGrid implements \Countable, \IteratorAggregate, \ArrayAccess
     public function addColumns(array $columns, $overwrite = false)
     {
         foreach ($columns as $column) {
-        	$this->addColumn($column, $overwrite);        
+        	$this->addColumn($column, $overwrite);
         }
 
         return $this;
@@ -513,6 +521,16 @@ class DataGrid implements \Countable, \IteratorAggregate, \ArrayAccess
     }
 
     /**
+     * @param array $values
+     * @return $this
+     */
+    public function setFilterValues($values = array())
+    {
+        $this->filtersValues = $values;
+        return $this;
+    }
+
+    /**
      * Apply filters. Modify select object.
      *
      * @param $values
@@ -539,11 +557,11 @@ class DataGrid implements \Countable, \IteratorAggregate, \ArrayAccess
 
     /**
      * @param array $options
-     * @return \Zend\Form\Form
+     * @return Form
      */
     public function getFiltersForm($options = array())
     {
-        $form = new \Zend\Form\Form('filters-form', $options);
+        $form = new Form('filters-form', $options);
 
         foreach ($this->getColumns() as $column) {
             if ($column->hasFilters()) {
@@ -561,6 +579,8 @@ class DataGrid implements \Countable, \IteratorAggregate, \ArrayAccess
         
         return $form;
     }
+
+    // PAGING
 
     /**
      * @param $number
@@ -589,10 +609,7 @@ class DataGrid implements \Countable, \IteratorAggregate, \ArrayAccess
      */
     public function setItemsPerPage($count)
     {
-        if (!is_null($count)) {
-            $this->itemsPerPage = (int) $count;
-        }
-
+        $this->itemsPerPage = (int) $count;
         return $this;
     }
 
@@ -610,14 +627,11 @@ class DataGrid implements \Countable, \IteratorAggregate, \ArrayAccess
      */
     public function setPageRange($count)
     {
-        if (!is_null($count)) {
-            $this->pageRange = (int) $count;
-        }
-
+        $this->pageRange = (int) $count;
         return $this;
     }
 
-    // Interfaces implementation
+    // iNTERFACES IMPLEMENTATION
 
     /**
      * @return mixed

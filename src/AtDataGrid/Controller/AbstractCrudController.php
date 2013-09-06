@@ -33,23 +33,21 @@ abstract class AbstractCrudController extends AbstractActionController
         $grid->setCurrentPage($this->params()->fromQuery('page'));
         $grid->setItemsPerPage($this->params()->fromQuery('show_items'));*/
 
-        if (!isset($_POST['cmd'])) {
-            $requestParams = $this->getRequest()->getQuery();
-
-            $filtersForm = $grid->getFiltersForm();
-            $filtersForm->setData($requestParams);
-
-            if ($filtersForm->isValid()) {
-                $grid->applyFilters($filtersForm->getData());
-            }
-
-            $viewModel = new ViewModel(array('gridManager' => $gridManager));
-            $viewModel->setTemplate('at-datagrid/grid');
-
-            return $viewModel;
-        } else {
+        if (isset($_POST['cmd'])) {
             $this->_forward($_POST['cmd']);
         }
+
+        $filtersForm = $grid->getFiltersForm();
+        $filtersForm->setData($this->getRequest()->getQuery());
+
+        if ($filtersForm->isValid()) {
+            $grid->applyFilters($filtersForm->getData());
+        }
+
+        $viewModel = new ViewModel(array('gridManager' => $gridManager));
+        $viewModel->setTemplate('at-datagrid/grid');
+
+        return $viewModel;
     }
 
     // CRUD

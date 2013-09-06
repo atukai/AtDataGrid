@@ -2,9 +2,6 @@
 
 namespace AtDataGrid\Filter;
 
-/**
- *
- */
 abstract class AbstractFilter implements FilterInterface
 {
     /**

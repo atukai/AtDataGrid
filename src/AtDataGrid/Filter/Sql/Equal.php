@@ -10,7 +10,7 @@ class Equal extends Filter\AbstractFilter
      * @param $select
      * @param $column
      * @param mixed $value
-     * @return mixed|void
+     * @return mixed
      */
     public function apply($select, $column, $value)
     {

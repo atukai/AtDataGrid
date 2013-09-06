@@ -2,9 +2,6 @@
 
 namespace AtDataGrid\Filter;
 
-/**
- *
- */
 interface FilterInterface
 {
     /**
