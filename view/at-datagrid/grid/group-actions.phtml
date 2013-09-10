@@ -10,7 +10,7 @@
                     <li>
                         <a tabindex="-1" onclick="DataGrid.action('<?php echo $action['action'] ?>')"
                            <?php if (isset($action['confirm-message'])): ?>
-                               onclick="return DataGrid.confirmAction(this, '<?= $action['confirm-message'] ?>')"
+                               onclick="return DataGrid.confirmAction(this, '<?php echo $action['confirm-message'] ?>')"
                            <?php endif;?>>
                            <?php echo $this->translate($action['label']) ?></a>
                     </li>

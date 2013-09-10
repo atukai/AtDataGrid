@@ -2,10 +2,6 @@
 
 namespace AtDataGrid;
 
-/**
- * Class Module
- * @package AtDataGrid
- */
 class Module
 {
     /**

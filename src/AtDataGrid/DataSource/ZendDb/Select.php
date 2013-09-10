@@ -50,7 +50,9 @@ class Select extends AbstractDataSource
     public function __construct(ZendSelect $select)
     {
         $this->select = $select;
-        $this->columns = $this->loadColumns();
+        $this->paginator = new Paginator(
+            new DbSelect($this->getSelect(), $this->getDbAdapter())
+        );
     }
 
     /**
@@ -84,12 +86,6 @@ class Select extends AbstractDataSource
      */
     public function getPaginator()
     {
-        if (!$this->paginator) {
-            $this->paginator = new Paginator(
-                new DbSelect($this->getSelect(), $this->getDbAdapter())
-            );
-        }
-
         return $this->paginator;
     }
 

@@ -5,9 +5,12 @@ namespace AtDataGrid;
 use AtDataGrid\DataSource;
 use AtDataGrid\Column\Column;
 use Zend\Form\Form;
+use ZfcBase\EventManager\EventProvider;
 
-class DataGrid implements \Countable, \IteratorAggregate, \ArrayAccess
+class DataGrid extends EventProvider implements \Countable, \IteratorAggregate, \ArrayAccess
 {
+    const EVENT_GRID_INIT = 'at-datagrid.grid.init';
+
     /**
      * Grid caption
      *
@@ -87,6 +90,8 @@ class DataGrid implements \Countable, \IteratorAggregate, \ArrayAccess
     {
         $this->setDataSource($dataSource);
 
+        $this->columns = $this->getDataSource()->loadColumns();
+
         if ($options instanceof \Zend\Config\Config) {
             $options = $options->toArray();
         }
@@ -95,6 +100,8 @@ class DataGrid implements \Countable, \IteratorAggregate, \ArrayAccess
 
         /** @todo use event instead */
         $this->init();
+
+        $this->getEventManager()->trigger(self::EVENT_GRID_INIT);
     }
     
     /**
@@ -413,9 +420,7 @@ class DataGrid implements \Countable, \IteratorAggregate, \ArrayAccess
     public function setDataSource(DataSource\AbstractDataSource $dataSource)
     {
         $this->dataSource = $dataSource;
-        $this->columns = $this->getDataSource()->getColumns();
-        
-    	return $this;	
+    	return $this;
     }
 
     /**

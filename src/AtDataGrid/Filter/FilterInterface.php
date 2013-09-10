@@ -5,10 +5,10 @@ namespace AtDataGrid\Filter;
 interface FilterInterface
 {
     /**
-     * Returns the result of filtering $value
-     *
-     * @param  mixed $value
+     * @param $source
+     * @param $column
+     * @param $value
      * @return mixed
      */
-    public function apply($select, $column, $value);
+    public function apply($source, $column, $value);
 }

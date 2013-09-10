@@ -22,7 +22,7 @@ class Like extends Filter\AbstractFilter
             $columnName = $column->getName();
             
             // @todo Add param for like template
-            $spec = function (\Zend\Db\Sql\Where $where) use ($columnName,$value) {
+            $spec = function (\Zend\Db\Sql\Where $where) use ($columnName, $value) {
                 $where->like($columnName, '%' . $value . '%');
             };
 

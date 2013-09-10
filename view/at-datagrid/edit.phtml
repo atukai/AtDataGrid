@@ -3,20 +3,20 @@
 
 <div class="row item-info">
     <div class="span2 back">
-        <a href="<?php echo $this->backUrl ?>" title="<?= $this->translate('Back to list'); ?>">
-            <i class="icon-arrow-left"></i> <?= $this->translate('Back to list'); ?>
+        <a href="<?php echo $this->backUrl ?>" title="<?php echo $this->translate('Back to list'); ?>">
+            <i class="icon-arrow-left"></i> <?php echo $this->translate('Back to list'); ?>
         </a>
     </div>
     <div class="span10 info">
         <?php echo $this->render('at-datagrid/item/info') ?>
         <div class="btn-group right">
-            <a class="btn dropdown-toggle" data-toggle="dropdown" href="#"><?= $this->translate('actions')?> <span class="caret"></span></a>
+            <a class="btn dropdown-toggle" data-toggle="dropdown" href="#"><?php echo $this->translate('actions')?> <span class="caret"></span></a>
             <ul class="dropdown-menu">
                 <?php foreach($this->gridManager->getActions() as $action) : ?>
                     <li>
                         <a href="#"
                             <?php if (isset($action['confirm-message'])): ?>
-                                onclick="return DataGrid.confirmAction(this, '<?= $action['confirm-message'] ?>')"
+                                onclick="return DataGrid.confirmAction(this, '<?php echo $action['confirm-message'] ?>')"
                             <?php endif;?>>
                             <?php echo $this->translate($action['label']) ?>
                         </a>
@@ -43,7 +43,7 @@
         <?php endif;?>
 
         <div class="tab-pane<?php if ($this->panel == 'data' || !$this->showSummaryTab): ?> active<?php endif;?>" id="data">
-            <?= $this->render('at-datagrid/form') ?>
+            <?php echo $this->render('at-datagrid/form') ?>
         </div>
     </div>
 </div>

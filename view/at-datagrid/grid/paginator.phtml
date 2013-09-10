@@ -1,41 +1,41 @@
 <div class="row">
     <div class="col-md-12">
         <ul class="show-items-list clearfix pull-left">
-            <li><?= $this->translate('View')?> </li>
+            <li><?php echo $this->translate('View')?> </li>
             <li>
-                <? if ($this->grid->getItemsPerPage() == 20): ?>
+                <?php if ($this->grid->getItemsPerPage() == 20): ?>
                     <span class="b">20</span>
-                <? else: ?>
-                    <a href="<?= $this->atBaseQueryParams(array('show_items' => 20)) ?>">20</a>
-                <? endif; ?>
+                <?php else: ?>
+                    <a href="<?php echo $this->atBaseQueryParams(array('show_items' => 20)) ?>">20</a>
+                <?php endif; ?>
             </li>
             <li>
-                <? if ($this->grid->getItemsPerPage() == 30): ?>
+                <?php if ($this->grid->getItemsPerPage() == 30): ?>
                     <span class="b">30</span>
-                <? else: ?>
-                    <a href="<?= $this->atBaseQueryParams(array('show_items' => 30)) ?>">30</a>
-                <? endif; ?>
+                <?php else: ?>
+                    <a href="<?php echo $this->atBaseQueryParams(array('show_items' => 30)) ?>">30</a>
+                <?php endif; ?>
             </li>
             <li>
-                <? if ($this->grid->getItemsPerPage() == 50): ?>
+                <?php if ($this->grid->getItemsPerPage() == 50): ?>
                     <span class="b">50</span>
-                <? else: ?>
-                    <a href="<?= $this->atBaseQueryParams(array('show_items' => 50)) ?>">50</a>
-                <? endif; ?>
+                <?php else: ?>
+                    <a href="<?php echo $this->atBaseQueryParams(array('show_items' => 50)) ?>">50</a>
+                <?php endif; ?>
             </li>
             <li>
-                <? if ($this->grid->getItemsPerPage() == 100): ?>
+                <?php if ($this->grid->getItemsPerPage() == 100): ?>
                     <span class="b">100</span>
-                <? else: ?>
-                    <a href="<?= $this->atBaseQueryParams(array('show_items' => 100)) ?>">100</a>
-                <? endif; ?>
+                <?php else: ?>
+                    <a href="<?php echo $this->atBaseQueryParams(array('show_items' => 100)) ?>">100</a>
+                <?php endif; ?>
             </li>
 
-            <li><?= $this->translate('records per page') ?></li>
+            <li><?php echo $this->translate('records per page') ?></li>
 
             <li class="divider-vertical">|</li>
-            <li>Total: <span class="b"><?= $this->paginator->getTotalItemCount(); ?></span> <?= $this->translate('record(s) found') ?></li>
+            <li>Total: <span class="b"><?php echo $this->paginator->getTotalItemCount(); ?></span> <?php echo $this->translate('record(s) found') ?></li>
         </ul>
-        <div class="pull-right"><?= $this->paginationControl($this->paginator, null, 'at-datagrid/grid/pagination-control'); ?></div>
+        <div class="pull-right"><?php echo $this->paginationControl($this->paginator, null, 'at-datagrid/grid/pagination-control'); ?></div>
     </div>
 </div>

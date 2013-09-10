@@ -1,6 +1,6 @@
 # AtDataGrid
 
-Version 0.2.3-dev
+Version 0.3.0-dev
 
 A data grid component for Zend Framework 2.
 
@@ -9,12 +9,13 @@ A data grid component for Zend Framework 2.
 ## Requirements
 
 * [Zend Framework 2](https://github.com/zendframework/zf2)
+* [ZfcBase](https://github.com/zf-commons/ZfcBase)
 * [AtBase](https://github.com/atukai/AtBase)
 
 ## Installation
 
  1. Add `"atukai/at-datagrid": "0.*"` to your `composer.json` file and run `php composer.phar update`.
- 2. Add `AtBase` and `AtDataGrid` to your `config/application.config.php` file under the `modules` key.
+ 2. Add `ZfcBase`, `AtBase` and `AtDataGrid` to your `config/application.config.php` file under the `modules` key.
  3. Copy or create a symlink of public/css and public/js to your website root directory
 
 ## How To Use
