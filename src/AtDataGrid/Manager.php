@@ -251,7 +251,7 @@ class Manager
         $data['grid']        = $this->getGrid();  // todo: remove it
         $data['columns']     = $grid->getColumns();
         $data['data']        = $grid->getData();
-        $data['paginator']   = $grid->getDataSource()->getPaginator();
+        $data['paginator']   = $grid->getPaginator();
 
         return $this->getRenderer()->render($data);
     }

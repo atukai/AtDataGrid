@@ -17,7 +17,7 @@
 /* Grid filters */
 .atf-grid table .filters {background-color: #E3EFF1; font-size: 0.9em;}
 .atf-grid table .filters td div {vertical-align: top; white-space: nowrap;}
-.atf-grid table .filters td input {width: 92%; height: 20px; margin: 4px 0;}
+.atf-grid table .filters td input {width: 92%; height: 24px;}
 .atf-grid table .filters td select {margin: 4px 0; width: 100%}
 .atf-grid table .filters td input[type=submit] {width: 100%;}
 .atf-grid table .filters td div {clear: both;}
@@ -96,5 +96,5 @@ a.sortable:hover {text-decoration: none;}
 .b-pager .page .active .bl {left:0; bottom:0;}
 .b-pager .page .active .br {right:0; bottom:0;}
 
-/* Common */
-h1 {font-size: 24px; margin-bottom: 16px;}
+/* Misc */
+.b {font-weight: bold}

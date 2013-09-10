@@ -5,6 +5,7 @@ namespace AtDataGrid;
 use AtDataGrid\DataSource;
 use AtDataGrid\Column\Column;
 use Zend\Form\Form;
+use Zend\Paginator\Paginator;
 use ZfcBase\EventManager\EventProvider;
 
 class DataGrid extends EventProvider implements \Countable, \IteratorAggregate, \ArrayAccess
@@ -17,7 +18,14 @@ class DataGrid extends EventProvider implements \Countable, \IteratorAggregate, 
      * @var string
      */
     protected $caption = '';
-    
+
+    /**
+     * Data source
+     *
+     * @var
+     */
+    protected $dataSource;
+
     /**
      * Data grid columns
      *
@@ -29,6 +37,11 @@ class DataGrid extends EventProvider implements \Countable, \IteratorAggregate, 
      * @var string
      */
     protected $identifierColumnName = 'id';
+
+    /**
+     * @var Paginator
+     */
+    protected $paginator;
 
     /**
      * @var null
@@ -62,14 +75,7 @@ class DataGrid extends EventProvider implements \Countable, \IteratorAggregate, 
     protected $pageRange = 10;
 
     /**
-     * Data source
-     *
-     * @var
-     */
-    protected $dataSource;
-
-    /**
-     * Array of rows (items)
+     * Array of rows from data source
      *
      * @var array
      */
@@ -446,6 +452,7 @@ class DataGrid extends EventProvider implements \Countable, \IteratorAggregate, 
 
     /**
      * @return mixed
+     * @throws \Exception
      */
     public function getData()
     {
@@ -455,14 +462,43 @@ class DataGrid extends EventProvider implements \Countable, \IteratorAggregate, 
             $order = $this->getCurrentOrderColumnName() . ' ' . $this->getCurrentOrderDirection();
         }
 
-    	$this->data = $this->getDataSource()->fetch(
-            $order,
-            $this->currentPage,
-            $this->itemsPerPage,
-            $this->pageRange
-        );
+    	$this->getDataSource()->prepare($order);
 
+        $paginatorAdapter = $this->getDataSource()->getPaginatorAdapter();
+
+        $this->paginator = new Paginator($paginatorAdapter);
+        $this->paginator->setCurrentPageNumber($this->currentPage);
+        $this->paginator->setItemCountPerPage($this->itemsPerPage);
+        $this->paginator->setPageRange($this->pageRange);
+
+        /* @var $currentItems \ArrayIterator */
+        $data = $this->paginator->getCurrentItems();          //$paginator->getItemsByPage($currentPage);
+        if (! is_array($data)) {
+            if ($data instanceof \Zend\Db\ResultSet\ResultSet) {
+                $data = $data->toArray();
+            } elseif ($data instanceof ArrayIterator) {
+                $data = $data->getArrayCopy();
+            } else {
+                $add = '';
+                if (is_object($data))
+                    $add = get_class($data);
+                else
+                    $add = '[no object]';
+
+                throw new \Exception('The paginator returned an unknow result: ' . $add . ' (allowed: \ArrayIterator or a plain php array)');
+            }
+        }
+
+        $this->data = $data;
         return $this->data;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getPaginator()
+    {
+        return $this->paginator;
     }
 
     // CRUD

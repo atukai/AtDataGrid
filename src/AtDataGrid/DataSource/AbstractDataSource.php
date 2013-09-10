@@ -2,6 +2,8 @@
 
 namespace AtDataGrid\DataSource;
 
+use Zend\Paginator\Adapter\AdapterInterface;
+
 abstract class AbstractDataSource
 {
     /**
@@ -10,20 +12,13 @@ abstract class AbstractDataSource
     protected $identifierFieldName = 'id';
 
     /**
-     * All columns
-     *
-     * @var array
+     * @var AdapterInterface
      */
-    protected $columns = array();
-
-    /**
-     * @var
-     */
-    protected $paginator;
+    protected $paginatorAdapter;
 
     /**
      * @param $name
-     * @return AbstractDataSource
+     * @return $this
      */
     public function setIdentifierFieldName($name)
     {
@@ -40,28 +35,21 @@ abstract class AbstractDataSource
     }
 
     /**
-     * @param $paginator
+     * @param AdapterInterface $adapter
+     * @return $this
      */
-    public function setPaginator($paginator)
+    public function setPaginatorAdapter(AdapterInterface $adapter)
     {
-        $this->paginator = $paginator;
+        $this->paginatorAdapter = $adapter;
         return $this;
     }
 
     /**
-     * @return mixed
+     * @return AdapterInterface
      */
-    public function getPaginator()
+    public function getPaginatorAdapter()
     {
-        return $this->paginator;
-    }
-
-    /**
-     * @return array
-     */
-    public function getColumns()
-    {
-        return $this->columns;
+        return $this->paginatorAdapter;
     }
 
     /**
@@ -73,7 +61,6 @@ abstract class AbstractDataSource
     abstract public function loadColumns();
 
     /**
-     * @abstract
      * @param $id
      * @return mixed
      */
@@ -81,30 +68,24 @@ abstract class AbstractDataSource
 
     /**
      * @param $order
-     * @param $currentPage
-     * @param $itemsPerPage
-     * @param $pageRange
      * @return mixed
      */
-    abstract public function fetch($order, $currentPage, $itemsPerPage, $pageRange);
-    
+    abstract public function prepare($order);
+
     /**
-     * @abstract
      * @param $data
      * @return mixed
      */
     abstract public function insert($data);
-    
+
     /**
-     * @abstract
      * @param $data
      * @param $key
      * @return mixed
      */
     abstract public function update($data, $key);
-    
+
     /**
-     * @abstract
      * @param $key
      * @return mixed
      */
