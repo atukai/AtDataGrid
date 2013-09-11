@@ -2,6 +2,7 @@
 
 namespace AtDataGrid\Renderer;
 
+use Zend\View\Model\ViewModel;
 use Zend\View\Renderer\RendererInterface;
 
 class Html extends AbstractRenderer
@@ -80,7 +81,7 @@ class Html extends AbstractRenderer
     {
         $engine = $this->getEngine();
 
-        $viewModel = new \Zend\View\Model\ViewModel($variables);
+        $viewModel = new ViewModel($variables);
         $viewModel->setTemplate($this->getTemplate());
 
         /*if (!empty($this->cssFile)) {

@@ -24,30 +24,11 @@ abstract class AbstractCrudController extends AbstractActionController
         // Save back url to redirect after actions
         $this->backTo()->setBackUrl();
 
-        // Configure grid
-        $gridManager = $this->getGridManager();
-        $gridManager->setRequest($this->getRequest());
-        $grid = $gridManager->getGrid();
-
-  /*      $grid->setOrder($this->params()->fromQuery('order', $grid->getIdentifierColumnName().'~desc'));
-        $grid->setCurrentPage($this->params()->fromQuery('page'));
-        $grid->setItemsPerPage($this->params()->fromQuery('show_items'));*/
-
         if (isset($_POST['cmd'])) {
-            $this->_forward($_POST['cmd']);
+            $this->_forward($_POST['cmd']);    // @todo refactor this
         }
 
-        $filtersForm = $grid->getFiltersForm();
-        $filtersForm->setData($this->getRequest()->getQuery());
-
-        if ($filtersForm->isValid()) {
-            $grid->applyFilters($filtersForm->getData());
-        }
-
-        $viewModel = new ViewModel(array('gridManager' => $gridManager));
-        $viewModel->setTemplate('at-datagrid/grid');
-
-        return $viewModel;
+        return $this->getGridManager()->render();
     }
 
     // CRUD

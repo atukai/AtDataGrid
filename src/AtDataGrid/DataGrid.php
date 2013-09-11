@@ -4,6 +4,7 @@ namespace AtDataGrid;
 
 use AtDataGrid\DataSource;
 use AtDataGrid\Column\Column;
+use Zend\Db\ResultSet\ResultSet;
 use Zend\Form\Form;
 use Zend\Paginator\Paginator;
 use ZfcBase\EventManager\EventProvider;
@@ -80,6 +81,11 @@ class DataGrid extends EventProvider implements \Countable, \IteratorAggregate, 
      * @var array
      */
     protected $data = array();
+
+    /**
+     * @var Form
+     */
+    protected $filtersForm;
 
     /**
      * Values from filters form
@@ -456,36 +462,51 @@ class DataGrid extends EventProvider implements \Countable, \IteratorAggregate, 
      */
     public function getData()
     {
-        $order = null;
+        /**
+         * Filters
+         */
+        $filtersForm = $this->getFiltersForm();
+        if ($filtersForm->isValid()) {
+            $this->applyFilters($filtersForm->getData());
+        }
 
+        /**
+         * Sorting
+         */
+        $order = null;
         if ($this->getCurrentOrderColumnName()) {
             $order = $this->getCurrentOrderColumnName() . ' ' . $this->getCurrentOrderDirection();
         }
 
+        /**
+         * Prepare data source for fetching data
+         */
     	$this->getDataSource()->prepare($order);
 
-        $paginatorAdapter = $this->getDataSource()->getPaginatorAdapter();
-
-        $this->paginator = new Paginator($paginatorAdapter);
+        /**
+         * Load data using paginator
+         */
+        $this->paginator = new Paginator($this->getDataSource()->getPaginatorAdapter());
         $this->paginator->setCurrentPageNumber($this->currentPage);
         $this->paginator->setItemCountPerPage($this->itemsPerPage);
         $this->paginator->setPageRange($this->pageRange);
 
-        /* @var $currentItems \ArrayIterator */
-        $data = $this->paginator->getCurrentItems();          //$paginator->getItemsByPage($currentPage);
+        //$data = $this->paginator->getItemsByPage($this->currentPage);
+        $data = $this->paginator->getCurrentItems();
         if (! is_array($data)) {
-            if ($data instanceof \Zend\Db\ResultSet\ResultSet) {
+            if ($data instanceof ResultSet) {
                 $data = $data->toArray();
-            } elseif ($data instanceof ArrayIterator) {
+            } elseif ($data instanceof \ArrayIterator) {
                 $data = $data->getArrayCopy();
             } else {
-                $add = '';
-                if (is_object($data))
-                    $add = get_class($data);
-                else
-                    $add = '[no object]';
+                $type = 'unknown';
+                if (is_object($data)) {
+                    $type = get_class($data);
+                } else {
+                    $type = gettype($data);
+                }
 
-                throw new \Exception('The paginator returned an unknow result: ' . $add . ' (allowed: \ArrayIterator or a plain php array)');
+                throw new \Exception('The paginator returned a result of unsupported type: ' . $type . '. Should be \ArrayIterator or an Array)');
             }
         }
 
@@ -600,25 +621,36 @@ class DataGrid extends EventProvider implements \Countable, \IteratorAggregate, 
      * @param array $options
      * @return Form
      */
-    public function getFiltersForm($options = array())
+    public function buildFiltersForm($options = array())
     {
-        $form = new Form('filters-form', $options);
+        $this->filtersForm = new Form('filters-form', $options);
 
         foreach ($this->getColumns() as $column) {
             if ($column->hasFilters()) {
 	            $filters = $column->getFilters();
 	            foreach ($filters as $filter) {
-	                $form->add($column->getFilterFormElement($filter));
+	                $this->filtersForm->add($column->getFilterFormElement($filter));
 	            }	
             }
         }
 
         // Apply button
         $apply = new \Zend\Form\Element\Submit('apply');
-        $apply->setLabel('Поиск');
-        $form->add($apply);
-        
-        return $form;
+        $apply->setLabel('Search');
+        $this->filtersForm->add($apply);
+
+        return $this->filtersForm;
+    }
+
+    /**
+     * @return Form
+     */
+    public function getFiltersForm()
+    {
+        if (! $this->filtersForm) {
+            $this->buildFiltersForm();
+        }
+        return $this->filtersForm;
     }
 
     // PAGING
@@ -627,12 +659,9 @@ class DataGrid extends EventProvider implements \Countable, \IteratorAggregate, 
      * @param $number
      * @return DataGrid
      */
-    public function setCurrentPage($number)
+    public function setCurrentPage($number = 1)
     {
-        if (!is_null($number)) {
-            $this->currentPage = (int) $number;
-        }
-
+        $this->currentPage = (int) $number;
         return $this;
     }
 

@@ -63,15 +63,17 @@ return array(
 
 		'user_grid' => function ($sm) {
 			$grid = new Grid\User($sm->get('user_grid_datasource'));
-			$grid->setIdentifierColumnName('user_id');
-			$grid->setCaption('Users');
 			return $grid;
 		},
 
 		'user_grid_manager' => function ($sm) {
-			$manager = new Manager($sm->get('user_grid'));
+			$manager = new Manager($sm->get('user_grid'), $sm->get('Request'));
 			$manager->setRenderer($sm->get('user_grid_renderer'));
 			return $manager;
+		},
+
+		'user_block_widget' => function ($sm) {
+			return new UserWidget($sm->get('ViewRenderer'));
 		},
 	),
 );

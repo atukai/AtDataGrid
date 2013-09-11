@@ -5,6 +5,8 @@ namespace AtDataGrid;
 use AtDataGrid\Renderer\AbstractRenderer;
 use Zend\Form\Form;
 use Zend\Http\PhpEnvironment\Request as HttpRequest;
+use Zend\Http\PhpEnvironment\Response as HttpResponse;
+use Zend\View\Model\ViewModel;
 
 class Manager
 {
@@ -54,11 +56,21 @@ class Manager
     );
 
     /**
-     * @param $grid
+     * @param DataGrid $grid
+     * @param HttpRequest $request
      */
-    public function __construct(DataGrid $grid)
+    public function __construct(DataGrid $grid, HttpRequest $request)
     {
         $this->grid = $grid;
+        $this->request = $request;
+
+        $this->grid->setOrder($this->request->getQuery('order', $this->grid->getIdentifierColumnName().'~desc'));
+        $this->grid->setCurrentPage($this->request->getQuery('page'));
+        $this->grid->setItemsPerPage($this->request->getQuery('show_items'));
+
+        // @todo Build filters form only if filters params are present in request
+        $filtersForm = $this->grid->getFiltersForm();
+        $filtersForm->setData($this->request->getQuery());
     }
 
     /**
@@ -67,18 +79,6 @@ class Manager
     public function getGrid()
     {
         return $this->grid;
-    }
-
-    /**
-     * @param HttpRequest $request
-     */
-    public function setRequest(HttpRequest $request)
-    {
-        $this->request = $request;
-
-        $this->grid->setOrder($this->request->getQuery('order', $this->grid->getIdentifierColumnName().'~desc'));
-        $this->grid->setCurrentPage($this->request->getQuery('page'));
-        $this->grid->setItemsPerPage($this->request->getQuery('show_items'));
     }
 
     /**
@@ -175,13 +175,12 @@ class Manager
      * Generate form for create/edit row
      *
      * @param array $options
-     * @return mixed|\Zend\Form\Form
+     * @return mixed|Form
      */
     public function getForm($options = array())
     {
         if ($this->form == null) {
-            //$form = new ATF_DataGrid_Form();
-            $form = new \Zend\Form\Form('create-form', $options);
+            $form = new Form('create-form', $options);
 
             // Collect elements
             foreach ($this->getGrid()->getColumns() as $column) {
@@ -246,14 +245,15 @@ class Manager
     {
         $grid = $this->getGrid();
 
-        $data                = array();
-        $data['gridManager'] = $this;
-        $data['grid']        = $this->getGrid();  // todo: remove it
-        $data['columns']     = $grid->getColumns();
-        $data['data']        = $grid->getData();
-        $data['paginator']   = $grid->getPaginator();
+        $variables           = array();
+        $variables['gridManager'] = $this;
+        $variables['grid']        = $this->getGrid();  // todo: remove it
+        $variables['columns']     = $grid->getColumns();
+        $variables['data']        = $grid->getData();
+        $variables['paginator']   = $grid->getPaginator();
 
-        return $this->getRenderer()->render($data);
+        $this->getRenderer()->render($variables);
+        //return $viewModel;
     }
 
     /**
