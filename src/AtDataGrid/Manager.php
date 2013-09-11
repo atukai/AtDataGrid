@@ -252,8 +252,7 @@ class Manager
         $variables['data']        = $grid->getData();
         $variables['paginator']   = $grid->getPaginator();
 
-        $this->getRenderer()->render($variables);
-        //return $viewModel;
+        return $this->getRenderer()->render($variables);
     }
 
     /**

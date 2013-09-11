@@ -47,45 +47,54 @@ use AtDataGrid\DataSource\ZendDb\TableGateway;
 use AtDataGrid\Manager;
 use AtDataGrid\Renderer\Html;
 
-return array(
-	'factories' => array(
-		'user_grid_datasource' => function ($sm) {
-			$tableGateway = new ZendTableGateway('user', $sm->get('Zend\Db\Adapter\Adapter'));
-			$dataSource = new TableGateway($tableGateway);
-			return $dataSource;
-		},
+public function getServiceConfig()
+{
+	return array(
+		'factories' => array(
+			'user_grid_datasource' => function ($sm) {
+				$tableGateway = new ZendTableGateway('user', $sm->get('Zend\Db\Adapter\Adapter'));
+				$dataSource = new TableGateway($tableGateway);
+				return $dataSource;
+			},
 
-		'user_grid_renderer' => function ($sm) {
-			$renderer = new Html();
-			$renderer->setEngine($sm->get('ViewRenderer'));
-			return $renderer;
-		},
+			'user_grid_renderer' => function () {
+				$renderer = new Html();
+				return $renderer;
+			},
 
-		'user_grid' => function ($sm) {
-			$grid = new Grid\User($sm->get('user_grid_datasource'));
-			return $grid;
-		},
+			'user_grid' => function ($sm) {
+				$grid = new Grid\User($sm->get('user_grid_datasource'));
+				return $grid;
+			},
 
-		'user_grid_manager' => function ($sm) {
-			$manager = new Manager($sm->get('user_grid'), $sm->get('Request'));
-			$manager->setRenderer($sm->get('user_grid_renderer'));
-			return $manager;
-		},
+			'user_grid_manager' => function ($sm) {
+				$manager = new Manager($sm->get('user_grid'), $sm->get('Request'));
+				$manager->setRenderer($sm->get('user_grid_renderer'));
+				return $manager;
+			},
 
-		'user_block_widget' => function ($sm) {
-			return new UserWidget($sm->get('ViewRenderer'));
-		},
-	),
-);
+			'user_block_widget' => function ($sm) {
+				return new UserWidget($sm->get('ViewRenderer'));
+			},
+		),
+	);
+}
 ```
 
 IndexController.php
 
 ```PHP
+<?php
+
+namespace Application\Controller;
+
 use AtDataGrid\Controller\AbstractCrudController;
 
 class IndexController extends AbstractCrudController
 {
+    /**
+     * @return array|mixed|object
+     */
     public function getGridManager()
     {
         return $this->getServiceLocator()->get('user_grid_manager');
@@ -96,11 +105,42 @@ class IndexController extends AbstractCrudController
 Grid.php
 
 ```PHP
-use AtDataGrid\DataGrid;
+<?php
 
-class Grid extends DataGrid
+namespace Application\Grid;
+
+use AtDataGrid\DataGrid;
+use AtDataGrid\Filter\Sql as SqlFilter;
+use AtDataGrid\Column\Decorator;
+
+class User extends DataGrid
 {
+    public function init()
+    {
+        parent::init();
+
+        $this->setIdentifierColumnName('user_id');
+        $this->setCaption('Users');
+
+        $this->getColumn('user_id')
+            ->setSortable()
+            ->setLabel('#')
+            ->addFilter(new SqlFilter\Equal());
+
+        $this->getColumn('username')
+            ->setLabel('Username');
+
+        $this->getColumn('display_name')
+            ->setLabel('Display As');
+
+        $this->getColumn('email')
+            ->setSortable()
+            ->setLabel('Email')
+            ->addFilter(new SqlFilter\Like());
+
+        $this->hideColumns(array('password', 'state'));
+    }
 }
 ```
 
-Check .../users/list  route.
+Check /users/list  route.
