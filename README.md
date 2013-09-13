@@ -71,11 +71,7 @@ public function getServiceConfig()
 				$manager = new Manager($sm->get('user_grid'), $sm->get('Request'));
 				$manager->setRenderer($sm->get('user_grid_renderer'));
 				return $manager;
-			},
-
-			'user_block_widget' => function ($sm) {
-				return new UserWidget($sm->get('ViewRenderer'));
-			},
+			}
 		),
 	);
 }
@@ -138,7 +134,12 @@ class User extends DataGrid
             ->setLabel('Email')
             ->addFilter(new SqlFilter\Like());
 
+        $password = new Password('password');
+        $password->setLabel('Password');
+        $this->addColumn($password, true);
+
         $this->hideColumns(array('password', 'state'));
+        $this->hideColumnsInForm(array('state'));
     }
 }
 ```
