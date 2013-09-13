@@ -199,9 +199,9 @@ class Manager
             $form->add($csrf);
 
             // Submit button
-            /*$submit = new Submit('submit');
-            $submit->setLabel('Save');
-            $form->add($submit);*/
+            $submit = new Submit('submit');
+            $submit->setValue('Save');
+            $form->add($submit);
 
             // Use this method to add additional element to form
             // @todo Use Event instead

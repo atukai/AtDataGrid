@@ -1,15 +1,7 @@
 <?php $this->headScript()->appendFile('/js/at-datagrid/datagrid.js') ?>
 <?php $this->headLink()->appendStylesheet('/css/at-datagrid/datagrid.css') ?>
 
-<div class="row item-info">
-    <div class="col-md-2 back">
-        <a href="<?php echo $this->backUrl ?>" title="<?php echo $this->translate('Back to list'); ?>">
-            <span class="glyphicon glyphicon-arrow-left"></span> <?php echo $this->translate('Back to list'); ?>
-        </a>
-    </div>
-    <div class="col-md-10">
-    </div>
-</div>
+<h1><?php echo $this->translate('Create') ?></h1>
 
 <div class="row">
     <?php echo $this->render('at-datagrid/form') ?>

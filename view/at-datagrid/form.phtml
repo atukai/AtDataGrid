@@ -12,28 +12,35 @@ echo $this->form()->openTag($form);
 ?>
 
 <?php foreach ($form->getElements() as $element): ?>
-    <div class="form-group">
         <?php if ($element->getAttribute('type') == 'hidden'): ?>
             <?php echo $this->formHidden($element) ?>
-        <?php else: ?>
-            <?php
-                $element->setLabelAttributes(array('class' => 'control-label col-md-4'));
-                $element->setAttributes(array('class' => 'form-control'));
-            ?>
-            <?php echo $this->formLabel($element) ?>
-            <div class="col-md-8">
-                <?php echo $this->formElement($element) ?>
-                <p class="help-block">
-                    <?php echo $this->formElementErrors($element); ?>
-                </p>
+        <?php elseif ($element->getAttribute('type') != 'submit'): ?>
+            <div class="form-group">
+                <?php
+                    $element->setLabelAttributes(array('class' => 'control-label col-md-3'));
+                    $element->setAttributes(array('class' => 'form-control'));
+                ?>
+                <?php echo $this->formLabel($element) ?>
+                <div class="col-md-9">
+                    <?php echo $this->formElement($element) ?>
+                    <p class="help-block">
+                        <?php echo $this->formElementErrors($element); ?>
+                    </p>
+                </div>
             </div>
         <?php endif; ?>
-    </div>
 <?php endforeach; ?>
 
 <div class="form-group">
     <div class="col-md-offset-3 col-md-9">
-        <button type="submit" class="btn btn-info">Save</button>
+        <?php
+            $submit = $form->get('submit');
+            $submit->setAttributes(array('class' => 'btn btn-info pull-right'));
+        ?>
+        <?php echo $this->formSubmit($submit) ?>
+        <a href="<?php echo $this->backUrl ?>" title="<?php echo $this->translate('Back to list'); ?>">
+            <?php echo $this->translate('Back to list'); ?>
+        </a>
     </div>
 </div>
 
