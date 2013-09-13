@@ -199,7 +199,7 @@ class Column
      */
     public function setOrderDirection($value)
     {
-        $this->orderDirection = $value;
+        $this->orderDirection = strtolower($value);
         return $this;
     }   
   
@@ -210,7 +210,7 @@ class Column
      */  
     public function getOrderDirection()
     {
-        return strtolower($this->orderDirection);
+        return $this->orderDirection;
     }
 
     /**  
@@ -232,14 +232,6 @@ class Column
     {
         $this->visibleInForm = $value;
         return $this;
-    }
-
-    /**
-     * @return bool
-     */
-    public function getVisibleInForm()
-    {
-        return $this->visibleInForm;
     }
 
     /**

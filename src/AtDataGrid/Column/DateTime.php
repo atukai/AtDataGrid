@@ -6,9 +6,6 @@ use AtDataGrid\Column\Decorator;
 
 class DateTime extends Column
 {
-    /**
-     * Extensions
-     */
     public function init()
     {
         parent::init();

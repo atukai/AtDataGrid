@@ -4,9 +4,9 @@ namespace AtDataGrid;
 
 use AtDataGrid\Renderer\AbstractRenderer;
 use Zend\Form\Form;
+use Zend\Form\Element\Csrf;
+use Zend\Form\Element\Submit;
 use Zend\Http\PhpEnvironment\Request as HttpRequest;
-use Zend\Http\PhpEnvironment\Response as HttpResponse;
-use Zend\View\Model\ViewModel;
 
 class Manager
 {
@@ -180,7 +180,7 @@ class Manager
     public function getForm($options = array())
     {
         if ($this->form == null) {
-            $form = new Form('create-form', $options);
+            $form = new Form('at-datagrid-form-create', $options);
 
             // Collect elements
             foreach ($this->getGrid()->getColumns() as $column) {
@@ -195,8 +195,13 @@ class Manager
             }
 
             // Hash element to prevent CSRF attack
-            $csrf = new \Zend\Form\Element\Csrf('hash');
+            $csrf = new Csrf('hash');
             $form->add($csrf);
+
+            // Submit button
+            /*$submit = new Submit('submit');
+            $submit->setLabel('Save');
+            $form->add($submit);*/
 
             // Use this method to add additional element to form
             // @todo Use Event instead

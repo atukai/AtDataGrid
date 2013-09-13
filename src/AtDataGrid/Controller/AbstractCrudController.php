@@ -41,24 +41,27 @@ abstract class AbstractCrudController extends AbstractActionController
         $gridManager = $this->getGridManager();
         $grid = $gridManager->getGrid();
 
-        if (!$gridManager->isAllowCreate()) {
+        if (! $gridManager->isAllowCreate()) {
             throw new \Exception('You are not allowed to do this.');
         }
 
-        $requestParams = $this->getRequest()->getPost();
-
         $form = $gridManager->getForm();
-        $form->setData($requestParams);
 
-        if ($form->isValid()) {
-            $formData = $this->preSave($form);
-            $itemId = $grid->save($formData);
-            $this->postSave($grid, $itemId);
+        if ($this->getRequest()->isPost()) {
+            $form->setData($this->getRequest()->getPost());
+            if ($form->isValid()) {
+                $formData = $this->preSave($form);
+                $itemId = $grid->save($formData);
+                $this->postSave($grid, $itemId);
 
-            $this->backTo()->goBack('Record created.');
+                $this->backTo()->previous('Record created.');
+            }
         }
 
-        $viewModel = new ViewModel(array('gridManager' => $gridManager));
+        $viewModel = new ViewModel(array(
+            'form' => $form,
+            'backUrl' => $this->backTo()->getBackUrl(false)
+        ));
         $viewModel->setTemplate('at-datagrid/create');
 
         return $viewModel;
@@ -92,14 +95,11 @@ abstract class AbstractCrudController extends AbstractActionController
             $grid->save($data, $itemId);
             $this->postSave($grid, $itemId);
 
-            $this->backTo()->goBack('Record updated.');
+            $this->backTo()->previous('Record updated.');
         }
 
         $item = $grid->getRow($itemId);
         $form->setData($item);
-
-        //$currentPanel = $this->getRequest()->getParam('panel');
-        //$this->view->panel = $currentPanel;
 
         $viewModel = new ViewModel(array(
             'gridManager' => $gridManager,
@@ -129,7 +129,7 @@ abstract class AbstractCrudController extends AbstractActionController
         }
 
         $grid->delete($itemId);
-        $this->backTo()->goBack('Record deleted.');
+        $this->backTo()->previous('Record deleted.');
     }
 
     /**

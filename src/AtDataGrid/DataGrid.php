@@ -361,7 +361,7 @@ class DataGrid extends EventProvider implements \Countable, \IteratorAggregate, 
      * @param $names
      * @return DataGrid
      */
-    public function hideColumnsInForm($names)
+    public function hideColumnsInForm(array $names)
     {
         foreach ($names as $name) {
             $this->hideColumnInForm($name);

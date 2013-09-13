@@ -34,7 +34,6 @@ a.sortable:hover {text-decoration: none;}
 .grid-form input, .grid-form select, .grid-form textarea {
     background-color: #F7F7F7; border-color: #AAA #DDD #DDD; border-style: solid; border-width: 1px;
 }
-.grid-form input, .grid-form textarea {width: 500px;}
 .grid-form input[type="checkbox"] { width: 20px; }
 .grid-form .atf-form-date {width: 100px;}
 .grid-form .atf-form-time {width: 50px;}
