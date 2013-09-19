@@ -11,7 +11,7 @@ class Html extends AbstractRenderer
      *
      * @var string
      */
-    protected $template = 'at-datagrid/grid/list';
+    protected $template = 'at-datagrid/list';
 
     /**
      * @param $template

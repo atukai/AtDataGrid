@@ -21,7 +21,7 @@ echo $this->form()->openTag($form);
                     $element->setAttributes(array('class' => 'form-control'));
                 ?>
                 <?php echo $this->formLabel($element) ?>
-                <div class="col-md-9">
+                <div class="col-md-7">
                     <?php echo $this->formElement($element) ?>
                     <p class="help-block">
                         <?php echo $this->formElementErrors($element); ?>
@@ -32,13 +32,14 @@ echo $this->form()->openTag($form);
 <?php endforeach; ?>
 
 <div class="form-group">
-    <div class="col-md-offset-3 col-md-9">
+    <div class="col-md-offset-3 col-md-7">
         <?php
             $submit = $form->get('submit');
-            $submit->setAttributes(array('class' => 'btn btn-info pull-right'));
+            $submit->setAttributes(array('class' => 'btn btn-info pull-left'));
+           //$submit->setValue($this->submitLabel);
         ?>
         <?php echo $this->formSubmit($submit) ?>
-        <a href="<?php echo $this->backUrl ?>" title="<?php echo $this->translate('Back to list'); ?>">
+        <a class="pull-right" href="<?php echo $this->backUrl ?>" title="<?php echo $this->translate('Back to list'); ?>">
             <?php echo $this->translate('Back to list'); ?>
         </a>
     </div>

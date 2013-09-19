@@ -1,6 +1,6 @@
 <?php
 
-$form = $this->grid->getFiltersForm();
+$form = $this->gridManager->buildFiltersForm();
 $form->prepare();
 $form->setAttribute('action', $this->url(null, array('action' => 'list')));
 $form->setAttribute('method', 'get');
@@ -9,24 +9,28 @@ $form->setAttribute('id', 'datagrid-filters-form');
 echo $this->form()->openTag($form);
 ?>
 
-    <tr class="filters">
-        <td><!--  --></td>
-        <?php foreach ($this->grid as $column) : ?>
-            <?php if ($column->isVisible()): ?>
-            <td>
-                <?php if ($column->hasFilters()): ?>
-                    <?php foreach ($column->getFilters() as $filter) : ?>
-                        <?php echo $this->formElement($form->get($filter->getName())); ?>
-                    <?php endforeach; ?>    
-                <?php endif; ?>
-            </td>
-            <?php endif; ?>
-        <?php endforeach; ?>
+<tr class="filters">
+    <td><!--  --></td>
+    <?php foreach ($this->grid as $column) : ?>
+        <?php if ($column->isVisible()): ?>
         <td>
-            <div class="btn-group pull-right">
-                <button class="btn btn-info btn-xs" type="submit" title="<?php echo $this->translate('Apply filters'); ?>"><i class="glyphicon glyphicon-search glyphicon-white"></i></button>
-                <a class="btn btn-danger btn-xs" href="<?php echo $this->url(null, array(), true)?>" title="<?php echo $this->translate('Reset filters'); ?>"><i class="glyphicon glyphicon-remove glyphicon-white"></i></a>
-            </div>
+            <?php if ($column->hasFilters()): ?>
+                <?php foreach ($column->getFilters() as $filter) : ?>
+                    <?php echo $this->formElement($form->get($filter->getName())); ?>
+                <?php endforeach; ?>
+            <?php endif; ?>
         </td>
-    </tr>
+        <?php endif; ?>
+    <?php endforeach; ?>
+    <td>
+        <div class="btn-group btn-group-xs pull-right">
+            <button class="btn btn-info" type="submit" title="<?php echo $this->translate('Apply filters'); ?>">
+                <span class="glyphicon glyphicon-search glyphicon-white"></span>
+            </button>
+            <a class="btn btn-danger" href="<?php echo $this->url(null, array(), true)?>" title="<?php echo $this->translate('Reset filters'); ?>">
+                <span class="glyphicon glyphicon-remove glyphicon-white"></span>
+            </a>
+        </div>
+    </td>
+</tr>
 <?php echo $this->form()->closeTag(); ?>

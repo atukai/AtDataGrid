@@ -45,7 +45,7 @@ abstract class AbstractCrudController extends AbstractActionController
             throw new \Exception('You are not allowed to do this.');
         }
 
-        $form = $gridManager->getForm();
+        $form = $gridManager->buildForm();
 
         if ($this->getRequest()->isPost()) {
             $form->setData($this->getRequest()->getPost());
@@ -85,17 +85,17 @@ abstract class AbstractCrudController extends AbstractActionController
             throw new \Exception('No record found.');
         }
 
-        $requestParams = $this->getRequest()->getPost();
+        $form = $gridManager->buildForm();
 
-        $form = $gridManager->getForm();
-        $form->setData($requestParams);
+        if ($this->getRequest()->isPost()) {
+            $form->setData($this->getRequest()->getPost());
+            if ($form->isValid()) {
+                $data = $this->preSave($form);
+                $grid->save($data, $itemId);
+                $this->postSave($grid, $itemId);
 
-        if ($this->getRequest()->isPost() && $form->isValid()) {
-            $data = $this->preSave($form);
-            $grid->save($data, $itemId);
-            $this->postSave($grid, $itemId);
-
-            $this->backTo()->previous('Record updated.');
+                $this->backTo()->previous('Record updated.');
+            }
         }
 
         $item = $grid->getRow($itemId);
@@ -104,6 +104,7 @@ abstract class AbstractCrudController extends AbstractActionController
         $viewModel = new ViewModel(array(
             'gridManager' => $gridManager,
             'item'        => $item,
+            'form'        => $form,
             'backUrl'     => $this->backTo()->getBackUrl(false)
         ));
         $viewModel->setTemplate('at-datagrid/edit');

@@ -1,14 +1,14 @@
 <div class="atf-grid-group-actions">
-    <div class="dropdown">
-        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" id="drop-bulk">
-            <?php echo $this->translate("with selected") ?>
+    <div class="btn-group btn-group-xs">
+        <button type="button" class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown">
+            <?php echo $this->translate("With selected") ?>
             <span class="caret"></span>
-        </a>
-        <ul class="dropdown-menu" role="menu" area-labeledby="drop-bulk">
+        </button>
+        <ul class="dropdown-menu">
             <?php foreach($this->gridManager->getActions() as $action) : ?>
                 <?php if ($action['bulk'] == true): ?>
                     <li>
-                        <a tabindex="-1" onclick="DataGrid.action('<?php echo $action['action'] ?>')"
+                        <a onclick="DataGrid.action('<?php echo $action['action'] ?>')"
                            <?php if (isset($action['confirm-message'])): ?>
                                onclick="return DataGrid.confirmAction(this, '<?php echo $action['confirm-message'] ?>')"
                            <?php endif;?>>

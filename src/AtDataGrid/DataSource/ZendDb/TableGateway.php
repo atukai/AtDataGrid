@@ -86,12 +86,11 @@ class TableGateway extends AbstractDataSource
     /**
      * Join other table and collect joined columns
      *
-     * @param $tableClassName
+     * @param $joinedTableName
      * @param $alias
      * @param $keyName
      * @param $foreignKeyName
      * @param null $columns
-     * @throws \Exception
      */
     public function with($joinedTableName, $alias, $keyName, $foreignKeyName, $columns = null)
     {
@@ -100,18 +99,17 @@ class TableGateway extends AbstractDataSource
 
         $joinedColumns = array();
 
-        foreach ($joinedTableColumns as $columnObject) {
-            $columnName = $columnObject->getName();
+        foreach ($joinedTableColumns as $column) {
+            $columnName = $column->getName();
 
-            if (null != $columns) {
-                if (in_array($columnName, $columns)) {
-                    $joinedColumns[$alias . '__' . $columnName] = $columnName;
-                    $this->joinedColumns[] = $alias . '__' . $columnName;
-                }
-            } else {
-                $joinedColumns[$alias . '__' . $columnName] = $columnName;
-                $this->joinedColumns[] = $alias . '__' . $columnName;
+            if ($columns != null && ! in_array($columnName, $columns)) {
+                continue;
             }
+
+            $fullColumnName = $alias . '__' . $columnName;
+
+            $joinedColumns[$fullColumnName] = $columnName;
+            $this->joinedColumns[] = $fullColumnName;
         }
 
         $this->getSelect()->join(

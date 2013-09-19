@@ -61,16 +61,16 @@ abstract class AbstractDataSource
     abstract public function loadColumns();
 
     /**
-     * @param $id
-     * @return mixed
-     */
-    abstract public function find($id);
-
-    /**
      * @param $order
      * @return mixed
      */
     abstract public function prepare($order);
+
+    /**
+     * @param $id
+     * @return mixed
+     */
+    abstract public function find($id);
 
     /**
      * @param $data

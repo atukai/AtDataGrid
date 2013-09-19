@@ -3,6 +3,10 @@
 
 <h1><?php echo $this->translate('Create') ?></h1>
 
+<hr>
+
 <div class="row">
-    <?php echo $this->render('at-datagrid/form') ?>
+    <div class="col-md-12">
+        <?php echo $this->render('at-datagrid/form', array('submitLabel' => 'Create')) ?>
+    </div>
 </div>

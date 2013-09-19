@@ -1,55 +1,12 @@
 <?php $this->headScript()->appendFile('/js/at-datagrid/datagrid.js') ?>
 <?php $this->headLink()->appendStylesheet('/css/at-datagrid/datagrid.css') ?>
 
-<div class="row item-info">
-    <div class="span2 back">
-        <a href="<?php echo $this->backUrl ?>" title="<?php echo $this->translate('Back to list'); ?>">
-            <i class="icon-arrow-left"></i> <?php echo $this->translate('Back to list'); ?>
-        </a>
-    </div>
-    <div class="span10 info">
-        <?php echo $this->render('at-datagrid/item/info') ?>
-        <div class="btn-group right">
-            <a class="btn dropdown-toggle" data-toggle="dropdown" href="#"><?php echo $this->translate('actions')?> <span class="caret"></span></a>
-            <ul class="dropdown-menu">
-                <?php foreach($this->gridManager->getActions() as $action) : ?>
-                    <li>
-                        <a href="#"
-                            <?php if (isset($action['confirm-message'])): ?>
-                                onclick="return DataGrid.confirmAction(this, '<?php echo $action['confirm-message'] ?>')"
-                            <?php endif;?>>
-                            <?php echo $this->translate($action['label']) ?>
-                        </a>
-                    </li>
-                <?php endforeach; ?>
-            </ul>
-        </div>
+<h1><?php echo $this->translate('View & Edit') ?></h1>
+
+<hr>
+
+<div class="row">
+    <div class="col-md-12">
+    <?php echo $this->render('at-datagrid/form') ?>
     </div>
 </div>
-
-<div class="tabbable tabs-left">
-    <ul class="nav nav-tabs">
-        <?php if ($this->showSummaryTab): ?>
-            <li <?php if ($this->panel == 'summary' || !$this->panel): ?>class="active"<?php endif;?>><a href="#summary" data-toggle="tab">General</a></li>
-        <?php endif; ?>
-
-        <li <?php if ($this->panel == 'data' || !$this->showSummaryTab): ?>class="active"<?php endif;?>><a href="#data" data-toggle="tab">Edit data</a></li>
-    </ul>
-    <div class="tab-content">
-        <?php if ($this->showSummaryTab): ?>
-            <div class="tab-pane<?php if ($this->panel == 'summary' || !$this->panel): ?> active<?php endif;?>" id="summary">
-                <?php echo $this->render('at-datagrid/panels/summary') ?>
-            </div>
-        <?php endif;?>
-
-        <div class="tab-pane<?php if ($this->panel == 'data' || !$this->showSummaryTab): ?> active<?php endif;?>" id="data">
-            <?php echo $this->render('at-datagrid/form') ?>
-        </div>
-    </div>
-</div>
-
-<?php if ($this->panel) : ?>
-    <script type="text/javascript">
-        DataGrid.loadDataPanel('', '<?php echo $key ?>');
-    </script>
-<?php endif ?>

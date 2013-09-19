@@ -7,8 +7,9 @@ use Zend\Form\Form;
 use Zend\Form\Element\Csrf;
 use Zend\Form\Element\Submit;
 use Zend\Http\PhpEnvironment\Request as HttpRequest;
+use ZfcBase\EventManager\EventProvider;
 
-class Manager
+class Manager extends EventProvider
 {
     /**
      * @var HttpRequest
@@ -24,6 +25,11 @@ class Manager
      * @var Form
      */
     protected $form;
+
+    /**
+     * @var Form
+     */
+    protected $filtersForm;
 
     /**
      * @var AbstractRenderer
@@ -51,8 +57,8 @@ class Manager
      * @var array
      */
     protected $actions = array(
-        'edit'   => array('action' => 'edit', 'label' => 'View & Edit', 'bulk' => false, 'button' => true, 'class' => 'icon-eye-open'),
-        'delete' => array('action' => 'delete', 'label' => 'Delete', 'confirm-message' => 'Are you sure?', 'bulk' => true, 'button' => false)
+        'edit'   => array('action' => 'edit', 'label' => 'View & Edit', 'bulk' => false, 'in_row' => true, 'class' => 'glyphicon glyphicon-pencil'),
+        'delete' => array('action' => 'delete', 'label' => 'Delete', 'confirm-message' => 'Are you sure?', 'bulk' => true, 'in_row' => false)
     );
 
     /**
@@ -67,10 +73,6 @@ class Manager
         $this->grid->setOrder($this->request->getQuery('order', $this->grid->getIdentifierColumnName().'~desc'));
         $this->grid->setCurrentPage($this->request->getQuery('page'));
         $this->grid->setItemsPerPage($this->request->getQuery('show_items'));
-
-        // @todo Build filters form only if filters params are present in request
-        $filtersForm = $this->grid->getFiltersForm();
-        $filtersForm->setData($this->request->getQuery());
     }
 
     /**
@@ -177,7 +179,7 @@ class Manager
      * @param array $options
      * @return mixed|Form
      */
-    public function getForm($options = array())
+    public function buildForm($options = array())
     {
         if ($this->form == null) {
             $form = new Form('at-datagrid-form-create', $options);
@@ -205,8 +207,6 @@ class Manager
 
             // Use this method to add additional element to form
             // @todo Use Event instead
-            $form = $this->addExtraFormElements($form);
-
             $this->form = $form;
         }
 
@@ -214,14 +214,34 @@ class Manager
     }
 
     /**
-     * @todo use events instead
-     * @param $form
-     * @return mixed
+     * @param array $options
+     * @return Form
      */
-    public function addExtraFormElements($form)
+    public function buildFiltersForm($options = array())
     {
-        return $form;
-    }
+        if ($this->filtersForm == null) {
+            $form = new Form('at-datagrid-filters-form', $options);
+
+            foreach ($this->getGrid()->getColumns() as $column) {
+                if ($column->hasFilters()) {
+                    $filters = $column->getFilters();
+                    foreach ($filters as $filter) {
+                        $form->add($column->getFilterFormElement($filter));
+                    }
+                }
+            }
+
+            // Apply button
+            $apply = new Submit('apply');
+            $apply->setLabel('Search');
+            $form->add($apply);
+
+            $this->filtersForm = $form;
+        }
+
+        $this->filtersForm->setData($this->request->getQuery());
+        return $this->filtersForm;    }
+
 
     /**
      * @param Renderer\AbstractRenderer $renderer
@@ -252,7 +272,7 @@ class Manager
 
         $variables           = array();
         $variables['gridManager'] = $this;
-        $variables['grid']        = $this->getGrid();  // todo: remove it
+        $variables['grid']        = $this->getGrid();
         $variables['columns']     = $grid->getColumns();
         $variables['data']        = $grid->getData();
         $variables['paginator']   = $grid->getPaginator();
@@ -268,24 +288,24 @@ class Manager
      */
     public function addAction($name, $action = array())
     {
-        if (!is_array($action)) {
+        if (! is_array($action)) {
             throw new \Exception('Row action must be an array with `action`, `label` and `confirm-message` keys');
         }
 
-        if (!array_key_exists('action', $action)) {
+        if (! array_key_exists('action', $action)) {
             throw new \Exception('Row action must be an array with `action`, `label` and `confirm-message` keys');
         }
 
-        if (!array_key_exists('label', $action)) {
+        if (! array_key_exists('label', $action)) {
             throw new \Exception('Row action must be an array with `action`, `label` and `confirm-message` keys');
         }
 
-        if (!array_key_exists('bulk', $action)) {
+        if (! array_key_exists('bulk', $action)) {
             $action['bulk'] = true;
         }
 
-        if (!array_key_exists('button', $action)) {
-            $action['button'] = false;
+        if (! array_key_exists('in_row', $action)) {
+            $action['in_row'] = false;
         }
 
         $this->actions[$name] = $action;
@@ -342,12 +362,12 @@ class Manager
     /**
      * @return array
      */
-    public function getButtonActions()
+    public function getInRowActions()
     {
         $actions = array();
 
         foreach ($this->actions as $action) {
-            if ($action['button'] == true) {
+            if ($action['in_row'] == true) {
                 $actions[] = $action;
             }
         }

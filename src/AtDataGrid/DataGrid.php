@@ -5,7 +5,6 @@ namespace AtDataGrid;
 use AtDataGrid\DataSource;
 use AtDataGrid\Column\Column;
 use Zend\Db\ResultSet\ResultSet;
-use Zend\Form\Form;
 use Zend\Paginator\Paginator;
 use ZfcBase\EventManager\EventProvider;
 
@@ -83,18 +82,6 @@ class DataGrid extends EventProvider implements \Countable, \IteratorAggregate, 
     protected $data = array();
 
     /**
-     * @var Form
-     */
-    protected $filtersForm;
-
-    /**
-     * Values from filters form
-     *
-     * @var array
-     */
-    protected $filtersValues = array();
-
-    /**
      * @param $dataSource
      * @param array $options
      */
@@ -113,7 +100,7 @@ class DataGrid extends EventProvider implements \Countable, \IteratorAggregate, 
         /** @todo use event instead */
         $this->init();
 
-        $this->getEventManager()->trigger(self::EVENT_GRID_INIT);
+        $this->getEventManager()->trigger(self::EVENT_GRID_INIT, $this, $options);
     }
     
     /**
@@ -193,12 +180,12 @@ class DataGrid extends EventProvider implements \Countable, \IteratorAggregate, 
     }
 
     /**
-     * Check if is column present in column list
+     * Check if grid has column by the given name
      *
      * @param $name
      * @return bool
      */
-    protected function isColumn($name)
+    protected function hasColumn($name)
     {
         return array_key_exists($name, $this->columns);
     }
@@ -213,8 +200,8 @@ class DataGrid extends EventProvider implements \Countable, \IteratorAggregate, 
      */
     public function addColumn(Column $column, $overwrite = false)
     {
-        if ( (false == $overwrite) && ($this->isColumn($column)) ) {
-            throw new \Exception('Column `' . $column->getName() . '` already in a column list. Use other name.');
+        if ( (false == $overwrite) && ($this->hasColumn($column)) ) {
+            throw new \Exception('Column `' . $column->getName() . '` already in a column list. Use another name.');
         }    
         
         $this->columns[$column->getName()] = $column;
@@ -265,7 +252,7 @@ class DataGrid extends EventProvider implements \Countable, \IteratorAggregate, 
      */
     public function getColumn($name)
     {
-        if ($this->isColumn($name)) {
+        if ($this->hasColumn($name)) {
             return $this->columns[$name];
         }
         
@@ -290,7 +277,7 @@ class DataGrid extends EventProvider implements \Countable, \IteratorAggregate, 
      */
     public function removeColumn($name)
     {
-        if ($this->isColumn($name)) {
+        if ($this->hasColumn($name)) {
             unset($this->columns[$name]);
         }
 
@@ -465,10 +452,10 @@ class DataGrid extends EventProvider implements \Countable, \IteratorAggregate, 
         /**
          * Filters
          */
-        $filtersForm = $this->getFiltersForm();
+        /*$filtersForm = $this->getFiltersForm();
         if ($filtersForm->isValid()) {
             $this->applyFilters($filtersForm->getData());
-        }
+        }*/
 
         /**
          * Sorting
@@ -583,16 +570,6 @@ class DataGrid extends EventProvider implements \Countable, \IteratorAggregate, 
     }
 
     /**
-     * @param array $values
-     * @return $this
-     */
-    public function setFilterValues($values = array())
-    {
-        $this->filtersValues = $values;
-        return $this;
-    }
-
-    /**
      * Apply filters. Modify select object.
      *
      * @param $values
@@ -613,44 +590,6 @@ class DataGrid extends EventProvider implements \Countable, \IteratorAggregate, 
         }
 
         //var_dump($select->getSqlString());exit;
-
-        //exit;
-    }
-
-    /**
-     * @param array $options
-     * @return Form
-     */
-    public function buildFiltersForm($options = array())
-    {
-        $this->filtersForm = new Form('filters-form', $options);
-
-        foreach ($this->getColumns() as $column) {
-            if ($column->hasFilters()) {
-	            $filters = $column->getFilters();
-	            foreach ($filters as $filter) {
-	                $this->filtersForm->add($column->getFilterFormElement($filter));
-	            }	
-            }
-        }
-
-        // Apply button
-        $apply = new \Zend\Form\Element\Submit('apply');
-        $apply->setLabel('Search');
-        $this->filtersForm->add($apply);
-
-        return $this->filtersForm;
-    }
-
-    /**
-     * @return Form
-     */
-    public function getFiltersForm()
-    {
-        if (! $this->filtersForm) {
-            $this->buildFiltersForm();
-        }
-        return $this->filtersForm;
     }
 
     // PAGING
