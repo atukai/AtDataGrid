@@ -174,68 +174,85 @@ class Manager extends EventProvider
     }
 
     /**
-     * Generate form for create/edit row
-     *
-     * @param array $options
-     * @return mixed|Form
+     * @return Form
      */
-    public function buildForm($options = array())
+    public function getForm()
     {
         if ($this->form == null) {
-            $form = new Form('at-datagrid-form-create', $options);
-
-            // Collect elements
-            foreach ($this->getGrid()->getColumns() as $column) {
-                if (!$column->isVisibleInForm()) {
-                    continue;
-                }
-
-                /* @var \Zend\Form\Element */
-                $element = $column->getFormElement();
-                $element->setLabel($column->getLabel());
-                $form->add($element);
-            }
-
-            // Hash element to prevent CSRF attack
-            $csrf = new Csrf('hash');
-            $form->add($csrf);
-
-            // Submit button
-            $submit = new Submit('submit');
-            $submit->setValue('Save');
-            $form->add($submit);
-
-            // Use this method to add additional element to form
-            // @todo Use Event instead
-            $this->form = $form;
+            $this->buildForm();
         }
 
         return $this->form;
     }
 
     /**
-     * @param array $options
      * @return Form
      */
-    public function buildFiltersForm($options = array())
+    protected function buildForm()
     {
-        if ($this->filtersForm == null) {
-            $form = new Form('at-datagrid-filters-form', $options);
+        $form = new Form('at-datagrid-form-create');
 
-            foreach ($this->getGrid()->getFilters() as $filter) {
-                $form->add($filter->getFormElement());
+        // Collect elements
+        foreach ($this->getGrid()->getColumns() as $column) {
+            if (!$column->isVisibleInForm()) {
+                continue;
             }
 
-            // Apply button
-            $form->add(new Submit('apply', array('label' => 'Search')));
-
-            $this->filtersForm = $form;
+            /* @var \Zend\Form\Element */
+            $element = $column->getFormElement();
+            $element->setLabel($column->getLabel());
+            $form->add($element);
         }
 
-        $this->filtersForm->setData($this->request->getQuery());
+        // Hash element to prevent CSRF attack
+        $csrf = new Csrf('hash');
+        $form->add($csrf);
+
+        // Submit button
+        $submit = new Submit('submit');
+        $submit->setValue('Save');
+        $form->add($submit);
+
+        // Use this method to add additional element to form
+        // @todo Use Event instead
+        $this->form = $form;
+
+        return $this->form;
+    }
+
+    /**
+     * @return Form
+     */
+    public function getFiltersForm()
+    {
+        if ($this->filtersForm == null) {
+            $this->buildFiltersForm();
+        }
+
         return $this->filtersForm;
     }
 
+    /**
+     * @return Form
+     */
+    protected function buildFiltersForm()
+    {
+        $form = new Form('at-datagrid-filters-form');
+
+        foreach ($this->getGrid()->getFilters() as $filter) {
+            $form->add($filter->getFormElement());
+        }
+
+        // Apply button
+        $form->add(new Submit('apply', array('label' => 'Search')));
+
+        // Set data from request
+        $form->setData($this->request->getQuery());
+
+        $this->filtersForm = $form;
+
+        return $this->filtersForm;
+    }
 
     /**
      * @param Renderer\AbstractRenderer $renderer

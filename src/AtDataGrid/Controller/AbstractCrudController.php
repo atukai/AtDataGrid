@@ -30,7 +30,7 @@ abstract class AbstractCrudController extends AbstractActionController
 
         $gridManager = $this->getGridManager();
 
-        $filtersForm = $gridManager->buildFiltersForm();
+        $filtersForm = $gridManager->getFiltersForm();
         if ($filtersForm->isValid()) {
             $gridManager->getGrid()->setFiltersData($filtersForm->getData());
         }
@@ -52,7 +52,7 @@ abstract class AbstractCrudController extends AbstractActionController
             throw new \Exception('You are not allowed to do this.');
         }
 
-        $form = $gridManager->buildForm();
+        $form = $gridManager->getForm();
 
         if ($this->getRequest()->isPost()) {
             $form->setData($this->getRequest()->getPost());
@@ -92,7 +92,7 @@ abstract class AbstractCrudController extends AbstractActionController
             throw new \Exception('No record found.');
         }
 
-        $form = $gridManager->buildForm();
+        $form = $gridManager->getForm();
 
         if ($this->getRequest()->isPost()) {
             $form->setData($this->getRequest()->getPost());
