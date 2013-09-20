@@ -222,19 +222,12 @@ class Manager extends EventProvider
         if ($this->filtersForm == null) {
             $form = new Form('at-datagrid-filters-form', $options);
 
-            foreach ($this->getGrid()->getColumns() as $column) {
-                if ($column->hasFilters()) {
-                    $filters = $column->getFilters();
-                    foreach ($filters as $filter) {
-                        $form->add($column->getFilterFormElement($filter));
-                    }
-                }
+            foreach ($this->getGrid()->getFilters() as $filter) {
+                $form->add($filter->getFormElement());
             }
 
             // Apply button
-            $apply = new Submit('apply');
-            $apply->setLabel('Search');
-            $form->add($apply);
+            $form->add(new Submit('apply', array('label' => 'Search')));
 
             $this->filtersForm = $form;
         }

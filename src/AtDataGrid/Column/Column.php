@@ -55,20 +55,6 @@ class Column
     protected $validators = array();
     
     /**
-     * Array of column filters
-     * 
-     * @var array
-     */
-    protected $filters = array();
-
-    /**
-     * The filters form elements
-     *
-     * @var array
-     */
-    protected $filterFormElements = array();
-    
-    /**
      * The column decorator
      *
      * @var array
@@ -346,92 +332,4 @@ class Column
 
         return $this;
     }
-
-    // FILTERS
-    
-    /**
-     * Add filter for grid column
-     */
-    public function addFilter($filter)
-    {
-        if (!$filter->getName()) {
-            $filter->setName($this->getName());    
-        }
-        
-        if (!$filter->getLabel()) {
-            $filter->setLabel($this->getLabel());    
-        }
-        
-        $this->filters[] = $filter;
-        
-        return $this;
-    }
-
-    /**
-     * Add filters for grid column
-     */
-    public function addFilters($filters)
-    {
-    	foreach ($filters as $filter) {
-    	    $this->addFilter($filter);	
-    	}
-
-        return $this;
-    }
-
-    /**
-     * Return column filters
-     * 
-     * @return array
-     */
-    public function getFilters()
-    {
-        return $this->filters;
-    }
-    
-    /**
-     * Is column has filters?
-     * 
-     * @return boolean
-     */
-    public function hasFilters()
-    {
-        if (count($this->getFilters()) > 0) {
-            return true;
-        }
-
-        return false;
-    }
-
-    /**
-     * @param $filter
-     */
-    public function getFilterFormElement($filter)
-    {
-        $filterName = $filter->getName();
-
-        if (!isset($this->filterFormElements[$filterName])) {
-            $formElement = $this->getFormElement();
-	        $filterFormElement = clone $formElement;
-	        $filterFormElement->setName($filterName);
-            $this->filterFormElements[$filterName] = $filterFormElement;
-        }
-        
-        return $this->filterFormElements[$filterName];
-    }
-
-    /**
-     * @param $element
-     * @param null $filterName
-     * @return Column
-     */
-    public function setFilterFormElement($formElement, $filterName = null)
-    {
-        if (!$filterName) {
-            $filterName = $formElement->getName();
-        }
-        $this->filterFormElements[$filterName] = $formElement;
-
-        return $this;            
-    }    
 }

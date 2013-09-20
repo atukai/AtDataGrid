@@ -14,10 +14,9 @@ echo $this->form()->openTag($form);
     <?php foreach ($this->grid as $column) : ?>
         <?php if ($column->isVisible()): ?>
         <td>
-            <?php if ($column->hasFilters()): ?>
-                <?php foreach ($column->getFilters() as $filter) : ?>
-                    <?php echo $this->formElement($form->get($filter->getName())); ?>
-                <?php endforeach; ?>
+            <?php if ($this->grid->hasFilter($column->getName())): ?>
+                <?php $filter = $this->grid->getFilter($column->getName()); ?>
+                <?php echo $this->formElement($form->get($filter->getName())); ?>
             <?php endif; ?>
         </td>
         <?php endif; ?>

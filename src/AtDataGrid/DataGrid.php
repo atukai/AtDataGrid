@@ -4,6 +4,7 @@ namespace AtDataGrid;
 
 use AtDataGrid\DataSource;
 use AtDataGrid\Column\Column;
+use AtDataGrid\Filter\FilterInterface;
 use Zend\Db\ResultSet\ResultSet;
 use Zend\Paginator\Paginator;
 use ZfcBase\EventManager\EventProvider;
@@ -75,6 +76,11 @@ class DataGrid extends EventProvider implements \Countable, \IteratorAggregate, 
     protected $pageRange = 10;
 
     /**
+     * @var array
+     */
+    protected $filters = array();
+
+    /**
      * Array of rows from data source
      *
      * @var array
@@ -96,8 +102,6 @@ class DataGrid extends EventProvider implements \Countable, \IteratorAggregate, 
         }
 
         $this->setOptions($options);
-
-        /** @todo use event instead */
         $this->init();
 
         $this->getEventManager()->trigger(self::EVENT_GRID_INIT, $this, $options);
@@ -486,7 +490,6 @@ class DataGrid extends EventProvider implements \Countable, \IteratorAggregate, 
             } elseif ($data instanceof \ArrayIterator) {
                 $data = $data->getArrayCopy();
             } else {
-                $type = 'unknown';
                 if (is_object($data)) {
                     $type = get_class($data);
                 } else {
@@ -553,46 +556,92 @@ class DataGrid extends EventProvider implements \Countable, \IteratorAggregate, 
         $this->getDataSource()->delete($identifier);
     }
 
-
     // FILTERS
 
     /**
-     * Add filter to column
-     *
-     * @param $column
-     * @param $filter
-     * @return DataGrid
+     * @param FilterInterface $filter
+     * @param Column $column
+     * @return $this
      */
-    public function addFilter($column, $filter)
+    public function addFilter(FilterInterface $filter, Column $column)
     {
-        $this->getColumn($column)->addFilter($filter);
-        return $this;    
+        if (! $filter->getName()) {
+            $filter->setName($column->getName());
+        }
+
+        if (! $filter->getLabel()) {
+            $filter->setLabel($column->getLabel());
+        }
+
+        if (! $filter->getFormElement()) {
+            $columnFormElement = $column->getFormElement();
+            $filterFormElement = clone $columnFormElement;
+            $filterFormElement->setName($filter->getName());
+            $filter->setFormElement($filterFormElement);
+        }
+
+        $this->filters[$filter->getName()] = $filter;
+
+        return $this;
     }
 
     /**
-     * Apply filters. Modify select object.
-     *
+     * @return array
+     */
+    public function hasFilter($columnName)
+    {
+        return array_key_exists($columnName, $this->filters);
+    }
+
+    /**
+     * @param $columnName
+     * @return null
+     */
+    public function getFilter($columnName)
+    {
+        if ($this->hasFilter($columnName)) {
+            return $this->filters[$columnName];
+        }
+
+        return null;
+    }
+
+    /**
+     * @return array
+     */
+    public function getFilters()
+    {
+        return $this->filters;
+    }
+
+    /**
+     * @return bool
+     */
+    public function hasFilters()
+    {
+        if (count($this->getFilters()) > 0) {
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
      * @param $values
      */
     public function applyFilters($values)
     {
-        $columns = $this->getColumns();
-
         /** @var \Zend\Db\Sql\Select $select  */
         $select = $this->getDataSource()->getSelect();
 
-        foreach ($columns as $column) {
-            $filters = $column->getFilters();
-
-            foreach ($filters as $filter) {
-                $filter->apply($select, $column, $values[$filter->getName()]);
-            }
+        foreach ($this->getFilters() as $column => $filter) {
+            $filter->apply($select, $this->getColumn($column), $values[$filter->getName()]);
         }
 
         //var_dump($select->getSqlString());exit;
     }
 
-    // PAGING
+    // PAGIATOR
 
     /**
      * @param $number

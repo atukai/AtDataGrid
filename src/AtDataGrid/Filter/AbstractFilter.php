@@ -2,6 +2,8 @@
 
 namespace AtDataGrid\Filter;
 
+use Zend\Form\ElementInterface;
+
 abstract class AbstractFilter implements FilterInterface
 {
     /**
@@ -25,7 +27,12 @@ abstract class AbstractFilter implements FilterInterface
      * 
      */
     protected $valueType;
-    
+
+    /**
+     * @var ElementInterface
+     */
+    protected $formElement;
+
     /**
      * 
      * @param $name
@@ -86,7 +93,25 @@ abstract class AbstractFilter implements FilterInterface
     public function getValueType()
     {
         return $this->valueType;
-    }        
+    }
+
+    /**
+     * @param ElementInterface $element
+     * @return $this
+     */
+    public function setFormElement(ElementInterface $element)
+    {
+        $this->formElement = $element;
+        return $this;
+    }
+
+    /**
+     * @return ElementInterface
+     */
+    public function getFormElement()
+    {
+        return $this->formElement;
+    }
     
     /**
      * 
