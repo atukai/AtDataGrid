@@ -12,19 +12,24 @@ abstract class AbstractFilter implements FilterInterface
     const FILTER_VALUE_TYPE_STRING = 'string';
     const FILTER_VALUE_TYPE_INTEGER = 'integer';
     const FILTER_VALUE_TYPE_DATETIME = 'datetime';
-    
+
     /**
-     * 
+     * @var
      */
     protected $name;
 
     /**
-     * 
+     * @var
      */
     protected $label;
-    
+
     /**
-     * 
+     * @var
+     */
+    protected $value;
+
+    /**
+     * @var
      */
     protected $valueType;
 
@@ -76,6 +81,23 @@ abstract class AbstractFilter implements FilterInterface
     public function getLabel()
     {
         return $this->label;
+    }
+
+    /**
+     *
+     */
+    public function setValue($value)
+    {
+        $this->value = $value;
+        return $this;
+    }
+
+    /**
+     *
+     */
+    public function getValue()
+    {
+        return $this->value;
     }
 
     /**

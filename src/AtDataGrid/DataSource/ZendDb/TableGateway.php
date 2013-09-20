@@ -109,7 +109,7 @@ class TableGateway extends AbstractDataSource
             $fullColumnName = $alias . '__' . $columnName;
 
             $joinedColumns[$fullColumnName] = $columnName;
-            $this->joinedColumns[] = $fullColumnName;
+            $this->joinedColumns[$fullColumnName] = $fullColumnName;
         }
 
         $this->getSelect()->join(
@@ -203,8 +203,18 @@ class TableGateway extends AbstractDataSource
      * @param $order
      * @return $this|mixed
      */
-    public function prepare($order)
+    public function prepare($order, $filters = array())
     {
+        /**
+         * Filtering
+         */
+        foreach ($filters as $columnName => $filter) {
+            $filter->apply($this->getSelect(), $columnName, $filter->getValue());
+        }
+
+        /**
+         * Sorting
+         */
         if ($order) {
             $orderParts = explode(' ', $order);
             if (in_array($orderParts[0], $this->tableColumns)) {

@@ -3,6 +3,7 @@
 namespace AtDataGrid\Filter\Sql;
 
 use AtDataGrid\Filter;
+use Zend\Db\Sql\Predicate\Operator;
 
 class GreaterThan extends Filter\AbstractFilter
 {
@@ -12,13 +13,13 @@ class GreaterThan extends Filter\AbstractFilter
      * @param  mixed $value
      * @return mixed
      */
-    public function apply($select, $column, $value)
+    public function apply($select, $columnName, $value = null)
     {
         $value = $this->applyValueType($value);
         
         if (strlen($value) > 0) {
             $select->where(
-                new \Zend\Db\Sql\Predicate\Operator($column->getName(), \Zend\Db\Sql\Predicate\Operator::OP_GT, $value)
+                new Operator($columnName, Operator::OP_GT, $value)
             );
         }
 

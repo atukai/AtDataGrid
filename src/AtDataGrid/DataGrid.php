@@ -458,7 +458,7 @@ class DataGrid extends EventProvider implements \Countable, \IteratorAggregate, 
          */
         /*$filtersForm = $this->getFiltersForm();
         if ($filtersForm->isValid()) {
-            $this->applyFilters($filtersForm->getData());
+            $this->setFiltersData($filtersForm->getData());
         }*/
 
         /**
@@ -472,7 +472,7 @@ class DataGrid extends EventProvider implements \Countable, \IteratorAggregate, 
         /**
          * Prepare data source for fetching data
          */
-    	$this->getDataSource()->prepare($order);
+    	$this->getDataSource()->prepare($order, $this->getFilters());
 
         /**
          * Load data using paginator
@@ -629,19 +629,14 @@ class DataGrid extends EventProvider implements \Countable, \IteratorAggregate, 
     /**
      * @param $values
      */
-    public function applyFilters($values)
+    public function setFiltersData($values)
     {
-        /** @var \Zend\Db\Sql\Select $select  */
-        $select = $this->getDataSource()->getSelect();
-
-        foreach ($this->getFilters() as $column => $filter) {
-            $filter->apply($select, $this->getColumn($column), $values[$filter->getName()]);
+        foreach ($this->getFilters() as $filter) {
+            $filter->setValue($values[$filter->getName()]);
         }
-
-        //var_dump($select->getSqlString());exit;
     }
 
-    // PAGIATOR
+    // PAGINATOR
 
     /**
      * @param $number

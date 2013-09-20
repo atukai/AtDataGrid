@@ -10,5 +10,5 @@ interface FilterInterface
      * @param $value
      * @return mixed
      */
-    public function apply($source, $column, $value);
+    public function apply($source, $columnName, $value = null);
 }

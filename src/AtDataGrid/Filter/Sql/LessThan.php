@@ -3,22 +3,23 @@
 namespace AtDataGrid\Filter\Sql;
 
 use AtDataGrid\Filter;
+use Zend\Db\Sql\Predicate\Operator;
 
 class LessThan extends Filter\AbstractFilter
 {
     /**
-     * Returns the result of applying $value
-     *
-     * @param  mixed $value
+     * @param $select
+     * @param $column
+     * @param null $value
      * @return mixed
      */
-    public function apply($select, $column, $value)
+    public function apply($select, $columnName, $value = null)
     {
         $value = $this->applyValueType($value);
 
         if (strlen($value) > 0) {
             $select->where(
-                new \Zend\Db\Sql\Predicate\Operator($column->getName(), \Zend\Db\Sql\Predicate\Operator::OP_LT, $value)
+                new Operator($columnName, Operator::OP_LT, $value)
             );
         }
 

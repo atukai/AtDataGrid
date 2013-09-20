@@ -64,7 +64,7 @@ abstract class AbstractDataSource
      * @param $order
      * @return mixed
      */
-    abstract public function prepare($order);
+    abstract public function prepare($order, $filters = array());
 
     /**
      * @param $id

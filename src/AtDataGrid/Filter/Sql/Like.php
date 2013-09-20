@@ -3,26 +3,25 @@
 namespace AtDataGrid\Filter\Sql;
 
 use AtDataGrid\Filter;
+use Zend\Db\Sql\Where;
 
 class Like extends Filter\AbstractFilter
 {
     /**
-     * Returns the result of applying $value
-     *
-     * @param  mixed $value
+     * @param $select
+     * @param $column
+     * @param null $value
      * @return mixed
      */
-    public function apply($select, $column, $value)
+    public function apply($select, $columnName, $value = null)
     {
         $value = $this->applyValueType($value);
 
         if (isset($value) && !empty($value)) {
             
             //$columnName = $this->findTableColumnName($select, $column->getName());
-            $columnName = $column->getName();
-            
             // @todo Add param for like template
-            $spec = function (\Zend\Db\Sql\Where $where) use ($columnName, $value) {
+            $spec = function (Where $where) use ($columnName, $value) {
                 $where->like($columnName, '%' . $value . '%');
             };
 
