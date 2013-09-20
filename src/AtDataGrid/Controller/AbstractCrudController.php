@@ -57,10 +57,7 @@ abstract class AbstractCrudController extends AbstractActionController
         if ($this->getRequest()->isPost()) {
             $form->setData($this->getRequest()->getPost());
             if ($form->isValid()) {
-                $formData = $this->preSave($form);
-                $itemId = $grid->save($formData);
-                $this->postSave($grid, $itemId);
-
+                $itemId = $grid->save($form->getData());
                 $this->backTo()->previous('Record created.');
             }
         }
