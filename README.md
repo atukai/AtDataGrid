@@ -118,10 +118,9 @@ class User extends DataGrid
         $this->setIdentifierColumnName('user_id');
         $this->setCaption('Users');
 
-        $this->getColumn('user_id')
-            ->setSortable()
-            ->setLabel('#')
-            ->addFilter(new SqlFilter\Equal());
+        $userId = $this->getColumn('user_id');
+        $userId->setSortable()
+               ->setLabel('#');
 
         $this->getColumn('username')
             ->setLabel('Username');
@@ -129,17 +128,20 @@ class User extends DataGrid
         $this->getColumn('display_name')
             ->setLabel('Display As');
 
-        $this->getColumn('email')
-            ->setSortable()
-            ->setLabel('Email')
-            ->addFilter(new SqlFilter\Like());
+        $email = $this->getColumn('email');
+        $email->setSortable()
+              ->setLabel('Email');
 
         $password = new Password('password');
         $password->setLabel('Password');
         $this->addColumn($password, true);
 
+        // Filters
+        $this->addFilter(new SqlFilter\Equal(), $userId);
+        $this->addFilter(new SqlFilter\Like(), $email);
+
         $this->hideColumns(array('password', 'state'));
-        $this->hideColumnsInForm(array('state'));
+        $this->hideColumnsInForm(array('user_id', 'state'));
     }
 }
 ```
