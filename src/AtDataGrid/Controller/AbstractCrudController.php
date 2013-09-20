@@ -97,10 +97,7 @@ abstract class AbstractCrudController extends AbstractActionController
         if ($this->getRequest()->isPost()) {
             $form->setData($this->getRequest()->getPost());
             if ($form->isValid()) {
-                $data = $this->preSave($form);
-                $grid->save($data, $itemId);
-                $this->postSave($grid, $itemId);
-
+                $grid->save($form->getData(), $itemId);
                 $this->backTo()->previous('Record updated.');
             }
         }
@@ -138,31 +135,6 @@ abstract class AbstractCrudController extends AbstractActionController
 
         $grid->delete($itemId);
         $this->backTo()->previous('Record deleted.');
-    }
-
-    /**
-     * Hook before save row
-     * @todo: Use event here. See ZfcBase EventAwareForm
-     *
-     * @param $form
-     * @return mixed
-     */
-    public function preSave($form)
-    {
-        $data = $form->getData();
-        return $data;
-    }
-
-    /**
-     * Hook after save row
-     * @todo Use event here
-     *
-     * @param $grid
-     * @param $primary
-     */
-    public function postSave($grid, $primary)
-    {
-        return;
     }
 
     /**

@@ -11,6 +11,9 @@ use ZfcBase\EventManager\EventProvider;
 
 class Manager extends EventProvider
 {
+    const EVENT_GRID_FORM_BUILD_POST = 'at-datagrid.grid.form.build.post';
+    const EVENT_GRID_FILTERS_FORM_BUILD_POST = 'at-datagrid.grid.filters_form.build.post';
+
     /**
      * @var HttpRequest
      */
@@ -70,6 +73,7 @@ class Manager extends EventProvider
         $this->grid = $grid;
         $this->request = $request;
 
+        // Use event?
         $this->grid->setOrder($this->request->getQuery('order', $this->grid->getIdentifierColumnName().'~desc'));
         $this->grid->setCurrentPage($this->request->getQuery('page'));
         $this->grid->setItemsPerPage($this->request->getQuery('show_items'));
@@ -213,10 +217,9 @@ class Manager extends EventProvider
         $submit->setValue('Save');
         $form->add($submit);
 
-        // Use this method to add additional element to form
-        // @todo Use Event instead
-        $this->form = $form;
+        $this->getEventManager()->trigger(self::EVENT_GRID_FORM_BUILD_POST, $form);
 
+        $this->form = $form;
         return $this->form;
     }
 
@@ -247,10 +250,12 @@ class Manager extends EventProvider
         $form->add(new Submit('apply', array('label' => 'Search')));
 
         // Set data from request
+        // Use event?
         $form->setData($this->request->getQuery());
 
-        $this->filtersForm = $form;
+        $this->getEventManager()->trigger(self::EVENT_GRID_FILTERS_FORM_BUILD_POST, $form);
 
+        $this->filtersForm = $form;
         return $this->filtersForm;
     }
 

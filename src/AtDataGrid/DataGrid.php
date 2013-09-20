@@ -12,6 +12,8 @@ use ZfcBase\EventManager\EventProvider;
 class DataGrid extends EventProvider implements \Countable, \IteratorAggregate, \ArrayAccess
 {
     const EVENT_GRID_INIT = 'at-datagrid.grid.init';
+    const EVENT_GRID_PERSIST_PRE = 'at-datagrid.grid.persist.pre';
+    const EVENT_GRID_PERSIST_POST = 'at-datagrid.grid.persist.post';
 
     /**
      * Grid caption
@@ -531,11 +533,15 @@ class DataGrid extends EventProvider implements \Countable, \IteratorAggregate, 
      */
     public function save($data, $identifier = null)
     {
+        $this->getEventManager()->trigger(self::EVENT_GRID_PERSIST_PRE, $this, $data);
+
         if ($identifier) {
             $id = $this->update($data, $identifier);
         } else {
             $id = $this->insert($data);
         }
+
+        $this->getEventManager()->trigger(self::EVENT_GRID_PERSIST_POST, $this, $data);
 
         return $id;
     }
