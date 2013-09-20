@@ -233,7 +233,8 @@ class Manager extends EventProvider
         }
 
         $this->filtersForm->setData($this->request->getQuery());
-        return $this->filtersForm;    }
+        return $this->filtersForm;
+    }
 
 
     /**

@@ -454,14 +454,6 @@ class DataGrid extends EventProvider implements \Countable, \IteratorAggregate, 
     public function getData()
     {
         /**
-         * Filters
-         */
-        /*$filtersForm = $this->getFiltersForm();
-        if ($filtersForm->isValid()) {
-            $this->setFiltersData($filtersForm->getData());
-        }*/
-
-        /**
          * Sorting
          */
         $order = null;

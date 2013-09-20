@@ -28,7 +28,14 @@ abstract class AbstractCrudController extends AbstractActionController
             $this->_forward($_POST['cmd']);    // @todo refactor this
         }
 
-        return $this->getGridManager()->render();
+        $gridManager = $this->getGridManager();
+
+        $filtersForm = $gridManager->buildFiltersForm();
+        if ($filtersForm->isValid()) {
+            $gridManager->getGrid()->setFiltersData($filtersForm->getData());
+        }
+
+        return $gridManager->render();
     }
 
     // CRUD
