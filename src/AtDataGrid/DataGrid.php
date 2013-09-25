@@ -533,7 +533,7 @@ class DataGrid extends EventProvider implements \Countable, \IteratorAggregate, 
      */
     public function save($data, $identifier = null)
     {
-        $this->getEventManager()->trigger(self::EVENT_GRID_PERSIST_PRE, $this, $data);
+        $data = $this->getEventManager()->trigger(self::EVENT_GRID_PERSIST_PRE, $this, $data)->last();
 
         if ($identifier) {
             $id = $this->update($data, $identifier);
