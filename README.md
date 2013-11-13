@@ -145,3 +145,6 @@ class User extends DataGrid
 ```
 
 Check /users/list  route.
+
+[![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/atukai/atdatagrid/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
+
