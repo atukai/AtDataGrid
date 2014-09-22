@@ -39,8 +39,8 @@ abstract class AbstractFilter implements FilterInterface
     protected $formElement;
 
     /**
-     * 
-     * @param $name
+     * @param null $name
+     * @param string $valueType
      */
     public function __construct($name = null, $valueType = self::FILTER_VALUE_TYPE_STRING)
     {
@@ -48,9 +48,10 @@ abstract class AbstractFilter implements FilterInterface
     		$this->setName($name);
     	}
     }
-    
+
     /**
-     * 
+     * @param $name
+     * @return $this
      */
     public function setName($name)
     {
@@ -64,19 +65,20 @@ abstract class AbstractFilter implements FilterInterface
     public function getName()
     {
         return $this->name;
-    }    
-    
+    }
+
     /**
-     * 
+     * @param $label
+     * @return $this
      */
     public function setLabel($label)
     {
         $this->label = $label;
         return $this;
     }
-    
+
     /**
-     * 
+     * @return mixed
      */
     public function getLabel()
     {
@@ -84,7 +86,8 @@ abstract class AbstractFilter implements FilterInterface
     }
 
     /**
-     *
+     * @param $value
+     * @return $this
      */
     public function setValue($value)
     {
@@ -93,7 +96,7 @@ abstract class AbstractFilter implements FilterInterface
     }
 
     /**
-     *
+     * @return mixed
      */
     public function getValue()
     {
@@ -101,16 +104,17 @@ abstract class AbstractFilter implements FilterInterface
     }
 
     /**
-     * 
+     * @param $type
+     * @return $this
      */
     public function setValueType($type)
     {
         $this->valueType = $type;
         return $this;
     }
-    
+
     /**
-     * 
+     * @return mixed
      */
     public function getValueType()
     {
@@ -134,9 +138,10 @@ abstract class AbstractFilter implements FilterInterface
     {
         return $this->formElement;
     }
-    
+
     /**
-     * 
+     * @param $value
+     * @return bool|int|string
      */
     protected function applyValueType($value)
     {
@@ -170,8 +175,7 @@ abstract class AbstractFilter implements FilterInterface
      * Формирует полное название поля для селекта. Учитывается название таблицы.
      * Сделано, так как в mySQL нельзя использовать псевдонимы полей в условии
      * where.
-     * 
-     * @author atukai
+     *
      * @todo Очень жестко зарефакторить этот говнокод
      */
     protected function findTableColumnName($select, $columnName)

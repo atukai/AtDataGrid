@@ -4,12 +4,11 @@ namespace AtDataGrid\Controller;
 
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
-use AtDataGrid\Manager;
 
 abstract class AbstractCrudController extends AbstractActionController
 {
     /**
-     * @return array|\Zend\View\Model\ViewModel
+     * @return array|ViewModel
      */
     public function indexAction()
     {
@@ -17,7 +16,7 @@ abstract class AbstractCrudController extends AbstractActionController
     }
 
     /**
-     * @return void
+     * @return mixed
      */
     public function listAction()
     {
@@ -41,6 +40,7 @@ abstract class AbstractCrudController extends AbstractActionController
     // CRUD
 
     /**
+     * @return ViewModel
      * @throws \Exception
      */
     public function createAction()
@@ -72,7 +72,7 @@ abstract class AbstractCrudController extends AbstractActionController
     }
 
     /**
-     * @return \Zend\View\Model\ViewModel
+     * @return ViewModel
      * @throws \Exception
      */
     public function editAction()
@@ -135,7 +135,7 @@ abstract class AbstractCrudController extends AbstractActionController
     }
 
     /**
-     * @return Manager
+     * @return mixed
      */
     abstract public function getGridManager();
 }

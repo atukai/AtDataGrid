@@ -6,8 +6,8 @@ interface FilterInterface
 {
     /**
      * @param $source
-     * @param $column
-     * @param $value
+     * @param $columnName
+     * @param null $value
      * @return mixed
      */
     public function apply($source, $columnName, $value = null);

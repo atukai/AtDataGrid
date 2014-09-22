@@ -9,7 +9,7 @@ class Like extends Filter\AbstractFilter
 {
     /**
      * @param $select
-     * @param $column
+     * @param $columnName
      * @param null $value
      * @return mixed
      */

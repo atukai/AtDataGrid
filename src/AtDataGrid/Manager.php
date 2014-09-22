@@ -4,9 +4,8 @@ namespace AtDataGrid;
 
 use AtDataGrid\Renderer\AbstractRenderer;
 use Zend\Form\Form;
-use Zend\Form\Element\Csrf;
-use Zend\Form\Element\Submit;
-use Zend\Http\PhpEnvironment\Request as HttpRequest;
+use Zend\Form\Element;
+use Zend\Stdlib\RequestInterface;
 use ZfcBase\EventManager\EventProvider;
 
 class Manager extends EventProvider
@@ -15,7 +14,7 @@ class Manager extends EventProvider
     const EVENT_GRID_FILTERS_FORM_BUILD_POST = 'at-datagrid.grid.filters_form.build.post';
 
     /**
-     * @var HttpRequest
+     * @var RequestInterface
      */
     protected $request;
 
@@ -66,17 +65,27 @@ class Manager extends EventProvider
 
     /**
      * @param DataGrid $grid
-     * @param HttpRequest $request
+     * @param RequestInterface $request
      */
-    public function __construct(DataGrid $grid, HttpRequest $request)
+    public function __construct(DataGrid $grid, RequestInterface $request)
     {
         $this->grid = $grid;
         $this->request = $request;
 
-        // Use event?
+        // @todo Use event?
         $this->grid->setOrder($this->request->getQuery('order', $this->grid->getIdentifierColumnName().'~desc'));
         $this->grid->setCurrentPage($this->request->getQuery('page'));
         $this->grid->setItemsPerPage($this->request->getQuery('show_items'));
+    }
+
+    /**
+     * @param DataGrid $grid
+     * @return $this
+     */
+    public function setGrid(DataGrid $grid)
+    {
+        $this->grid = $grid;
+        return $this;
     }
 
     /**
@@ -85,6 +94,24 @@ class Manager extends EventProvider
     public function getGrid()
     {
         return $this->grid;
+    }
+
+    /**
+     * @param AbstractRenderer $renderer
+     * @return $this
+     */
+    public function setRenderer(AbstractRenderer $renderer)
+    {
+        $this->renderer = $renderer;
+        return $this;
+    }
+
+    /**
+     * @return AbstractRenderer
+     */
+    public function getRenderer()
+    {
+        return $this->renderer;
     }
 
     /**
@@ -209,11 +236,11 @@ class Manager extends EventProvider
         }
 
         // Hash element to prevent CSRF attack
-        $csrf = new Csrf('hash');
+        $csrf = new Element\Csrf('hash');
         $form->add($csrf);
 
         // Submit button
-        $submit = new Submit('submit');
+        $submit = new Element\Submit('submit');
         $submit->setValue('Save');
         $form->add($submit);
 
@@ -247,7 +274,7 @@ class Manager extends EventProvider
         }
 
         // Apply button
-        $form->add(new Submit('apply', array('label' => 'Search')));
+        $form->add(new Element\Submit('apply', array('label' => 'Search')));
 
         // Set data from request
         // Use event?
@@ -260,24 +287,6 @@ class Manager extends EventProvider
     }
 
     /**
-     * @param Renderer\AbstractRenderer $renderer
-     * @return $this
-     */
-    public function setRenderer(AbstractRenderer $renderer)
-    {
-        $this->renderer = $renderer;
-        return $this;
-    }
-
-    /**
-     * @return Renderer\AbstractRenderer
-     */
-    public function getRenderer()
-    {
-        return $this->renderer;
-    }
-
-    /**
      * Render grid with current renderer
      *
      * @return mixed
@@ -286,11 +295,11 @@ class Manager extends EventProvider
     {
         $grid = $this->getGrid();
 
-        $variables           = array();
+        $variables = array();
         $variables['gridManager'] = $this;
-        $variables['grid']        = $this->getGrid();
-        $variables['columns']     = $grid->getColumns();
-        $variables['data']        = $grid->getData();
+        $variables['grid'] = $this->getGrid();
+        $variables['columns'] = $grid->getColumns();
+        $variables['data'] = $grid->getData();
         $variables['paginator']   = $grid->getPaginator();
 
         return $this->getRenderer()->render($variables);
@@ -304,23 +313,23 @@ class Manager extends EventProvider
      */
     public function addAction($name, $action = array())
     {
-        if (! is_array($action)) {
+        if (!is_array($action)) {
             throw new \Exception('Row action must be an array with `action`, `label` and `confirm-message` keys');
         }
 
-        if (! array_key_exists('action', $action)) {
+        if (!array_key_exists('action', $action)) {
             throw new \Exception('Row action must be an array with `action`, `label` and `confirm-message` keys');
         }
 
-        if (! array_key_exists('label', $action)) {
+        if (!array_key_exists('label', $action)) {
             throw new \Exception('Row action must be an array with `action`, `label` and `confirm-message` keys');
         }
 
-        if (! array_key_exists('bulk', $action)) {
+        if (!array_key_exists('bulk', $action)) {
             $action['bulk'] = true;
         }
 
-        if (! array_key_exists('in_row', $action)) {
+        if (!array_key_exists('in_row', $action)) {
             $action['in_row'] = false;
         }
 

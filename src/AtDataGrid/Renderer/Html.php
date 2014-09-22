@@ -33,7 +33,7 @@ class Html extends AbstractRenderer
 
     /**
      * @param array $variables
-     * @return mixed|string
+     * @return mixed|ViewModel
      */
     public function render($variables = array())
     {

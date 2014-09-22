@@ -1,9 +1,8 @@
-# AtDataGrid
+# AtDataGrid [0.1.0-dev]
 
 A data grid component for Zend Framework 2.
 
 [![Scrutinizer Quality Score](https://scrutinizer-ci.com/g/atukai/AtDataGrid/badges/quality-score.png?s=f9e828e623137b09a68dbf29612351d610724282)](https://scrutinizer-ci.com/g/atukai/AtDataGrid/)
-
 
 >NOTE: This module is still under heavy development. Do not use it in production
 

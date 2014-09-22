@@ -5,6 +5,7 @@ namespace AtDataGrid;
 use AtDataGrid\DataSource;
 use AtDataGrid\Column\Column;
 use AtDataGrid\Filter\FilterInterface;
+use Zend\Config\Config;
 use Zend\Db\ResultSet\ResultSet;
 use Zend\Paginator\Paginator;
 use ZfcBase\EventManager\EventProvider;
@@ -99,7 +100,7 @@ class DataGrid extends EventProvider implements \Countable, \IteratorAggregate, 
 
         $this->columns = $this->getDataSource()->loadColumns();
 
-        if ($options instanceof \Zend\Config\Config) {
+        if ($options instanceof Config) {
             $options = $options->toArray();
         }
 
@@ -417,10 +418,8 @@ class DataGrid extends EventProvider implements \Countable, \IteratorAggregate, 
     // DATA SOURCE
 
     /**
-     * Set data source and load columns defined in it
-     *
      * @param DataSource\AbstractDataSource $dataSource
-     * @return DataGrid
+     * @return $this
      */
     public function setDataSource(DataSource\AbstractDataSource $dataSource)
     {
@@ -510,6 +509,9 @@ class DataGrid extends EventProvider implements \Countable, \IteratorAggregate, 
 
     /**
      * Insert new row to grid
+     *
+     * @param $data
+     * @return mixed
      */
     public function insert($data)
     {
@@ -530,6 +532,7 @@ class DataGrid extends EventProvider implements \Countable, \IteratorAggregate, 
     /**
      * @param $data
      * @param null $identifier
+     * @return mixed
      */
     public function save($data, $identifier = null)
     {
@@ -656,7 +659,8 @@ class DataGrid extends EventProvider implements \Countable, \IteratorAggregate, 
 
 
     /**
-     * @param integer $count
+     * @param $count
+     * @return $this
      */
     public function setItemsPerPage($count)
     {
@@ -674,7 +678,7 @@ class DataGrid extends EventProvider implements \Countable, \IteratorAggregate, 
 
     /**
      * @param $count
-     * @return DataGrid
+     * @return $this
      */
     public function setPageRange($count)
     {

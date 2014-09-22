@@ -8,8 +8,8 @@ class Equal extends Filter\AbstractFilter
 {
     /**
      * @param $select
-     * @param $column
-     * @param mixed $value
+     * @param $columnName
+     * @param null $value
      * @return mixed
      */
     public function apply($select, $columnName, $value = null)
