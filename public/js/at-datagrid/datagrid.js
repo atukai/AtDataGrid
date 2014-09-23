@@ -1,10 +1,10 @@
 var DataGrid = new Object({
     checkAll: function(sender) {
-        $('.atf-grid table').find('.grid-table-checker').attr('checked', sender.checked);
+        $('.at-grid table').find('.grid-table-checker').attr('checked', sender.checked);
     },
 
     action: function(action, msg, callback) {
-        var checkers = $('.atf-grid table input[name="items[]"]:checked');
+        var checkers = $('.at-grid table input[name="items[]"]:checked');
 
         if (checkers.length > 0) {
             msg = msg || '';

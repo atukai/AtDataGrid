@@ -1,13 +1,13 @@
 /* Grid */
-.atf-grid table{width:100%;}
-.atf-grid table label {font-size: 1em; width: 50px;}
-.atf-grid table .checkbox {padding: 0; width: 36px; text-align: center;}
-.atf-grid table th, .atf-grid table td {padding: 3px 6px; font-size: 12px; vertical-align: middle; }
-.atf-grid table th input[type="checkbox"], .atf-grid table td input[type="checkbox"] {margin-top: -2px;}
+.at-grid table{width:100%;}
+.at-grid table label {font-size: 1em; width: 50px;}
+.at-grid table .checkbox {padding: 0; width: 36px; text-align: center;}
+.at-grid table th, .at-grid table td {padding: 3px 6px; font-size: 12px; vertical-align: middle; }
+.at-grid table th input[type="checkbox"], .at-grid table td input[type="checkbox"] {margin-top: -2px;}
 
-.atf-grid table th a {color: #2D444F; text-decoration: none;}
-.atf-grid table th a:hover {text-decoration: underline;}
-.atf-grid table th.ordered {background-color: #FFFAD2;}
+.at-grid table th a {color: #2D444F; text-decoration: none;}
+.at-grid table th a:hover {text-decoration: underline;}
+.at-grid table th.ordered {background-color: #FFFAD2;}
 
 /* List options */
 .show-items-list {margin-left: 0; padding-left: 0;}
@@ -15,19 +15,19 @@
 .show-items-list li:first-child {margin-left: 0;}
 
 /* Grid filters */
-.atf-grid table .filters {background-color: #E3EFF1; font-size: 0.9em;}
-.atf-grid table .filters td div {vertical-align: top; white-space: nowrap;}
-.atf-grid table .filters td input {width: 92%; height: 24px;}
-.atf-grid table .filters td select {margin: 4px 0; width: 100%}
-.atf-grid table .filters td input[type=submit] {width: 100%;}
-.atf-grid table .filters td div {clear: both;}
+.at-grid table .filters {background-color: #E3EFF1; font-size: 0.9em;}
+.at-grid table .filters td div {vertical-align: top; white-space: nowrap;}
+.at-grid table .filters td input {width: 92%; height: 24px;}
+.at-grid table .filters td select {margin: 4px 0; width: 100%}
+.at-grid table .filters td input[type=submit] {width: 100%;}
+.at-grid table .filters td div {clear: both;}
 
 /* Sorting */
 a.sortable:hover {text-decoration: none;}
 .sortable > .active {color: #DD4B39;}
 
 /* Group actions */
-.atf-grid-group-actions {}
+.at-grid-group-actions {}
 
 /* Forms */
 
