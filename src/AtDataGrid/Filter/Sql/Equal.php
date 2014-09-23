@@ -16,9 +16,10 @@ class Equal extends Filter\AbstractFilter
     {
         $value = $this->applyValueType($value);
 
-        if (isset($value) && !empty($value)) {
-        	//$columnName = $this->findTableColumnName($select, $column->getName());
+        // Not null or not empty string
+        if (isset($value) && (!is_string($value) || (is_string($value) && !empty($value)))) {
             $select->where(array($columnName => $value));
+            //var_dump($select->getSqlString());exit;
         }
 
         return $select;

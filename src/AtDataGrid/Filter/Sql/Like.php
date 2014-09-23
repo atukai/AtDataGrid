@@ -17,8 +17,7 @@ class Like extends Filter\AbstractFilter
     {
         $value = $this->applyValueType($value);
 
-        if (isset($value) && !empty($value)) {
-            
+        if ($value) {
             //$columnName = $this->findTableColumnName($select, $column->getName());
             // @todo Add param for like template
             $spec = function (Where $where) use ($columnName, $value) {

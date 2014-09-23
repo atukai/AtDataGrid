@@ -31,7 +31,7 @@ abstract class AbstractFilter implements FilterInterface
     /**
      * @var
      */
-    protected $valueType;
+    protected $valueType = self::FILTER_VALUE_TYPE_STRING;
 
     /**
      * @var ElementInterface
@@ -40,13 +40,17 @@ abstract class AbstractFilter implements FilterInterface
 
     /**
      * @param null $name
-     * @param string $valueType
+     * @param null $type
      */
-    public function __construct($name = null, $valueType = self::FILTER_VALUE_TYPE_STRING)
+    public function __construct($name = null, $type = null)
     {
-    	if (isset($name)) {
+    	if ($name) {
     		$this->setName($name);
     	}
+
+        if ($type) {
+            $this->setValueType($type);
+        }
     }
 
     /**
@@ -58,9 +62,9 @@ abstract class AbstractFilter implements FilterInterface
         $this->name = $name;
         return $this;
     }
-    
+
     /**
-     * 
+     * @return mixed
      */
     public function getName()
     {
@@ -146,10 +150,6 @@ abstract class AbstractFilter implements FilterInterface
     protected function applyValueType($value)
     {
         $value = trim($value);
-
-        if (empty($value)) {
-            return $value;
-        }
 
         switch ($this->valueType) {
             case self::FILTER_VALUE_TYPE_INTEGER:
