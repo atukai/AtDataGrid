@@ -7,7 +7,7 @@ var DataGrid = new Object({
         var checkers = $('.atf-grid table input[name="items[]"]:checked');
 
         if (checkers.length > 0) {
-            msg = msg ? msg : '';
+            msg = msg || '';
 
             if (msg != '' && !confirm(msg)) {
                 $('#datagrid-list-form').get(0).reset();
@@ -22,7 +22,7 @@ var DataGrid = new Object({
                 }
             }
         } else {
-            alert('Выберите одну или несколько строк.');
+            alert('Check one or more rows');
         }
     },
 
