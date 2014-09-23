@@ -49,7 +49,7 @@ class TableGateway extends AbstractDataSource
     protected $joinedColumns = array();
 
     /**
-     * @param ZendTableGateway $table
+     * @param ZendTableGateway $tableGateway
      */
     public function __construct(ZendTableGateway $tableGateway)
 	{
@@ -201,6 +201,7 @@ class TableGateway extends AbstractDataSource
 
     /**
      * @param $order
+     * @param array $filters
      * @return $this|mixed
      */
     public function prepare($order, $filters = array())

@@ -7,22 +7,21 @@ class Alias extends AbstractDecorator
     /**
      * @var null
      */
-    protected $renameTo = null;
-    
+    protected $renameTo;
+
     /**
      * @param null $renameTo
      */
     public function __construct($renameTo = null)
     {
-        if (null != $renameTo) {
+        if ($renameTo) {
             $this->setRenameTo($renameTo);
         }
     }
-    
+
     /**
      * @param $value
-     * @param $row
-     * @return
+     * @return mixed
      */
     public function render($value)
     {
@@ -39,10 +38,9 @@ class Alias extends AbstractDecorator
 
     /**
      * @param array $renameTo
-     * @return void
      */
-    public function setRenameTo(Array $renameTo = array())
+    public function setRenameTo($renameTo = array())
     {
         $this->renameTo = $renameTo;
-    }       
+    }
 }

@@ -508,8 +508,6 @@ class DataGrid extends EventProvider implements \Countable, \IteratorAggregate, 
     // CRUD
 
     /**
-     * Insert new row to grid
-     *
      * @param $data
      * @return mixed
      */
@@ -519,10 +517,9 @@ class DataGrid extends EventProvider implements \Countable, \IteratorAggregate, 
     }
 
     /**
-     * Update row in a grid
-     *
      * @param $data
      * @param $primary
+     * @return mixed
      */
     public function update($data, $primary)
     {
@@ -587,7 +584,8 @@ class DataGrid extends EventProvider implements \Countable, \IteratorAggregate, 
     }
 
     /**
-     * @return array
+     * @param $columnName
+     * @return bool
      */
     public function hasFilter($columnName)
     {
@@ -640,8 +638,8 @@ class DataGrid extends EventProvider implements \Countable, \IteratorAggregate, 
     // PAGINATOR
 
     /**
-     * @param $number
-     * @return DataGrid
+     * @param int $number
+     * @return $this
      */
     public function setCurrentPage($number = 1)
     {
