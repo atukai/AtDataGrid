@@ -2,6 +2,7 @@
 
 namespace AtDataGrid\Filter;
 
+use Zend\Db\Sql\Select;
 use Zend\Form\ElementInterface;
 
 abstract class AbstractFilter implements FilterInterface
@@ -9,9 +10,9 @@ abstract class AbstractFilter implements FilterInterface
     /**
      * Value types
      */
-    const FILTER_VALUE_TYPE_STRING = 'string';
-    const FILTER_VALUE_TYPE_INTEGER = 'integer';
-    const FILTER_VALUE_TYPE_DATETIME = 'datetime';
+    const VALUE_TYPE_STRING = 'string';
+    const VALUE_TYPE_INTEGER = 'integer';
+    const VALUE_TYPE_DATETIME = 'datetime';
 
     /**
      * @var
@@ -31,7 +32,7 @@ abstract class AbstractFilter implements FilterInterface
     /**
      * @var
      */
-    protected $valueType = self::FILTER_VALUE_TYPE_STRING;
+    protected $valueType = self::VALUE_TYPE_STRING;
 
     /**
      * @var ElementInterface
@@ -152,15 +153,15 @@ abstract class AbstractFilter implements FilterInterface
         $value = trim($value);
 
         switch ($this->valueType) {
-            case self::FILTER_VALUE_TYPE_INTEGER:
+            case self::VALUE_TYPE_INTEGER:
                 $value = (integer) $value;
                 break;
 
-            case self::FILTER_VALUE_TYPE_STRING:
+            case self::VALUE_TYPE_STRING:
                 $value = (string) $value;
                 break;
                 
-            case self::FILTER_VALUE_TYPE_DATETIME:
+            case self::VALUE_TYPE_DATETIME:
                 $value = date('Y-m-d H:i:s', strtotime($value));
                 break;
                 
@@ -178,7 +179,7 @@ abstract class AbstractFilter implements FilterInterface
      *
      * @todo Очень жестко зарефакторить этот говнокод
      */
-    protected function findTableColumnName($select, $columnName)
+    protected function findTableColumnName(Select $select, $columnName)
     {
         $parsedName = explode('__', $columnName);
         

@@ -8,9 +8,9 @@ use Zend\Db\Sql\Predicate\Operator;
 class GreaterThan extends Filter\AbstractFilter
 {
     /**
-     * Returns the result of applying $value
-     *
-     * @param  mixed $value
+     * @param $select
+     * @param $columnName
+     * @param null $value
      * @return mixed
      */
     public function apply($select, $columnName, $value = null)
