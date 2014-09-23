@@ -9,8 +9,13 @@ class DateTime extends Column
     public function init()
     {
         parent::init();
-        
-        $this->setFormElement(new \Zend\Form\Element\DateTime($this->getName()))
+
+        $dateTimeElement = new \Zend\Form\Element\DateTime($this->getName());
+        $dateTimeElement->setOptions(array(
+            'format' => 'Y-m-d H:i:s'
+        ));
+
+        $this->setFormElement($dateTimeElement)
              ->addDecorator(new Decorator\DateFormat());
     }
 }

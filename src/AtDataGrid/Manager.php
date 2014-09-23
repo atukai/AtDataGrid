@@ -59,8 +59,8 @@ class Manager extends EventProvider
      * @var array
      */
     protected $actions = array(
-        'edit'   => array('action' => 'edit', 'label' => 'View & Edit', 'bulk' => false, 'in_row' => true, 'class' => 'glyphicon glyphicon-pencil'),
-        'delete' => array('action' => 'delete', 'label' => 'Delete', 'confirm-message' => 'Are you sure?', 'bulk' => true, 'in_row' => false)
+        'edit'   => array('action' => 'edit', 'label' => 'View & Edit', 'bulk' => false, 'class' => 'glyphicon glyphicon-pencil'),
+        'delete' => array('action' => 'delete', 'label' => 'Delete', 'confirm-message' => 'Are you sure?', 'bulk' => true, 'class' => 'glyphicon glyphicon-trash')
     );
 
     /**
@@ -231,6 +231,7 @@ class Manager extends EventProvider
 
             /* @var \Zend\Form\Element */
             $element = $column->getFormElement();
+            //$element->setName($column->getName());
             $element->setLabel($column->getLabel());
             $form->add($element);
         }
@@ -382,21 +383,5 @@ class Manager extends EventProvider
     public function getActions()
     {
         return $this->actions;
-    }
-
-    /**
-     * @return array
-     */
-    public function getInRowActions()
-    {
-        $actions = array();
-
-        foreach ($this->actions as $action) {
-            if ($action['in_row'] == true) {
-                $actions[] = $action;
-            }
-        }
-
-        return $actions;
     }
 }

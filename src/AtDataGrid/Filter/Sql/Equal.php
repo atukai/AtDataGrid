@@ -14,10 +14,12 @@ class Equal extends Filter\AbstractFilter
      */
     public function apply($select, $columnName, $value = null)
     {
-        $value = $this->applyValueType($value);
+        if ($value) {
+            $value = $this->applyValueType($value);
+        }
 
         // Not null or not empty string
-        if (isset($value) && (!is_string($value) || (is_string($value) && !empty($value)))) {
+        if ($value && (!is_string($value) || (is_string($value) && !empty($value)))) {
             $select->where(array($columnName => $value));
             //var_dump($select->getSqlString());exit;
         }

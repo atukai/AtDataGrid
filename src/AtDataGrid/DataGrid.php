@@ -15,6 +15,8 @@ class DataGrid extends EventProvider implements \Countable, \IteratorAggregate, 
     const EVENT_GRID_INIT = 'at-datagrid.grid.init';
     const EVENT_GRID_PERSIST_PRE = 'at-datagrid.grid.persist.pre';
     const EVENT_GRID_PERSIST_POST = 'at-datagrid.grid.persist.post';
+    const EVENT_GRID_DELETE_PRE = 'at-datagrid.grid.delete.pre';
+    const EVENT_GRID_DELETE_POST = 'at-datagrid.grid.delete.post';
 
     /**
      * Grid caption
@@ -551,7 +553,9 @@ class DataGrid extends EventProvider implements \Countable, \IteratorAggregate, 
      */
     public function delete($identifier)
     {
+        $this->getEventManager()->trigger(self::EVENT_GRID_DELETE_PRE, $this, $identifier);
         $this->getDataSource()->delete($identifier);
+        $this->getEventManager()->trigger(self::EVENT_GRID_DELETE_POST, $this, $identifier);
     }
 
     // FILTERS

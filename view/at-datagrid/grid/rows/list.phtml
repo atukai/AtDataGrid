@@ -12,8 +12,8 @@
             <?php endforeach; ?>
 
             <td>
-                <div class="btn-group btn-group-sm pull-right">
-                    <?php foreach($this->gridManager->getInRowActions() as $action) : ?>
+                <div class="btn-group btn-group-xs pull-right">
+                    <?php foreach($this->gridManager->getActions() as $action) : ?>
                         <a class="btn btn-default" href="<?php echo $this->url(null, array('action' => $action['action'], 'id' => $row[$this->grid->getIdentifierColumnName()])) ?>"
                             <?php if (isset($action['confirm-message'])): ?>
                             onclick="return DataGrid.confirmAction(this, '<?php echo $action['confirm-message'] ?>')"
@@ -21,25 +21,25 @@
                             <i title="<?php echo $this->translate($action['label']) ?>" class="<?php echo $action['class'] ?>"></i>
                         </a>
                     <?php endforeach; ?>
-                    <div class="btn-group btn-group-sm">
+                    <!--<div class="btn-group btn-group-sm">
                         <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
                             <span class="caret"></span>
                         </button>
                         <ul class="dropdown-menu">
-                            <?php foreach($this->gridManager->getActions() as $action) : ?>
-                                <?php if ($action['in_row'] == false): ?>
+                            <?php /*foreach($this->gridManager->getActions() as $action) : */?>
+                                <?php /*if ($action['in_row'] == false): */?>
                                 <li>
-                                    <a href="<?php echo $this->url(null, array('action' => $action['action'], 'id' => $row[$this->grid->getIdentifierColumnName()])) ?>"
-                                        <?php if (isset($action['confirm-message'])): ?>
-                                            onclick="return DataGrid.confirmAction(this, '<?php echo $action['confirm-message'] ?>')"
-                                        <?php endif;?>>
-                                        <?php echo $this->translate($action['label']) ?>
+                                    <a href="<?php /*echo $this->url(null, array('action' => $action['action'], 'id' => $row[$this->grid->getIdentifierColumnName()])) */?>"
+                                        <?php /*if (isset($action['confirm-message'])): */?>
+                                            onclick="return DataGrid.confirmAction(this, '<?php /*echo $action['confirm-message'] */?>')"
+                                        <?php /*endif;*/?>>
+                                        <?php /*echo $this->translate($action['label']) */?>
                                     </a>
                                 </li>
-                                <?php endif; ?>
-                            <?php endforeach; ?>
+                                <?php /*endif; */?>
+                            <?php /*endforeach; */?>
                         </ul>
-                    </div>
+                    </div>-->
                 </div>
             </td>
         </tr>
