@@ -5,8 +5,8 @@
     <h1 class="pull-left"><?php echo $this->translate($this->grid->getCaption()) ?></h1>
     <div class="pull-right" style="margin-top: 20px;">
         <?php if ($this->gridManager->isAllowCreate()): ?>
-            <a class="btn btn-warning" href="<?php echo $this->url(null, array('action' => 'create')) ?>">
-                <?php echo $this->translate('Create new') ?>
+            <a class="btn btn-warning btn-sm" title="<?php echo $this->translate('Add new record') ?>" href="<?php echo $this->url(null, array('action' => 'create')) ?>">
+                <?php echo $this->translate('Add') ?>
             </a>
         <?php endif; ?>
     </div>
@@ -56,13 +56,13 @@
                     <?php echo $this->render('at-datagrid/grid/filters') ?>
 
                     <?php if (count($this->data)): ?>
-                        <?php echo $this->render('at-datagrid/grid/rows/list') ?>
+                        <?php echo $this->render('at-datagrid/grid/rows') ?>
                     <?php endif ?>
 
                 </tbody>
             </table>
             <?php if (!count($this->data)): ?>
-                <div><?php echo $this->translate("No items found.") ?></div>
+                <div><?php echo $this->translate("No items found") ?></div>
             <?php endif ?>
         </div>
 

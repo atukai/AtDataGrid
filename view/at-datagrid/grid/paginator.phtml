@@ -34,7 +34,7 @@
             <li><?php echo $this->translate('records per page') ?></li>
 
             <li class="divider-vertical">|</li>
-            <li>Total <span class="b"><?php echo $this->paginator->getTotalItemCount(); ?></span> <?php echo $this->translate('record(s) found') ?></li>
+            <li><?php echo sprintf($this->translate('Total <span class="b">%d</span> record(s) found'), $this->paginator->getTotalItemCount())?> </li>
         </ul>
         <div class="pull-right"><?php echo $this->paginationControl($this->paginator, null, 'at-datagrid/grid/pagination-control'); ?></div>
     </div>

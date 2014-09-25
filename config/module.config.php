@@ -5,9 +5,9 @@ return array(
         'locale' => 'ru_RU',
         'translation_file_patterns' => [
             [
-                'type'     => 'phparray',
+                'type'     => 'gettext',
                 'base_dir' => __DIR__ . '/../language',
-                'pattern'  => '%s.php',
+                'pattern'  => '%s.mo',
             ],
         ],
     ],
