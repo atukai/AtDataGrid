@@ -8,9 +8,9 @@ class ATF_DataGrid_Column_Wysiwyg extends ATF_DataGrid_Column
     public function init()
     {
     	parent::init();
-        $this->addDecorator(new ATF_DataGrid_Column_Decorator_Literal())
+        $this->addDecorator(new \AtDataGrid\Column\Decorator\Literal())
              ->setFormElement(
-              new ATF_Form_Element_TinyMCE(
+              new AT_Form_Element_TinyMCE(
                   $this->getName(),
                   array(
                        'id' => 'wysiwyg',
@@ -29,7 +29,7 @@ class ATF_DataGrid_Column_Wysiwyg extends ATF_DataGrid_Column
                            'theme_advanced_toolbar_align' => "left",
                            'theme_advanced_statusbar_location' => "bottom",
                            'theme_advanced_resizing' => true,
-                           'content_css' => "http://static.baobuy.ru/css/style.css"
+                           'content_css' => ""
                        )
                   )
               )

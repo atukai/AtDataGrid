@@ -6,6 +6,7 @@ use AtDataGrid\Renderer\AbstractRenderer;
 use AtDataGrid\Row\Action;
 use Zend\Form\Form;
 use Zend\Form\Element;
+use Zend\Http\Request;
 use Zend\Stdlib\RequestInterface;
 use ZfcBase\EventManager\EventProvider;
 
@@ -15,7 +16,7 @@ class Manager extends EventProvider
     const EVENT_GRID_FILTERS_FORM_BUILD_POST = 'at-datagrid.grid.filters_form.build.post';
 
     /**
-     * @var RequestInterface
+     * @var Request
      */
     protected $request;
 
@@ -73,7 +74,6 @@ class Manager extends EventProvider
         $editAction = new Action('edit');
         $editAction->setAction('edit');
         $editAction->setLabel('View & Edit');
-        $editAction->setBulk(true);
         $editAction->setClass('glyphicon glyphicon-pencil');
         $this->addAction($editAction);
 
@@ -81,7 +81,7 @@ class Manager extends EventProvider
         $deleteAction = new Action('delete');
         $deleteAction->setAction('delete');
         $deleteAction->setLabel('Delete');
-        $deleteAction->setBulk(true);
+        $deleteAction->setConfirm(true);
         $deleteAction->setClass('glyphicon glyphicon-trash');
         $this->addAction($deleteAction);
 
@@ -307,24 +307,6 @@ class Manager extends EventProvider
     }
 
     /**
-     * @param array $variables
-     * @return mixed
-     * @throws \Exception
-     */
-    public function render($variables = array())
-    {
-        $grid = $this->getGrid();
-
-        $variables['gridManager'] = $this;
-        $variables['grid'] = $this->getGrid();
-        $variables['columns'] = $grid->getColumns();
-        $variables['data'] = $grid->getData();
-        $variables['paginator']   = $grid->getPaginator();
-
-        return $this->getRenderer()->render($variables);
-    }
-
-    /**
      * @param Action $action
      * @return $this
      * @throws \Exception
@@ -380,5 +362,23 @@ class Manager extends EventProvider
     public function getActions()
     {
         return $this->actions;
+    }
+
+    /**
+     * @param array $variables
+     * @return mixed
+     * @throws \Exception
+     */
+    public function render($variables = array())
+    {
+        $grid = $this->getGrid();
+
+        $variables['gridManager'] = $this;
+        $variables['grid'] = $this->getGrid();
+        $variables['columns'] = $grid->getColumns();
+        $variables['data'] = $grid->getData();
+        $variables['paginator']   = $grid->getPaginator();
+
+        return $this->getRenderer()->render($variables);
     }
 }

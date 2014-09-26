@@ -5,11 +5,19 @@ namespace AtDataGrid\Row;
 class Action
 {
     private $name;
+
     private $action;
+
     private $label;
+
+    private $confirm = false;
+
     private $confirmMessage = 'Are you sure?';
+
     private $bulk = true;
+
     private $button = false;
+
     private $class;
 
     /**
@@ -82,6 +90,22 @@ class Action
     public function setClass($class)
     {
         $this->class = $class;
+    }
+
+    /**
+     * @return boolean
+     */
+    public function isConfirm()
+    {
+        return $this->confirm;
+    }
+
+    /**
+     * @param boolean $confirm
+     */
+    public function setConfirm($confirm)
+    {
+        $this->confirm = $confirm;
     }
 
     /**

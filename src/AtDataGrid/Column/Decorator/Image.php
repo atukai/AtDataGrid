@@ -85,7 +85,7 @@ class Image extends AbstractDecorator
 
     /**
      * @param $width
-     * @return ATF_DataGrid_Column_Decorator_Image
+     * @return $this
      */
     public function setWidth($width)
     {
@@ -95,7 +95,7 @@ class Image extends AbstractDecorator
 
     /**
      * @param $height
-     * @return ATF_DataGrid_Column_Decorator_Image
+     * @return $this
      */
     public function setHeight($height)
     {

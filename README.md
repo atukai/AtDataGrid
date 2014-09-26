@@ -1,4 +1,4 @@
-# AtDataGrid [0.1.0-dev]
+# AtDataGrid [1.0.0-dev]
 
 A data grid component for Zend Framework 2.
 

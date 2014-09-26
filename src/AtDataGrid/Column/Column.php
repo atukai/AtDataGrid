@@ -48,13 +48,6 @@ class Column
     protected $formElement = null;
     
     /**
-     * Column validators
-     * 
-     * @var array
-     */
-    protected $validators = array();
-    
-    /**
      * The column decorator
      *
      * @var array
@@ -246,7 +239,7 @@ class Column
         } elseif ($decorator instanceof Decorator\AbstractDecorator) {
         	$name = get_class($decorator);
         } else {
-            throw new \Exception('Wrong decorator given.');
+            throw new \Exception('Wrong decorator given');
         }
         $this->decorators[$name] = $decorator;
 
@@ -296,7 +289,7 @@ class Column
 
     /**
      * @param $formElement
-     * @return Column
+     * @return $this
      */
     public function setFormElement($formElement)
     {

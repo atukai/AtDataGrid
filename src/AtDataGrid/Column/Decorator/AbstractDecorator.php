@@ -15,21 +15,13 @@ abstract class AbstractDecorator implements DecoratorInterface
      * Default placement: append
      * @var string
      */
-    protected $placement;
+    protected $placement = self::REPLACE;
 
     /**
      * Default separator: ' '
      * @var string
      */
     protected $separator = ' ';
-
-    /**
-     * @param string $placement
-     */
-    public function __construct($placement = self::APPEND)
-    {
-        $this->setPlacement($placement);
-    }
 
     /**
      * @param $placement
@@ -51,7 +43,7 @@ abstract class AbstractDecorator implements DecoratorInterface
 
     /**
      * @param $separator
-     * @return AbstractDecorator
+     * @return $this
      */
     public function setSeparator($separator)
     {

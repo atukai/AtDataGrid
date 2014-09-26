@@ -10,12 +10,7 @@ class HtmlTag extends AbstractDecorator
     protected $tag = 'span';
 
     /**
-     * @var string
-     */
-    protected $placement = self::REPLACE;
-
-    /**
-     * @param string $tag
+     * @param $tag
      */
     public function __construct($tag)
     {
@@ -24,7 +19,7 @@ class HtmlTag extends AbstractDecorator
 
     /**
      * @param $tag
-     * @return HtmlTag
+     * @return $this
      */
     public function setTag($tag)
     {
@@ -41,8 +36,6 @@ class HtmlTag extends AbstractDecorator
     }
 
     /**
-     * Wrap valueinto tag
-     *
      * @param $value
      * @return string
      */
