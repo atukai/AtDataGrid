@@ -28,11 +28,13 @@ abstract class AbstractCrudController extends AbstractActionController
         }
 
         $gridManager = $this->getGridManager();
-
         $filtersForm = $gridManager->getFiltersForm();
-        if ($filtersForm->isValid()) {
-            $gridManager->getGrid()->setFiltersData($filtersForm->getData());
+
+        if (!$filtersForm->isValid()) {
+            //return $filtersForm->getMessages();
         }
+
+        $gridManager->getGrid()->setFiltersData($filtersForm->getData());
 
         return $gridManager->render();
     }

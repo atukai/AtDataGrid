@@ -3,6 +3,7 @@
 namespace AtDataGrid;
 
 use AtDataGrid\Renderer\AbstractRenderer;
+use AtDataGrid\Row\Action;
 use Zend\Form\Form;
 use Zend\Form\Element;
 use Zend\Stdlib\RequestInterface;
@@ -54,14 +55,11 @@ class Manager extends EventProvider
     protected $allowEdit = true;
 
     /**
-     * Actions for row
+     * Row actions
      *
      * @var array
      */
-    protected $actions = array(
-        'edit'   => array('action' => 'edit', 'label' => 'View & Edit', 'bulk' => false, 'class' => 'glyphicon glyphicon-pencil'),
-        'delete' => array('action' => 'delete', 'label' => 'Delete', 'confirm-message' => 'Are you sure?', 'bulk' => true, 'class' => 'glyphicon glyphicon-trash')
-    );
+    protected $actions = array();
 
     /**
      * @param DataGrid $grid
@@ -71,6 +69,21 @@ class Manager extends EventProvider
     {
         $this->grid = $grid;
         $this->request = $request;
+
+        $editAction = new Action('edit');
+        $editAction->setAction('edit');
+        $editAction->setLabel('View & Edit');
+        $editAction->setBulk(true);
+        $editAction->setClass('glyphicon glyphicon-pencil');
+        $this->addAction($editAction);
+
+
+        $deleteAction = new Action('delete');
+        $deleteAction->setAction('delete');
+        $deleteAction->setLabel('Delete');
+        $deleteAction->setBulk(true);
+        $deleteAction->setClass('glyphicon glyphicon-trash');
+        $this->addAction($deleteAction);
 
         // @todo Use event?
         $this->grid->setOrder($this->request->getQuery('order', $this->grid->getIdentifierColumnName().'~desc'));
@@ -232,7 +245,11 @@ class Manager extends EventProvider
             /* @var \Zend\Form\Element */
             $element = $column->getFormElement();
             //$element->setName($column->getName());
-            $element->setLabel($column->getLabel());
+
+            if (!$element->getLabel()) {
+                $element->setLabel($column->getLabel());
+            }
+
             $form->add($element);
         }
 
@@ -271,7 +288,8 @@ class Manager extends EventProvider
         $form = new Form('at-datagrid-filters-form');
 
         foreach ($this->getGrid()->getFilters() as $filter) {
-            $form->add($filter->getFormElement());
+            $element = $filter->getFormElement();
+            $form->add($element);
         }
 
         // Apply button
@@ -284,19 +302,19 @@ class Manager extends EventProvider
         $this->getEventManager()->trigger(self::EVENT_GRID_FILTERS_FORM_BUILD_POST, $form);
 
         $this->filtersForm = $form;
+
         return $this->filtersForm;
     }
 
     /**
-     * Render grid with current renderer
-     *
+     * @param array $variables
      * @return mixed
+     * @throws \Exception
      */
-    public function render()
+    public function render($variables = array())
     {
         $grid = $this->getGrid();
 
-        $variables = array();
         $variables['gridManager'] = $this;
         $variables['grid'] = $this->getGrid();
         $variables['columns'] = $grid->getColumns();
@@ -307,45 +325,24 @@ class Manager extends EventProvider
     }
 
     /**
-     * @param $name
-     * @param array $action
-     * @return DataGrid
+     * @param Action $action
+     * @return $this
      * @throws \Exception
      */
-    public function addAction($name, $action = array())
+    public function addAction(Action $action)
     {
-        if (!is_array($action)) {
-            throw new \Exception('Row action must be an array with `action`, `label` and `confirm-message` keys');
-        }
-
-        if (!array_key_exists('action', $action)) {
-            throw new \Exception('Row action must be an array with `action`, `label` and `confirm-message` keys');
-        }
-
-        if (!array_key_exists('label', $action)) {
-            throw new \Exception('Row action must be an array with `action`, `label` and `confirm-message` keys');
-        }
-
-        if (!array_key_exists('bulk', $action)) {
-            $action['bulk'] = true;
-        }
-
-        if (!array_key_exists('in_row', $action)) {
-            $action['in_row'] = false;
-        }
-
-        $this->actions[$name] = $action;
+        $this->actions[$action->getName()] = $action;
         return $this;
     }
 
     /**
      * @param array $actions
-     * @return DataGrid
+     * @return $this
      */
     public function addActions($actions = array())
     {
-        foreach ($actions as $name => $action) {
-            $this->addAction($name, $action);
+        foreach ($actions as $action) {
+            $this->addAction($action);
         }
 
         return $this;
@@ -353,7 +350,7 @@ class Manager extends EventProvider
 
     /**
      * @param $name
-     * @return DataGrid
+     * @return $this
      */
     public function removeAction($name)
     {

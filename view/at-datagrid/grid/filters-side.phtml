@@ -1,0 +1,38 @@
+<?php if ($this->grid->hasFilters()): ?>
+
+    <?php
+        $form = $this->gridManager->getFiltersForm();
+        $form->prepare();
+        $form->setAttribute('action', $this->url(null, array('action' => 'list')));
+        $form->setAttribute('method', 'get');
+        $form->setAttribute('id', 'datagrid-filters-form');
+
+        echo $this->form()->openTag($form);
+    ?>
+
+    <?php foreach ($this->grid as $column) : ?>
+        <?php if ($column->isVisible()): ?>
+            <div>
+                <?php if ($this->grid->hasFilter($column->getName())): ?>
+                    <?php $filter = $this->grid->getFilter($column->getName()); ?>
+                    <?php $element = $form->get($filter->getName()); ?>
+
+                    <?php //echo $this->formLabel($element) ?>
+                    <?php echo $this->formElement($element); ?>
+
+                <?php endif; ?>
+            </div>
+        <?php endif; ?>
+    <?php endforeach; ?>
+    <div>
+        <div class="btn-group btn-group-xs pull-right">
+            <button class="btn btn-info" type="submit" title="<?php echo $this->translate('Apply filters'); ?>">
+                <span class="glyphicon glyphicon-search glyphicon-white"></span>
+            </button>
+            <a class="btn btn-danger" href="<?php echo $this->url(null, array(), true)?>" title="<?php echo $this->translate('Reset filters'); ?>">
+                <span class="glyphicon glyphicon-remove glyphicon-white"></span>
+            </a>
+        </div>
+    </div>
+    <?php echo $this->form()->closeTag(); ?>
+<?php endif; ?>

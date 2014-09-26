@@ -63,6 +63,7 @@ class Column
 
     /**
      * @param $name
+     * @throws \Exception
      */
     public function __construct($name)
     {
@@ -115,7 +116,7 @@ class Column
     }
 
     /**
-     * @return null
+     * @return mixed
      */
     public function getName()
     {
@@ -124,7 +125,7 @@ class Column
 
     /**
      * @param $name
-     * @return Column
+     * @return $this
      */
     public function setLabel($name)
     {
@@ -133,17 +134,16 @@ class Column
     }
 
     /**
-     * @return null
+     * @return string
      */
     public function getLabel()
     {
         return $this->label;
     }
 
-
     /**
      * @param bool $value
-     * @return Column
+     * @return $this
      */
     public function setVisible($value = true)
 	{
@@ -161,7 +161,7 @@ class Column
 
     /**
      * @param bool $value
-     * @return Column
+     * @return $this
      */
     public function setSortable($value = true)
     {
@@ -305,7 +305,7 @@ class Column
     }
 
     /**
-     * @return null|\Zend\Form\Element
+     * @return \Zend\Form\Element
      */
     public function getFormElement()
     {
@@ -313,19 +313,17 @@ class Column
     }
 
     // VALIDATORS
-    
+
     /**
-     * Add validator to form element
+     * @param $validator
+     * @return $this
+     * @throws \Exception
      */
     public function addValidator($validator)
     {
-    	if (null == $this->formElement) {
+    	if (!$this->formElement) {
     		throw new \Exception('Form element for column "' . $this->getName() . '" is not
     		    specified. Before set validators you must set form element.');
-    	}
-    	
-    	if ($validator instanceof Zend_Validate_NotEmpty) {
-    	    $this->formElement->setRequired(true);
     	}
     	
     	$this->formElement->addValidator($validator);

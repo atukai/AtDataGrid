@@ -6,13 +6,13 @@
         </button>
         <ul class="dropdown-menu">
             <?php foreach($this->gridManager->getActions() as $action) : ?>
-                <?php if ($action['bulk'] == true): ?>
+                <?php if ($action->isBulk()): ?>
                     <li>
-                        <a onclick="DataGrid.action('<?php echo $action['action'] ?>')"
-                           <?php if (isset($action['confirm-message'])): ?>
-                               onclick="return DataGrid.confirmAction(this, '<?php echo $action['confirm-message'] ?>')"
+                        <a onclick="DataGrid.action('<?php echo $action->getAction() ?>')"
+                           <?php if ($action->getConfirmMessage()): ?>
+                               onclick="return DataGrid.confirmAction(this, '<?php echo $action->getConfirmMessage() ?>')"
                            <?php endif;?>>
-                           <?php echo $this->translate($action['label']) ?></a>
+                           <?php echo $this->translate($action->getLabel()) ?></a>
                     </li>
                 <?php endif; ?>
             <?php endforeach; ?>

@@ -19,9 +19,8 @@ class Equal extends Filter\AbstractFilter
         }
 
         // Not null or not empty string
-        if ($value && (!is_string($value) || (is_string($value) && !empty($value)))) {
+        if ($value && (!is_string($value) || ($this->isNotEmptyString($value)))) {
             $select->where(array($columnName => $value));
-            //var_dump($select->getSqlString());exit;
         }
 
         return $select;

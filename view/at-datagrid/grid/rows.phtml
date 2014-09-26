@@ -14,11 +14,11 @@
             <td>
                 <div class="btn-group btn-group-xs pull-right">
                     <?php foreach($this->gridManager->getActions() as $action) : ?>
-                        <a class="btn btn-default" href="<?php echo $this->url(null, array('action' => $action['action'], 'id' => $row[$this->grid->getIdentifierColumnName()])) ?>"
-                            <?php if (isset($action['confirm-message'])): ?>
-                            onclick="return DataGrid.confirmAction(this, '<?php echo $this->translate($action['confirm-message']) ?>')"
+                        <a class="btn btn-default" href="<?php echo $this->url(null, array('action' => $action->getAction(), 'id' => $row[$this->grid->getIdentifierColumnName()])) ?>"
+                            <?php if ($action->getConfirmMessage()): ?>
+                            onclick="return DataGrid.confirmAction(this, '<?php echo $this->translate($action->getConfirmMessage()) ?>')"
                             <?php endif;?>>
-                            <i title="<?php echo $this->translate($action['label']) ?>" class="<?php echo $action['class'] ?>"></i>
+                            <i title="<?php echo $this->translate($action->getLabel()) ?>" class="<?php echo $action->getClass() ?>"></i>
                         </a>
                     <?php endforeach; ?>
                     <!--<div class="btn-group btn-group-sm">

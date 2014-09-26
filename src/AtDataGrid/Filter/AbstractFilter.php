@@ -203,5 +203,14 @@ abstract class AbstractFilter implements FilterInterface
         }
 
         return $fullColumnName;
-    }    
+    }
+
+    /**
+     * @param $string
+     * @return bool
+     */
+    public function isNotEmptyString($string)
+    {
+        return is_string($string) && !empty($string);
+    }
 }
