@@ -51,7 +51,7 @@ abstract class AbstractCrudController extends AbstractActionController
         $grid = $gridManager->getGrid();
 
         if (! $gridManager->isAllowCreate()) {
-            throw new \Exception('You are not allowed to do this.');
+            throw new \Exception('Creating is disabled.');
         }
 
         $form = $gridManager->getForm();
@@ -83,7 +83,7 @@ abstract class AbstractCrudController extends AbstractActionController
         $grid = $gridManager->getGrid();
 
         if (!$gridManager->isAllowEdit()) {
-            throw new \Exception('You are not allowed to do this.');
+            throw new \Exception('Editing is disabled.');
         }
 
         $itemId = $this->params('id');
@@ -124,7 +124,7 @@ abstract class AbstractCrudController extends AbstractActionController
         $grid = $gridManager->getGrid();
 
         if (!$gridManager->isAllowDelete()) {
-            throw new \Exception('You are not allowed to do this.');
+            throw new \Exception('Deleting is disabled.');
         }
 
         $itemId = $this->params('id');

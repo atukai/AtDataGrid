@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: AtDataGrid\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-09-25 16:05+0300\n"
-"PO-Revision-Date: 2014-09-25 16:06+0300\n"
+"POT-Creation-Date: 2014-09-30 12:05+0300\n"
+"PO-Revision-Date: 2014-09-30 12:06+0300\n"
 "Last-Translator: vragovR <vragovR@yandex.ru>\n"
 "Language-Team: Alexander Tukai <atukai@gmail.com>\n"
 "Language: en_US\n"
@@ -28,10 +28,12 @@ msgstr "Просмотр и редактирование"
 msgid "Back to list"
 msgstr "Назад к списку"
 
+#: ../view/at-datagrid/grid/filters-side.phtml:29
 #: ../view/at-datagrid/grid/filters.phtml:27
 msgid "Apply filters"
 msgstr "Применить фильтры"
 
+#: ../view/at-datagrid/grid/filters-side.phtml:32
 #: ../view/at-datagrid/grid/filters.phtml:30
 msgid "Reset filters"
 msgstr "Сбросить фильтры"
@@ -39,6 +41,10 @@ msgstr "Сбросить фильтры"
 #: ../view/at-datagrid/grid/group-actions.phtml:4
 msgid "With selected"
 msgstr "С выбранными"
+
+#: ../view/at-datagrid/grid/pagination-control.phtml:5
+msgid "Pages"
+msgstr "Страницы"
 
 #: ../view/at-datagrid/grid/pagination-control.phtml:8
 msgid "Previous page"

@@ -2,7 +2,7 @@
 <div class="b-pager">
     <table>
         <tr>
-            <td>Pages:</td>
+            <td><?php echo $this->translate('Pages'); ?>:</td>
             <td class="prev">
 		        <?php if (isset($this->previous)): ?>
 		          <a href="<?php echo $this->atBaseQueryParams(array('page' => $this->previous)); ?>" title="<?php echo $this->translate('Previous page'); ?>">

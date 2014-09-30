@@ -9,7 +9,7 @@
                 <?php if ($action->isBulk()): ?>
                     <li>
                         <a onclick="DataGrid.action('<?php echo $action->getAction() ?>')"
-                           <?php if ($action->getConfirmMessage()): ?>
+                           <?php if ($action->isConfirm()): ?>
                                onclick="return DataGrid.confirmAction(this, '<?php echo $action->getConfirmMessage() ?>')"
                            <?php endif;?>>
                            <?php echo $this->translate($action->getLabel()) ?></a>

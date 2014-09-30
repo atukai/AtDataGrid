@@ -71,7 +71,7 @@ class DataGrid extends EventProvider implements \Countable, \IteratorAggregate, 
      *
      * @var integer
      */
-    protected $itemsPerPage = 20;
+    protected $itemsPerPage = 10;
 
     /**
      * Page range
@@ -477,7 +477,6 @@ class DataGrid extends EventProvider implements \Countable, \IteratorAggregate, 
         $this->paginator->setItemCountPerPage($this->itemsPerPage);
         $this->paginator->setPageRange($this->pageRange);
 
-        //$data = $this->paginator->getItemsByPage($this->currentPage);
         $data = $this->paginator->getCurrentItems();
         if (! is_array($data)) {
             if ($data instanceof ResultSet) {
@@ -535,7 +534,7 @@ class DataGrid extends EventProvider implements \Countable, \IteratorAggregate, 
      */
     public function save($data, $identifier = null)
     {
-        $data = $this->getEventManager()->trigger(self::EVENT_GRID_PERSIST_PRE, $this, $data)->last();
+        $data = $this->getEventManager()->trigger(self::EVENT_GRID_PERSIST_PRE, $this, $data);
 
         if ($identifier) {
             $id = $this->update($data, $identifier);
@@ -553,9 +552,9 @@ class DataGrid extends EventProvider implements \Countable, \IteratorAggregate, 
      */
     public function delete($identifier)
     {
-        $this->getEventManager()->trigger(self::EVENT_GRID_DELETE_PRE, $this, $identifier);
+        $this->getEventManager()->trigger(self::EVENT_GRID_DELETE_PRE, $this, array('id' => $identifier));
         $this->getDataSource()->delete($identifier);
-        $this->getEventManager()->trigger(self::EVENT_GRID_DELETE_POST, $this, $identifier);
+        $this->getEventManager()->trigger(self::EVENT_GRID_DELETE_POST, $this, array('id' => $identifier));
     }
 
     // FILTERS
@@ -642,10 +641,10 @@ class DataGrid extends EventProvider implements \Countable, \IteratorAggregate, 
     // PAGINATOR
 
     /**
-     * @param int $number
+     * @param $number
      * @return $this
      */
-    public function setCurrentPage($number = 1)
+    public function setCurrentPage($number)
     {
         $this->currentPage = (int) $number;
         return $this;

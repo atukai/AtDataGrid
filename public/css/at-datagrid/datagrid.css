@@ -74,7 +74,7 @@ a.sortable:hover {text-decoration: none;}
 .b-pager .prev, .b-pager .next {}
 
 .b-pager .page { padding:0 4px; }
-.b-pager .page ul { text-align:center; margin: 0;}
+.b-pager .page ul { text-align:center; margin: 0; padding: 0;}
 .b-pager .page li {
     display:inline;
     padding:0 4px;

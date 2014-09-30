@@ -73,6 +73,7 @@ class Manager extends EventProvider
 
         $editAction = new Action('edit');
         $editAction->setAction('edit');
+        $editAction->setBulk('false');
         $editAction->setLabel('View & Edit');
         $editAction->setClass('glyphicon glyphicon-pencil');
         $this->addAction($editAction);
@@ -87,8 +88,14 @@ class Manager extends EventProvider
 
         // @todo Use event?
         $this->grid->setOrder($this->request->getQuery('order', $this->grid->getIdentifierColumnName().'~desc'));
-        $this->grid->setCurrentPage($this->request->getQuery('page'));
-        $this->grid->setItemsPerPage($this->request->getQuery('show_items'));
+
+        if ($this->request->getQuery('page')) {
+            $this->grid->setCurrentPage($this->request->getQuery('page'));
+        }
+
+        if ($this->request->getQuery('show_items')) {
+            $this->grid->setItemsPerPage($this->request->getQuery('show_items'));
+        }
     }
 
     /**
