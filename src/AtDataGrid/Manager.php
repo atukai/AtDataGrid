@@ -7,7 +7,6 @@ use AtDataGrid\Row\Action;
 use Zend\Form\Form;
 use Zend\Form\Element;
 use Zend\Http\Request;
-use Zend\Stdlib\RequestInterface;
 use ZfcBase\EventManager\EventProvider;
 
 class Manager extends EventProvider
@@ -64,16 +63,16 @@ class Manager extends EventProvider
 
     /**
      * @param DataGrid $grid
-     * @param RequestInterface $request
+     * @param Request $request
      */
-    public function __construct(DataGrid $grid, RequestInterface $request)
+    public function __construct(DataGrid $grid, Request $request)
     {
         $this->grid = $grid;
         $this->request = $request;
 
         $editAction = new Action('edit');
         $editAction->setAction('edit');
-        $editAction->setBulk('false');
+        $editAction->setBulk(false);
         $editAction->setLabel('View & Edit');
         $editAction->setClass('glyphicon glyphicon-pencil');
         $this->addAction($editAction);
