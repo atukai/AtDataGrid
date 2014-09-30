@@ -51,7 +51,7 @@ abstract class AbstractCrudController extends AbstractActionController
         $grid = $gridManager->getGrid();
 
         if (! $gridManager->isAllowCreate()) {
-            throw new \Exception('Creating is disabled.');
+            throw new \Exception('Creating is disabled');
         }
 
         $form = $gridManager->getForm();
@@ -60,7 +60,7 @@ abstract class AbstractCrudController extends AbstractActionController
             $form->setData($this->getRequest()->getPost());
             if ($form->isValid()) {
                 $grid->save($form->getData());
-                $this->backTo()->previous('Record created.');
+                $this->backTo()->previous('Record created');
             }
         }
 
@@ -83,12 +83,12 @@ abstract class AbstractCrudController extends AbstractActionController
         $grid = $gridManager->getGrid();
 
         if (!$gridManager->isAllowEdit()) {
-            throw new \Exception('Editing is disabled.');
+            throw new \Exception('Editing is disabled');
         }
 
         $itemId = $this->params('id');
         if (!$itemId) {
-            throw new \Exception('No record found.');
+            throw new \Exception('Record not found');
         }
 
         $form = $gridManager->getForm();
@@ -97,7 +97,7 @@ abstract class AbstractCrudController extends AbstractActionController
             $form->setData($this->getRequest()->getPost());
             if ($form->isValid()) {
                 $grid->save($form->getData(), $itemId);
-                $this->backTo()->previous('Record updated.');
+                $this->backTo()->previous('Record was updated');
             }
         }
 
