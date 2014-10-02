@@ -30,9 +30,8 @@ class DateFormat extends AbstractDecorator
     }
 
     /**
-     * @param  $value
-     * @param  $row
-     * @return string
+     * @param $value
+     * @return bool|string
      */
     public function render($value)
     {

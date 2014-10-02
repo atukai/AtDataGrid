@@ -62,6 +62,11 @@ class Manager extends EventProvider
     protected $actions = array();
 
     /**
+     * @var array
+     */
+    protected $linkedRecords = array();
+
+    /**
      * @param DataGrid $grid
      * @param Request $request
      */

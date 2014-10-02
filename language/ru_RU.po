@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: AtDataGrid\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-09-30 12:05+0300\n"
-"PO-Revision-Date: 2014-09-30 12:06+0300\n"
+"POT-Creation-Date: 2014-09-30 17:29+0300\n"
+"PO-Revision-Date: 2014-09-30 17:29+0300\n"
 "Last-Translator: vragovR <vragovR@yandex.ru>\n"
 "Language-Team: Alexander Tukai <atukai@gmail.com>\n"
 "Language: en_US\n"
@@ -64,8 +64,8 @@ msgstr "записей на странице"
 
 #: ../view/at-datagrid/grid/paginator.phtml:37
 #, php-format
-msgid "Total <span class=\"b\">%d</span> record(s) found"
-msgstr "Всего <span class=\"b\">%d</span> записей найдено"
+msgid "Total <span class=\"b\">%d</span> record(s)"
+msgstr "Всего <span class=\"b\">%d</span> записей"
 
 #: ../view/at-datagrid/list.phtml:8
 msgid "Add new record"
