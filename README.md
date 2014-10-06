@@ -1,4 +1,5 @@
 # AtDataGrid [1.0.0-dev]
+[![Gitter](https://badges.gitter.im/Join Chat.svg)](https://gitter.im/atukai/AtDataGrid?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
 A data grid component for Zend Framework 2.
 
