@@ -2,13 +2,15 @@
 
 namespace AtDataGrid\Column\Decorator;
 
+use AtDataGrid\Column\Column;
+
 class HyperLink extends AbstractDecorator
 {
     /**
      * @var string
      */
     protected $url = '#';
-    
+
     /**
      * @var array
      */
@@ -24,7 +26,7 @@ class HyperLink extends AbstractDecorator
         $params = array();
         
         foreach ($this->params as $key => $param) {
-                $params[$key] = $param instanceof \AtAdmin\DataGrid\Column
+                $params[$key] = $param instanceof Column
                               ? $row[$param->getName()]
                               : $params[$key] = $param;
         }
@@ -35,16 +37,18 @@ class HyperLink extends AbstractDecorator
     }
 
     /**
-     * Set url to display hyperlink
+     * @param $url
+     * @return $this
      */
     public function setUrl($url)
     {
         $this->url = $url;
         return $this;
     }
-    
+
     /**
-     * Set params for url
+     * @param $params
+     * @return $this
      */
     public function setParams($params)
     {

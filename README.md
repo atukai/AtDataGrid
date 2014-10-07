@@ -51,25 +51,15 @@ public function getServiceConfig()
 {
 	return array(
 		'factories' => array(
-			'user_grid_datasource' => function ($sm) {
-				$tableGateway = new ZendTableGateway('user', $sm->get('Zend\Db\Adapter\Adapter'));
-				$dataSource = new TableGateway($tableGateway);
-				return $dataSource;
-			},
-
-			'user_grid_renderer' => function () {
-				$renderer = new Html();
-				return $renderer;
-			},
-
 			'user_grid' => function ($sm) {
-				$grid = new Grid\User($sm->get('user_grid_datasource'));
+            	$dataSource = new TableGateway(new ZendTableGateway('user', $sm->get('Zend\Db\Adapter\Adapter')));
+				$grid = new Grid\User($dataSource);
 				return $grid;
 			},
 
 			'user_grid_manager' => function ($sm) {
 				$manager = new Manager($sm->get('user_grid'), $sm->get('Request'));
-				$manager->setRenderer($sm->get('user_grid_renderer'));
+				$manager->setRenderer(new Html());
 				return $manager;
 			}
 		),

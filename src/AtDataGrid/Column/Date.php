@@ -7,9 +7,9 @@ use Zend\Form\Element\DateTime;
 
 class Date extends Column
 {
-    public function init()
+    public function __construct($name)
     {
-    	parent::init();
+    	parent::__construct($name);
     	
         $this->setFormElement(new DateTime($this->getName()))
              ->addDecorator(new Decorator\DateFormat('d.m.Y'));

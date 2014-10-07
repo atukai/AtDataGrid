@@ -1,13 +1,17 @@
 <?php
 
-class ATF_DataGrid_Column_Wysiwyg extends ATF_DataGrid_Column
+namespace AtDataGrid\Column;
+
+class Wysiwyg extends Column
 {
     /**
-     * @return void
+     * @param $name
+     * @throws \Exception
      */
-    public function init()
+    public function __construct($name)
     {
-    	parent::init();
+        parent::__construct($name);
+
         $this->addDecorator(new \AtDataGrid\Column\Decorator\Literal())
              ->setFormElement(
               new AT_Form_Element_TinyMCE(

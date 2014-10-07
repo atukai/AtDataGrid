@@ -2,13 +2,12 @@
 
 namespace AtDataGrid\Column;
 
-use AtDataGrid\Column\Decorator;
-
 class Textarea extends Column
 {
-    public function init()
+    public function __construct($name)
     {
-        parent::init();
+        parent::__construct($name);
+
         $this->setFormElement(new \Zend\Form\Element\Textarea($this->getName()));
     }
 }

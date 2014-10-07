@@ -7,9 +7,10 @@ use Zend\Form\Element\Text;
 
 class Literal extends Column
 {
-    public function init()
+    public function __construct($name)
 	{
-		parent::init();
+		parent::__construct($name);
+
 		$this->addDecorator(new Decorator\Literal())
              ->setFormElement(new Text($this->getName()));
 	}

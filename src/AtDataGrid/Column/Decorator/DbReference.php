@@ -2,12 +2,15 @@
 
 namespace AtDataGrid\Column\Decorator;
 
+use Zend\Db\Sql\Select;
+use Zend\Db\Sql\Sql;
+
 class DbReference extends AbstractDecorator
 {
     /**
-     * @var null|\Zend\Db\TableGateway\TableGateway
+     * @var null|Select
      */
-    protected $tableGateway = null;
+    protected $select = null;
 
     /**
      * @var string
@@ -20,32 +23,31 @@ class DbReference extends AbstractDecorator
     protected $resultFieldName = '';
 
     /**
-     * @param \Zend\Db\TableGateway\TableGateway $tableGateway
+     * @param Sql $sql
      * @param $referenceField
      * @param $resultFieldName
      */
-    public function __construct(\Zend\Db\TableGateway\TableGateway $tableGateway, $referenceField, $resultFieldName)
+    public function __construct(Sql $sql, $referenceField, $resultFieldName)
     {
-        $this->tableGateway    = $tableGateway;
+        $this->sql             = $sql;
         $this->referenceField  = $referenceField;
         $this->resultFieldName = $resultFieldName;
     }
 
     /**
      * @param $value
-     * @param $row
-     * @return
+     * @return string
      */
     public function render($value)
     {
-        if (!$value) {
-            return '';
-        }
-        
-        $select = $this->tableGateway->select()
-                                         ->from($this->tableGateway->getName(), array($this->resultFieldName))
-                                         ->where($this->referenceField . ' = ?', $value);
+        $select = $this->sql->select();
+        $select->columns(array($this->resultFieldName))
+            ->where(array($this->referenceField => $value))
+            ->limit(1);
 
-        return $this->tableGateway->getAdapter()->fetchOne($select);
+        $statement = $this->sql->prepareStatementForSqlObject($select);
+        $row = $statement->execute()->current();
+
+        return $row[$this->resultFieldName];
     }
 }

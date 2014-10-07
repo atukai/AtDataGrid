@@ -1,7 +1,7 @@
 <?php $this->headScript()->appendFile('/js/at-datagrid/datagrid.js') ?>
 <?php $this->headLink()->appendStylesheet('/css/at-datagrid/datagrid.css') ?>
 
-<div class="at-grid-caption clearfix">
+<div class="page-header clearfix">
     <h1 class="pull-left"><?php echo $this->translate($this->grid->getCaption()) ?></h1>
     <div class="pull-right" style="margin-top: 20px;">
         <?php if ($this->gridManager->isAllowCreate()): ?>

@@ -6,9 +6,9 @@ use AtDataGrid\Column\Decorator;
 
 class DateTime extends Column
 {
-    public function init()
+    public function __construct($name)
     {
-        parent::init();
+        parent::__construct($name);
 
         $dateTimeElement = new \Zend\Form\Element\DateTime($this->getName());
         $dateTimeElement->setOptions(array(

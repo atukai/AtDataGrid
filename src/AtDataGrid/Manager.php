@@ -82,7 +82,6 @@ class Manager extends EventProvider
         $editAction->setClass('glyphicon glyphicon-pencil');
         $this->addAction($editAction);
 
-
         $deleteAction = new Action('delete');
         $deleteAction->setAction('delete');
         $deleteAction->setLabel('Delete');

@@ -2,56 +2,24 @@
 
 namespace AtDataGrid\Column;
 
-use AtDataGrid\Column\Decorator;
+use AtDataGrid\Column\Decorator\DecoratorInterface;
 
 class Column
 {
-    /**
-     * @var
-     */
     protected $name;
 
-    /**
-     * @var string
-     */
     protected $label;
 
-    /**
-     * Visibility in grid
-     *
-     * @var boolean
-     */
     protected $visible = true;
 
-    /**
-     * Visibility in add/edit form
-     *
-     * @var boolean
-     */
     protected $visibleInForm = true;
 
-    /**
-     * Is column sortable?
-     */
     protected $sortable = false;
     
-    /**
-     * Current order direction
-     */
     protected $orderDirection = 'desc';
     
-    /**  
- 	 * The form element  
- 	 *  
-	 * @var \Zend\Form\Element
-	 */  
     protected $formElement = null;
     
-    /**
-     * The column decorator
-     *
-     * @var array
-     */
     protected $decorators = array();
 
     /**
@@ -65,18 +33,8 @@ class Column
         if (null === $this->getName()) {
             throw new \Exception('Please specify a column name');
         };
-        
-        // Extensions...
-        $this->init();
     }
 
-    /**
-     * Init extensions 
-     */
-    public function init()
-    {
-    }    
-    
     // METADATA
 
     /**
@@ -127,7 +85,7 @@ class Column
     }
 
     /**
-     * @return string
+     * @return mixed
      */
     public function getLabel()
     {
@@ -171,32 +129,26 @@ class Column
     }
 
     /**
-     * Set order direction
-     *
      * @param $value
-     * @return Column
+     * @return $this
      */
     public function setOrderDirection($value)
     {
         $this->orderDirection = strtolower($value);
         return $this;
-    }   
-  
-    /**  
-     * Retrieve element order direction  
-     *  
-     * @return boolean  
-     */  
+    }
+
+    /**
+     * @return string
+     */
     public function getOrderDirection()
     {
         return $this->orderDirection;
     }
 
-    /**  
-     * Retrieve element visibility  
-     *  
-     * @return boolean  
-     */  
+    /**
+     * @return $this
+     */
     public function revertOrderDirection()
     {
         $this->getOrderDirection() == 'asc' ? $this->orderDirection = 'desc' : $this->orderDirection = 'asc';
@@ -205,7 +157,7 @@ class Column
 
     /**
      * @param $value
-     * @return Column
+     * @return $this
      */
     public function setVisibleInForm($value)
     {
@@ -214,10 +166,8 @@ class Column
     }
 
     /**
-     * Alias for getVisibleInForm()  
-     *  
-     * @return boolean  
-     */  
+     * @return bool
+     */
     public function isVisibleInForm()
     {
         return $this->visibleInForm;
@@ -226,29 +176,18 @@ class Column
     // RENDERING & DECORATORS
 
     /**
-     * @param $decorator
-     * @return Column
-     * @throws \Exception
+     * @param DecoratorInterface $decorator
+     * @return $this
      */
-    public function addDecorator($decorator)
+    public function addDecorator(DecoratorInterface $decorator)
     {
-        if (is_string($decorator)) {
-        	$name = ucfirst($decorator);
-            $className = '\AtAdmin\DataGrid\Column\Decorator\\' . $name;
-            $decorator = new $className;
-        } elseif ($decorator instanceof Decorator\AbstractDecorator) {
-        	$name = get_class($decorator);
-        } else {
-            throw new \Exception('Wrong decorator given');
-        }
-        $this->decorators[$name] = $decorator;
-
+        $this->decorators[get_class($decorator)] = $decorator;
         return $this;
     }
 
     /**
      * @param $decorators
-     * @return Column
+     * @return $this
      */
     public function addDecorators($decorators)
     {
@@ -261,7 +200,7 @@ class Column
 
     /**
      * @param $name
-     * @return bool
+     * @return DecoratorInterface|null
      */
     public function getDecorator($name)
     {
@@ -269,7 +208,7 @@ class Column
     		return $this->decorators[$name];
     	}
     	
-    	return false;
+    	return null;
     }
 
     /**

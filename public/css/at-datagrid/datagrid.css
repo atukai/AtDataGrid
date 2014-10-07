@@ -1,8 +1,4 @@
 /* Grid */
-.at-grid-caption {
-    border-bottom: 1px solid #eee;
-    margin: 20px 0;
-}
 .at-grid table {width:100%;}
 .at-grid table label {font-size: 1em; width: 50px;}
 .at-grid table .checkbox {padding: 0; width: 36px; text-align: center;}

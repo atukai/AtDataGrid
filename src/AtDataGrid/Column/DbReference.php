@@ -1,9 +1,16 @@
 <?php
 
-class ATF_DataGrid_Column_DbReference extends ATF_DataGrid_Column
+namespace AtDataGrid\Column;
+
+use Zend\Db\Adapter\Adapter;
+use Zend\Db\Sql\Sql;
+
+class DbReference extends Column
 {
+    protected $dbAdapter = null;
+
     /**
-     * @var \ATF_Db_Table_Abstract|null
+     * @var null
      */
     protected $referenceTable = null;
 
@@ -19,42 +26,47 @@ class ATF_DataGrid_Column_DbReference extends ATF_DataGrid_Column
 
     /**
      * @param $name
-     * @param ATF_Db_Table_Abstract $table
-     * @param $referenceField
+     * @param Adapter $dbAdapter
+     * @param $refTable
+     * @param $refField
      * @param $resultFieldName
+     * @throws \Exception
      */
-    public function __construct($name, ATF_Db_Table_Abstract $refTable, $refField, $resultFieldName)
+    public function __construct($name, Adapter $dbAdapter, $refTable, $refField, $resultFieldName)
     {
+        parent::__construct($name);
+
+        $this->dbAdapter = $dbAdapter;
         $this->referenceTable = $refTable;
         $this->referenceField = $refField;
         $this->resultFieldName = $resultFieldName;
 
-        parent::__construct($name);
-    }
-
-    /**
-     *
-     */
-    public function init()
-    {
-        parent::init();
+        $sql = new Sql($this->dbAdapter, $this->referenceTable);
 
         // Decorator
-        $decorator = new ATF_DataGrid_Column_Decorator_DbReference(
-            $this->referenceTable,
+        $decorator = new \AtDataGrid\Column\Decorator\DbReference(
+            $sql,
             $this->referenceField,
             $this->resultFieldName
         );
         $this->addDecorator($decorator);
 
         // Form element
-        $select = $this->referenceTable->select()
-                                           ->from($this->referenceTable->getName(), array($this->referenceField, $this->resultFieldName));
-        $allRecords = $this->referenceTable->getAdapter()->fetchPairs($select);
+        //$select = $sql->select();
+        //$select->columns(array($this->referenceField, $this->resultFieldName));
+        //$allRecords = $setableGateWay->select($select);
 
-        $formElement = new Zend_Form_Element_Select($this->getName());
+        /*$formElement = new Select($this->getName());
         $formElement->addMultiOption('', '--')
-                    ->addMultiOptions($allRecords);
-        $this->setFormElement($formElement);
+            ->addMultiOptions($allRecords);
+        $this->setFormElement($formElement);*/
+    }
+
+    /**
+     * @return null|Adapter
+     */
+    public function getDbAdapter()
+    {
+        return $this->dbAdapter;
     }
 }

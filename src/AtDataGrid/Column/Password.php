@@ -4,9 +4,9 @@ namespace AtDataGrid\Column;
 
 class Password extends Column
 {
-    public function init()
+    public function __construct($name)
     {
-        parent::init();
+        parent::__construct($name);
         $this->setFormElement(new \Zend\Form\Element\Password($this->getName()));
     }
 }
