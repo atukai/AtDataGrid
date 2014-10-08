@@ -534,7 +534,10 @@ class DataGrid extends EventProvider implements \Countable, \IteratorAggregate, 
      */
     public function save($data, $identifier = null)
     {
-        $data = $this->getEventManager()->trigger(self::EVENT_GRID_PERSIST_PRE, $this, $data)->last();
+        $eventResult = $this->getEventManager()->trigger(self::EVENT_GRID_PERSIST_PRE, $this, $data)->last();
+        if ($eventResult) {
+            $data = $eventResult;
+        }
 
         if ($identifier) {
             $id = $this->update($data, $identifier);
@@ -553,7 +556,9 @@ class DataGrid extends EventProvider implements \Countable, \IteratorAggregate, 
     public function delete($identifier)
     {
         $this->getEventManager()->trigger(self::EVENT_GRID_DELETE_PRE, $this, array('id' => $identifier));
+
         $this->getDataSource()->delete($identifier);
+
         $this->getEventManager()->trigger(self::EVENT_GRID_DELETE_POST, $this, array('id' => $identifier));
     }
 

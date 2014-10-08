@@ -4,6 +4,7 @@ namespace AtDataGrid\Column;
 
 use Zend\Db\Adapter\Adapter;
 use Zend\Db\Sql\Sql;
+use Zend\Form\Element\Select;
 
 class DbReference extends Column
 {
@@ -52,14 +53,18 @@ class DbReference extends Column
         $this->addDecorator($decorator);
 
         // Form element
-        //$select = $sql->select();
-        //$select->columns(array($this->referenceField, $this->resultFieldName));
-        //$allRecords = $setableGateWay->select($select);
+        $select = $sql->select();
+        $statement = $sql->prepareStatementForSqlObject($select);
+        $rowset = $statement->execute();
 
-        /*$formElement = new Select($this->getName());
-        $formElement->addMultiOption('', '--')
-            ->addMultiOptions($allRecords);
-        $this->setFormElement($formElement);*/
+        $options = array();
+        foreach ($rowset as $row) {
+            $options[$row['id']] = $row[$this->resultFieldName];
+        }
+
+        $formElement = new Select($this->getName());
+        $formElement->setValueOptions($options);
+        $this->setFormElement($formElement);
     }
 
     /**

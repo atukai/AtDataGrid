@@ -28,7 +28,7 @@ class BitMaskDict extends AbstractDecorator
         $this->delimiter = $delimiter;
     }
     
-    public function render($value)
+    public function decorate($value)
     {
         $rs = array();
         foreach ($this->choises as $k => $v) {

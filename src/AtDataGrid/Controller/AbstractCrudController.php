@@ -2,11 +2,17 @@
 
 namespace AtDataGrid\Controller;
 
+use AtDataGrid\Manager;
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
 
 abstract class AbstractCrudController extends AbstractActionController
 {
+    /**
+     * @var Manager
+     */
+    protected $gridManager;
+
     /**
      * @return array|ViewModel
      */
@@ -97,7 +103,7 @@ abstract class AbstractCrudController extends AbstractActionController
             $form->setData($this->getRequest()->getPost());
             if ($form->isValid()) {
                 $grid->save($form->getData(), $itemId);
-                $this->backTo()->previous('Record was updated');
+                $this->backTo()->previous($this->translate('Record was updated'));
             }
         }
 
@@ -137,6 +143,15 @@ abstract class AbstractCrudController extends AbstractActionController
     }
 
     /**
+     * @param Manager $gridManager
+     */
+    public function setGridManager(Manager $gridManager)
+    {
+        $this->gridManager = $gridManager;
+    }
+
+    /**
+     * @abstract
      * @return mixed
      */
     abstract public function getGridManager();
