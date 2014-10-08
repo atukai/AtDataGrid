@@ -30,8 +30,6 @@ class HyperLink extends AbstractDecorator
     {
         $params = array($value);
 
-        var_dump($params);exit;
-
         foreach ($this->params as $key => $param) {
             /*$params[$key] = $param instanceof Column
                           ? $row[$param->getName()]

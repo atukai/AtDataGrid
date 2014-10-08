@@ -103,7 +103,7 @@ abstract class AbstractCrudController extends AbstractActionController
             $form->setData($this->getRequest()->getPost());
             if ($form->isValid()) {
                 $grid->save($form->getData(), $itemId);
-                $this->backTo()->previous($this->translate('Record was updated'));
+                $this->backTo()->previous('Record was updated');
             }
         }
 

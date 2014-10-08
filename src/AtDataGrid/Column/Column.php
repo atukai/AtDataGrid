@@ -219,7 +219,7 @@ class Column
     public function render($value, $row = null)
     {
         foreach ($this->decorators as $decorator) {
-            $value = $decorator->render($value, $row);    
+            $value = $decorator->decorate($value, $row);
         }
         return $value;
     }
