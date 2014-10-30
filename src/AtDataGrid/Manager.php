@@ -4,16 +4,12 @@ namespace AtDataGrid;
 
 use AtDataGrid\Renderer\AbstractRenderer;
 use AtDataGrid\Row\Action;
-use Zend\Form\Form;
 use Zend\Form\Element;
-use Zend\Http\Request;
-use ZfcBase\EventManager\EventProvider;
+use Zend\Form\Form;
+use Zend\Http\PhpEnvironment\Request;
 
-class Manager extends EventProvider
+class Manager
 {
-    const EVENT_GRID_FORM_BUILD_POST = 'at-datagrid.grid.form.build.post';
-    const EVENT_GRID_FILTERS_FORM_BUILD_POST = 'at-datagrid.grid.filters_form.build.post';
-
     /**
      * @var Request
      */
@@ -25,19 +21,14 @@ class Manager extends EventProvider
     protected $grid;
 
     /**
-     * @var Form
+     * @var AbstractRenderer
      */
-    protected $form;
+    protected $renderer;
 
     /**
      * @var Form
      */
     protected $filtersForm;
-
-    /**
-     * @var AbstractRenderer
-     */
-    protected $renderer;
 
     /**
      * @var bool
@@ -75,6 +66,7 @@ class Manager extends EventProvider
         $this->grid = $grid;
         $this->request = $request;
 
+        // Row actions
         $editAction = new Action('edit');
         $editAction->setAction('edit');
         $editAction->setBulk(false);
@@ -230,60 +222,9 @@ class Manager extends EventProvider
     /**
      * @return Form
      */
-    public function getForm()
-    {
-        if ($this->form == null) {
-            $this->buildForm();
-        }
-
-        return $this->form;
-    }
-
-    /**
-     * @return Form
-     */
-    protected function buildForm()
-    {
-        $form = new Form('at-datagrid-form-create');
-
-        // Collect elements
-        foreach ($this->getGrid()->getColumns() as $column) {
-            if (!$column->isVisibleInForm()) {
-                continue;
-            }
-
-            /* @var \Zend\Form\Element */
-            $element = $column->getFormElement();
-            //$element->setName($column->getName());
-
-            if (!$element->getLabel()) {
-                $element->setLabel($column->getLabel());
-            }
-
-            $form->add($element);
-        }
-
-        // Hash element to prevent CSRF attack
-        $csrf = new Element\Csrf('hash');
-        $form->add($csrf);
-
-        // Submit button
-        $submit = new Element\Submit('submit');
-        $submit->setValue('Save');
-        $form->add($submit);
-
-        $this->getEventManager()->trigger(self::EVENT_GRID_FORM_BUILD_POST, $form);
-
-        $this->form = $form;
-        return $this->form;
-    }
-
-    /**
-     * @return Form
-     */
     public function getFiltersForm()
     {
-        if ($this->filtersForm == null) {
+        if (!$this->filtersForm) {
             $this->buildFiltersForm();
         }
 
@@ -295,9 +236,10 @@ class Manager extends EventProvider
      */
     protected function buildFiltersForm()
     {
+        $grid = $this->getGrid();
         $form = new Form('at-datagrid-filters-form');
 
-        foreach ($this->getGrid()->getFilters() as $filter) {
+        foreach ($grid->getFilters() as $filter) {
             $element = $filter->getFormElement();
             $form->add($element);
         }
@@ -306,10 +248,8 @@ class Manager extends EventProvider
         $form->add(new Element\Submit('apply', array('label' => 'Search')));
 
         // Set data from request
-        // Use event?
+        // Use event instead? build.form.post
         $form->setData($this->request->getQuery());
-
-        $this->getEventManager()->trigger(self::EVENT_GRID_FILTERS_FORM_BUILD_POST, $form);
 
         $this->filtersForm = $form;
 
@@ -375,20 +315,38 @@ class Manager extends EventProvider
     }
 
     /**
-     * @param array $variables
-     * @return mixed
-     * @throws \Exception
+     * @return array
      */
-    public function render($variables = array())
+    public function getLinkedRecords()
+    {
+        return $this->linkedRecords;
+    }
+
+    /**
+     * @param $name
+     * @param $record
+     * @return $this
+     */
+    public function addLinkedRecord($name, $record)
+    {
+        $this->linkedRecords[$name] = $record;
+        return $this;
+    }
+
+    /**
+     *
+     */
+    public function render()
     {
         $grid = $this->getGrid();
 
-        $variables['gridManager'] = $this;
-        $variables['grid'] = $this->getGrid();
-        $variables['columns'] = $grid->getColumns();
-        $variables['data'] = $grid->getData();
-        $variables['paginator']   = $grid->getPaginator();
-
-        return $this->getRenderer()->render($variables);
+        return $this->getRenderer()->render(array(
+            'gridManager' => $this,
+            'grid'        => $grid,
+            'columns'     => $grid->getColumns(),
+            'data'        => $grid->getData(),
+            'paginator'   => $grid->getPaginator(),
+            'filtersForm' => $this->getFiltersForm(),
+        ));
     }
 }

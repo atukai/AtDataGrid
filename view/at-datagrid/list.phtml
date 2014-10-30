@@ -5,7 +5,7 @@
     <h1 class="pull-left"><?php echo $this->translate($this->grid->getCaption()) ?></h1>
     <div class="pull-right" style="margin-top: 20px;">
         <?php if ($this->gridManager->isAllowCreate()): ?>
-            <a class="btn btn-warning btn-sm" title="<?php echo $this->translate('Add new record') ?>" href="<?php echo $this->url(null, array('action' => 'create')) ?>">
+            <a class="btn btn-success btn-sm" title="<?php echo $this->translate('Add new record') ?>" href="<?php echo $this->url(null, array('action' => 'create')) ?>">
                 <?php echo $this->translate('Add') ?>
             </a>
         <?php endif; ?>

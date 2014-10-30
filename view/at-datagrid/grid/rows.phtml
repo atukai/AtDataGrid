@@ -14,11 +14,11 @@
             <td>
                 <div class="btn-group btn-group-xs pull-right">
                     <?php foreach($this->gridManager->getActions() as $action) : ?>
-                        <a class="btn btn-default" href="<?php echo $this->url(null, array('action' => $action->getAction(), 'id' => $row[$this->grid->getIdentifierColumnName()])) ?>"
+                        <a class="btn <?php if ($action->getName() == 'delete'): ?>btn-danger<?php else: ?>btn-default<?php endif;?> " href="<?php echo $this->url(null, array('action' => $action->getAction(), 'id' => $row[$this->grid->getIdentifierColumnName()])) ?>"
                             <?php if ($action->isConfirm()): ?>
-                            onclick="return DataGrid.confirmAction(this, '<?php echo $this->translate($action->getConfirmMessage()) ?>')"
+                                onclick="return DataGrid.confirmAction(this, '<?php echo $this->translate($action->getConfirmMessage()) ?>')"
                             <?php endif;?>>
-                            <i title="<?php echo $this->translate($action->getLabel()) ?>" class="<?php echo $action->getClass() ?>"></i>
+                            <span title="<?php echo $this->translate($action->getLabel()) ?>" class="<?php echo $action->getClass() ?>"></span>
                         </a>
                     <?php endforeach; ?>
                     <!--<div class="btn-group btn-group-sm">

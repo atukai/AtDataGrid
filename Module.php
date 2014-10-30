@@ -25,16 +25,4 @@ class Module
             ),
         );
     }
-
-    /**
-     * @return array
-     */
-    public function getControllerConfig()
-    {
-        return array(
-            'invokables' => array(
-                'AtDataGrid\Controller\DataGrid' => 'AtDataGrid\Controller\AbstractCrudController'
-            ),
-        );
-    }
 }

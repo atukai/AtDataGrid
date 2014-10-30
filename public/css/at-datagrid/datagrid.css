@@ -9,16 +9,16 @@
 .at-grid table th a:hover {text-decoration: underline;}
 .at-grid table th.ordered {background-color: #FFFAD2;}
 
-/* List options */
-.show-items-list {margin-left: 0; margin-bottom: 0; padding-left: 0;}
-.show-items-list li {float: left; list-style: none; margin: 0 4px;}
-.show-items-list li:first-child {margin-left: 0;}
-
 /* Grid filters */
 .at-grid table .filters {background-color: #E3EFF1; font-size: 0.9em;}
 .at-grid table .filters td div {vertical-align: top; white-space: nowrap;}
 .at-grid table .filters td input, .at-grid table .filters td select {width: 100%; height: 24px;}
 .at-grid table .filters td div {clear: both;}
+
+/* List options */
+.show-items-list {margin-left: 0; margin-bottom: 0; padding-left: 0;}
+.show-items-list li {float: left; list-style: none; margin: 0 4px;}
+.show-items-list li:first-child {margin-left: 0;}
 
 /* Sorting */
 a.sortable:hover {text-decoration: none;}
@@ -41,6 +41,10 @@ a.sortable:hover {text-decoration: none;}
 .nav-item-actions>li>span {
     position: relative;
     display: block;
+}
+
+.tab-content {
+    padding-top: 30px;
 }
 
 /* Item */

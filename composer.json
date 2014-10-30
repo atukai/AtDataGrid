@@ -14,8 +14,6 @@
     ],
     "require": {
         "zendframework/zendframework": "2.*",
-        "zf-commons/zfc-base": "*",
-        "atukai/at-base": "dev-master"
     },
     "autoload": {
         "psr-0": {
