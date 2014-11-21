@@ -11,11 +11,6 @@ use Zend\Http\PhpEnvironment\Request;
 class Manager
 {
     /**
-     * @var Request
-     */
-    protected $request;
-
-    /**
      * @var DataGrid
      */
     protected $grid;
@@ -53,54 +48,11 @@ class Manager
     protected $actions = array();
 
     /**
-     * @var array
-     */
-    protected $linkedRecords = array();
-
-    /**
      * @param DataGrid $grid
-     * @param Request $request
      */
-    public function __construct(DataGrid $grid, Request $request)
+    public function __construct(DataGrid $grid)
     {
         $this->grid = $grid;
-        $this->request = $request;
-
-        // Row actions
-        $editAction = new Action('edit');
-        $editAction->setAction('edit');
-        $editAction->setBulk(false);
-        $editAction->setLabel('View & Edit');
-        $editAction->setClass('glyphicon glyphicon-pencil');
-        $this->addAction($editAction);
-
-        $deleteAction = new Action('delete');
-        $deleteAction->setAction('delete');
-        $deleteAction->setLabel('Delete');
-        $deleteAction->setConfirm(true);
-        $deleteAction->setClass('glyphicon glyphicon-trash');
-        $this->addAction($deleteAction);
-
-        // @todo Use event?
-        $this->grid->setOrder($this->request->getQuery('order', $this->grid->getIdentifierColumnName().'~desc'));
-
-        if ($this->request->getQuery('page')) {
-            $this->grid->setCurrentPage($this->request->getQuery('page'));
-        }
-
-        if ($this->request->getQuery('show_items')) {
-            $this->grid->setItemsPerPage($this->request->getQuery('show_items'));
-        }
-    }
-
-    /**
-     * @param DataGrid $grid
-     * @return $this
-     */
-    public function setGrid(DataGrid $grid)
-    {
-        $this->grid = $grid;
-        return $this;
     }
 
     /**
@@ -247,10 +199,6 @@ class Manager
         // Apply button
         $form->add(new Element\Submit('apply', array('label' => 'Search')));
 
-        // Set data from request
-        // Use event instead? build.form.post
-        $form->setData($this->request->getQuery());
-
         $this->filtersForm = $form;
 
         return $this->filtersForm;
@@ -312,25 +260,6 @@ class Manager
     public function getActions()
     {
         return $this->actions;
-    }
-
-    /**
-     * @return array
-     */
-    public function getLinkedRecords()
-    {
-        return $this->linkedRecords;
-    }
-
-    /**
-     * @param $name
-     * @param $record
-     * @return $this
-     */
-    public function addLinkedRecord($name, $record)
-    {
-        $this->linkedRecords[$name] = $record;
-        return $this;
     }
 
     /**

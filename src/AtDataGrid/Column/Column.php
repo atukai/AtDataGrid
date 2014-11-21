@@ -243,23 +243,4 @@ class Column
     {
         return $this->formElement;
     }
-
-    // VALIDATORS
-
-    /**
-     * @param $validator
-     * @return $this
-     * @throws \Exception
-     */
-    public function addValidator($validator)
-    {
-    	if (!$this->formElement) {
-    		throw new \Exception('Form element for column "' . $this->getName() . '" is not
-    		    specified. Before set validators you must set form element.');
-    	}
-    	
-    	$this->formElement->addValidator($validator);
-
-        return $this;
-    }
 }

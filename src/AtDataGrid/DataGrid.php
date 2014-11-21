@@ -535,6 +535,7 @@ class DataGrid extends EventProvider implements \Countable, \IteratorAggregate, 
     public function save($data, $identifier = null)
     {
         $eventResult = $this->getEventManager()->trigger(self::EVENT_GRID_PERSIST_PRE, $this, $data)->last();
+
         if ($eventResult) {
             $data = $eventResult;
         }
@@ -580,8 +581,7 @@ class DataGrid extends EventProvider implements \Countable, \IteratorAggregate, 
         }
 
         if (! $filter->getFormElement()) {
-            $columnFormElement = $column->getFormElement();
-            $filterFormElement = clone $columnFormElement;
+            $filterFormElement = clone $column->getFormElement();
             $filterFormElement->setName($filter->getName());
             $filter->setFormElement($filterFormElement);
         }

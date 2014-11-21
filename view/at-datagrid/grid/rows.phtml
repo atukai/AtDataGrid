@@ -13,6 +13,7 @@
 
             <td>
                 <div class="btn-group btn-group-xs pull-right">
+
                     <?php foreach($this->gridManager->getActions() as $action) : ?>
                         <a class="btn <?php if ($action->getName() == 'delete'): ?>btn-danger<?php else: ?>btn-default<?php endif;?> " href="<?php echo $this->url(null, array('action' => $action->getAction(), 'id' => $row[$this->grid->getIdentifierColumnName()])) ?>"
                             <?php if ($action->isConfirm()): ?>
@@ -21,25 +22,6 @@
                             <span title="<?php echo $this->translate($action->getLabel()) ?>" class="<?php echo $action->getClass() ?>"></span>
                         </a>
                     <?php endforeach; ?>
-                    <!--<div class="btn-group btn-group-sm">
-                        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
-                            <span class="caret"></span>
-                        </button>
-                        <ul class="dropdown-menu">
-                            <?php /*foreach($this->gridManager->getActions() as $action) : */?>
-                                <?php /*if ($action['in_row'] == false): */?>
-                                <li>
-                                    <a href="<?php /*echo $this->url(null, array('action' => $action['action'], 'id' => $row[$this->grid->getIdentifierColumnName()])) */?>"
-                                        <?php /*if (isset($action['confirm-message'])): */?>
-                                            onclick="return DataGrid.confirmAction(this, '<?php /*echo $action['confirm-message'] */?>')"
-                                        <?php /*endif;*/?>>
-                                        <?php /*echo $this->translate($action['label']) */?>
-                                    </a>
-                                </li>
-                                <?php /*endif; */?>
-                            <?php /*endforeach; */?>
-                        </ul>
-                    </div>-->
                 </div>
             </td>
         </tr>

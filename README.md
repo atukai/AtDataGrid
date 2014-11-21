@@ -30,9 +30,7 @@ module.config.php
 		'route' => 'users[/:action][/:id]',
 		'defaults' => array(
 			'controller' => 'Application\Controller\Index',
-			'action'     => 'index',
-			'page'       => 1,
-			'show_items' => 20,
+			'action'     => 'index'
 		),
 	)
 )
@@ -80,11 +78,11 @@ class IndexController extends AbstractCrudController
     public function listAction()
     {
         $gridManager = $this->getServiceLocator()->get('user_grid_manager');
-        $grid = $gridManager->getGrid();
 
         $filtersForm = $gridManager->getFiltersForm();
         $filtersForm->setData($this->request->getQuery());
 
+        $grid = $gridManager->getGrid();
         $grid->setFiltersData($filtersForm->getData());
 
         return $gridManager->render();

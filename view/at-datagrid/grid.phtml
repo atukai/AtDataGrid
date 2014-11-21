@@ -1,16 +1,7 @@
 <?php $this->headScript()->appendFile('/js/at-datagrid/datagrid.js') ?>
 <?php $this->headLink()->appendStylesheet('/css/at-datagrid/datagrid.css') ?>
 
-<div class="page-header clearfix">
-    <h1 class="pull-left"><?php echo $this->translate($this->grid->getCaption()) ?></h1>
-    <div class="pull-right" style="margin-top: 20px;">
-        <?php if ($this->gridManager->isAllowCreate()): ?>
-            <a class="btn btn-success btn-sm" title="<?php echo $this->translate('Add new record') ?>" href="<?php echo $this->url(null, array('action' => 'create')) ?>">
-                <?php echo $this->translate('Add') ?>
-            </a>
-        <?php endif; ?>
-    </div>
-</div>
+<h1 class="page-header"><?php echo $this->translate($this->grid->getCaption()) ?></h1>
 
 <div class="row">
     <div class="col-md-12">
