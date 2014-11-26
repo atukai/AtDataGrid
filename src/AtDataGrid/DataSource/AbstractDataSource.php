@@ -18,12 +18,10 @@ abstract class AbstractDataSource
 
     /**
      * @param $name
-     * @return $this
      */
     public function setIdentifierFieldName($name)
     {
         $this->identifierFieldName = $name;
-        return $this;
     }
 
     /**
@@ -36,12 +34,10 @@ abstract class AbstractDataSource
 
     /**
      * @param AdapterInterface $adapter
-     * @return $this
      */
     public function setPaginatorAdapter(AdapterInterface $adapter)
     {
         $this->paginatorAdapter = $adapter;
-        return $this;
     }
 
     /**
@@ -53,9 +49,6 @@ abstract class AbstractDataSource
     }
 
     /**
-     * Load columns from source
-     *
-     * @abstract
      * @return mixed
      */
     abstract public function loadColumns();

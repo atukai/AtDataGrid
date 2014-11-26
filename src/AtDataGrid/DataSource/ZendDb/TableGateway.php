@@ -236,7 +236,7 @@ class TableGateway extends AbstractDataSource
      */
     public function find($key)
     {
-        return $this->getTableGateway()->select(array($this->getIdentifierFieldName() => $key))->current()->getArrayCopy();
+        return $this->getTableGateway()->select(array($this->getIdentifierFieldName() => $key))->current();
     }
 
     /**

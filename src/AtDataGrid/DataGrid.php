@@ -19,11 +19,11 @@ class DataGrid extends EventProvider implements \Countable, \IteratorAggregate, 
     const EVENT_GRID_DELETE_POST = 'at-datagrid.grid.delete.post';
 
     /**
-     * Grid caption
+     * Grid title
      *
      * @var string
      */
-    protected $caption = '';
+    protected $title;
 
     /**
      * Data source
@@ -94,76 +94,34 @@ class DataGrid extends EventProvider implements \Countable, \IteratorAggregate, 
 
     /**
      * @param $dataSource
-     * @param array $options
      */
-    public function __construct($dataSource, $options = array())
+    public function __construct($dataSource)
     {
         $this->setDataSource($dataSource);
 
         $this->columns = $this->getDataSource()->loadColumns();
 
-        if ($options instanceof Config) {
-            $options = $options->toArray();
-        }
-
-        $this->setOptions($options);
-        $this->init();
-
-        $this->getEventManager()->trigger(self::EVENT_GRID_INIT, $this, $options);
+        $this->getEventManager()->trigger(self::EVENT_GRID_INIT, $this);
     }
     
-    /**
-     * Initialize data grid (used by extending classes)
-     *
-     * 
-     * @return void
-     */
-    public function init()
-    {
-    }
-    
-    // OPTIONS
-
-    /**
-     * Set data grid options
-     *
-     * @param array $options
-     * @return DataGrid
-     */
-    public function setOptions(array $options)
-    {
-        unset($options['options']);
-        unset($options['config']);
-
-        foreach ($options as $key => $value) {
-            $method = 'set' . ucfirst($key);
-
-            if (method_exists($this, $method)) {
-                $this->$method($value);
-            }
-        }
-
-        return $this;
-    }
-
     // METADATA
 
     /**
-     * @param $caption
+     * @param $title
      * @return $this
      */
-    public function setCaption($caption)
+    public function setTitle($title)
     {
-        $this->caption = $caption;
+        $this->title = $title;
         return $this;
     }
 
     /**
      * @return string
      */
-    public function getCaption()
+    public function getTitle()
     {
-        return $this->caption;
+        return $this->title;
     }
 
     // COLUMNS
