@@ -8,22 +8,25 @@ use Zend\Form\Element\Select;
 
 class DbReference extends Column
 {
-    protected $dbAdapter = null;
+    /**
+     * @var Adapter
+     */
+    protected $dbAdapter;
 
     /**
      * @var null
      */
-    protected $referenceTable = null;
+    protected $referenceTable;
 
     /**
      * @var string
      */
-    protected $referenceField = '';
+    protected $referenceField;
 
     /**
      * @var string
      */
-    protected $resultFieldName = '';
+    protected $resultFieldName;
 
     /**
      * @param $name
@@ -57,7 +60,7 @@ class DbReference extends Column
         $statement = $sql->prepareStatementForSqlObject($select);
         $rowset = $statement->execute();
 
-        $options = array();
+        $options = array('' => '');
         foreach ($rowset as $row) {
             $options[$row['id']] = $row[$this->resultFieldName];
         }
@@ -68,7 +71,7 @@ class DbReference extends Column
     }
 
     /**
-     * @return null|Adapter
+     * @return Adapter
      */
     public function getDbAdapter()
     {

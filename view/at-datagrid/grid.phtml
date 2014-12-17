@@ -1,6 +1,10 @@
 <?php $this->headScript()->appendFile('/js/at-datagrid/datagrid.js') ?>
 <?php $this->headLink()->appendStylesheet('/css/at-datagrid/datagrid.css') ?>
 
+<? if ($this->customCss): ?>
+    <?php $this->headLink()->appendStylesheet($this->customCss) ?>
+<? endif; ?>
+
 <h1 class="page-header"><?php echo $this->translate($this->grid->getTitle()) ?></h1>
 
 <div class="row">
@@ -17,7 +21,7 @@
                         </th>
                         <?php foreach ($this->grid as $column) : ?>
                             <?php if ($column->isVisible()): ?>
-                                <th>
+                                <th id="col-<?php echo $column->getName() ?>">
                                     <?php if ($column->isSortable()): ?>
                                         <a class="sortable" href="<?php echo $this->atBaseQueryParams(array('page' => 1, 'order' => $column->getName() . '~' . $column->getOrderDirection())) ?>">
                                             <?php if ($this->grid->getCurrentOrderColumnName() == $column->getName()): ?>

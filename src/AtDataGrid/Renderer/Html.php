@@ -3,6 +3,7 @@
 namespace AtDataGrid\Renderer;
 
 use Zend\View\Model\ViewModel;
+use Zend\View\Renderer\PhpRenderer;
 
 class Html extends AbstractRenderer
 {
@@ -12,6 +13,13 @@ class Html extends AbstractRenderer
      * @var string
      */
     protected $template = 'at-datagrid/grid';
+
+    /**
+     * Additional css file path
+     *
+     * @var string
+     */
+    protected $customCss;
 
     /**
      * @param $template
@@ -32,11 +40,31 @@ class Html extends AbstractRenderer
     }
 
     /**
+     * @param string $customCss
+     */
+    public function setCustomCss($customCss)
+    {
+        $this->customCss = $customCss;
+    }
+
+    /**
+     * @return string
+     */
+    public function getCustomCss()
+    {
+        return $this->customCss;
+    }
+
+    /**
      * @param array $variables
      * @return mixed|ViewModel
      */
     public function render($variables = array())
     {
+        if ($this->getCustomCss()) {
+            $variables['customCss'] = $this->getCustomCss();
+        }
+
         $viewModel = new ViewModel($variables);
         $viewModel->setTemplate($this->getTemplate());
 

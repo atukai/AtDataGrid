@@ -120,7 +120,7 @@ class TableGateway extends AbstractDataSource
     }
 
     /**
-     * @return array|mixed
+     * @return array
      */
     public function loadColumns()
     {
@@ -167,33 +167,24 @@ class TableGateway extends AbstractDataSource
             $columns[$columnName] = $column;
         }
 
-        //$this->setCommentAsLabel($columns);
+        $this->setCommentAsLabel($columns);
 
         return $columns;
     }
 
     /**
      * @param $columns
-     * @return void
      */
     protected function setCommentAsLabel($columns)
     {
-        // Get current database name
-        $query = 'SELECT DATABASE();';
-        $schema = $this->getDbAdapter()->query($query);
+        $query = 'SELECT COLUMN_NAME as name, COLUMN_COMMENT as comment FROM information_schema.COLUMNS
+                      WHERE TABLE_SCHEMA = "' . $this->getDbAdapter()->getCurrentSchema() . '" AND TABLE_NAME = "' . $this->getTableGateway()->getTable() . '"';
 
-        // Set table field comments as column label.
-        $select = new Select('information_schema.COLUMNS');
-        $select->columns(array('name' => 'COLUMN_NAME', 'comment' => 'COLUMN_COMMENT'))
-            ->where(array('TABLE_SCHEMA' => $schema))
-            ->where(array('TABLE_NAME', $this->getTableGateway()->getTable()));
-
-        $columnsInfo = $this->getDbAdapter()->query($select->getSqlString(), Adapter::QUERY_MODE_EXECUTE);
-
+        $columnsInfo = $this->getDbAdapter()->query($query, Adapter::QUERY_MODE_EXECUTE);
         if ($columnsInfo) {
-            foreach ($columnsInfo as $column) {
-                if (!empty($column['comment'])) {
-                    $columns[$column['name']]->setLabel($column['comment']);
+            foreach ($columnsInfo as $info) {
+                if (!empty($info['comment'])) {
+                    $columns[$info['name']]->setLabel($info['comment']);
                 }
             }
         }
@@ -223,6 +214,8 @@ class TableGateway extends AbstractDataSource
             }
             $this->getSelect()->order($order);
         }
+
+        $this->getEventManager()->trigger(self::EVENT_DATASOURCE_PREPARE_POST, $this->getSelect());
 
         //var_dump($this->getSelect()->getSqlString());exit;
         return $this;
