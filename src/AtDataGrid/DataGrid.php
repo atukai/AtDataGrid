@@ -468,25 +468,6 @@ class DataGrid extends EventProvider implements \Countable, \IteratorAggregate, 
 
     /**
      * @param $data
-     * @return mixed
-     */
-    public function insert($data)
-    {
-        return $this->getDataSource()->insert($data);
-    }
-
-    /**
-     * @param $data
-     * @param $primary
-     * @return mixed
-     */
-    public function update($data, $primary)
-    {
-        return $this->getDataSource()->update($data, $primary);
-    }
-
-    /**
-     * @param $data
      * @param null $identifier
      * @return mixed
      */
@@ -510,14 +491,31 @@ class DataGrid extends EventProvider implements \Countable, \IteratorAggregate, 
     }
 
     /**
+     * @param $data
+     * @return mixed
+     */
+    public function insert($data)
+    {
+        return $this->getDataSource()->insert($data);
+    }
+
+    /**
+     * @param $data
+     * @param $primary
+     * @return mixed
+     */
+    public function update($data, $primary)
+    {
+        return $this->getDataSource()->update($data, $primary);
+    }
+
+    /**
      * @param $identifier
      */
     public function delete($identifier)
     {
         $this->getEventManager()->trigger(self::EVENT_GRID_DELETE_PRE, $this, array('id' => $identifier));
-
         $this->getDataSource()->delete($identifier);
-
         $this->getEventManager()->trigger(self::EVENT_GRID_DELETE_POST, $this, array('id' => $identifier));
     }
 

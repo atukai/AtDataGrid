@@ -69,12 +69,4 @@ class DbReference extends Column
         $formElement->setValueOptions($options);
         $this->setFormElement($formElement);
     }
-
-    /**
-     * @return Adapter
-     */
-    public function getDbAdapter()
-    {
-        return $this->dbAdapter;
-    }
 }
