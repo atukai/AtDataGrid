@@ -483,6 +483,7 @@ class DataGrid extends EventProvider implements \Countable, \IteratorAggregate, 
             $id = $this->update($data, $identifier);
         } else {
             $id = $this->insert($data);
+            $data[$this->getIdentifierColumnName()] = $id;
         }
 
         $this->getEventManager()->trigger(self::EVENT_GRID_PERSIST_POST, $this, $data);
