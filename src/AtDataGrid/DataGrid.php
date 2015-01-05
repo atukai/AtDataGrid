@@ -4,8 +4,7 @@ namespace AtDataGrid;
 
 use AtDataGrid\DataSource;
 use AtDataGrid\Column\Column;
-use AtDataGrid\Filter\FilterInterface;
-use Zend\Config\Config;
+use AtDataGrid\Filter\AbstractFilter;
 use Zend\Db\ResultSet\ResultSet;
 use Zend\Paginator\Paginator;
 use ZfcBase\EventManager\EventProvider;
@@ -167,15 +166,17 @@ class DataGrid extends EventProvider implements \Countable, \IteratorAggregate, 
      */
     public function addColumn(Column $column, $overwrite = false)
     {
-        if ( (false == $overwrite) && ($this->hasColumn($column)) ) {
-            throw new \Exception('Column `' . $column->getName() . '` already in a column list. Use another name.');
+        $columnName = $column->getName();
+
+        if ( (false == $overwrite) && ($this->hasColumn($columnName)) ) {
+            throw new \Exception('Column `' . $columnName . '` already in a column list. Use another name.');
         }    
         
-        $this->columns[$column->getName()] = $column;
+        $this->columns[$columnName] = $column;
     	
     	// If label is not set, set column name as label
     	if (null == $column->getLabel()) {
-    		$column->setLabel($column->getName());
+    		$column->setLabel($columnName);
     	}
     	
     	return $this;
@@ -436,6 +437,10 @@ class DataGrid extends EventProvider implements \Countable, \IteratorAggregate, 
         $this->paginator->setPageRange($this->pageRange);
 
         $data = $this->paginator->getCurrentItems();
+
+        /**
+         * Convert data to array
+         */
         if (! is_array($data)) {
             if ($data instanceof ResultSet) {
                 $data = $data->toArray();
@@ -449,6 +454,32 @@ class DataGrid extends EventProvider implements \Countable, \IteratorAggregate, 
                 }
 
                 throw new \Exception('The paginator returned a result of unsupported type: ' . $type . '. Should be \ArrayIterator or an Array)');
+            }
+        }
+
+        /**
+         * Add all columns from grid
+         */
+        foreach ($this->getColumns() as $name => $column) {
+            foreach ($data as &$row) {
+                if (! array_key_exists($name, $row)) {
+                    $row[$name] = '';
+                }
+            }
+        }
+
+        /**
+         * Apply decorators only for visible columns
+         */
+        foreach ($data as &$row) {
+            foreach ($row as $colName => $value) {
+                $column = $this->getColumn($colName);
+                if ($column->isVisible()) {
+                    $row[$colName] = $column->render($value);
+                } else {
+                    // Remove invisible column data
+                    unset($row[$colName]);
+                }
             }
         }
 
@@ -523,11 +554,11 @@ class DataGrid extends EventProvider implements \Countable, \IteratorAggregate, 
     // FILTERS
 
     /**
-     * @param FilterInterface $filter
+     * @param AbstractFilter $filter
      * @param Column $column
      * @return $this
      */
-    public function addFilter(FilterInterface $filter, Column $column)
+    public function addFilter(AbstractFilter $filter, Column $column)
     {
         if (! $filter->getName()) {
             $filter->setName($column->getName());
@@ -649,7 +680,7 @@ class DataGrid extends EventProvider implements \Countable, \IteratorAggregate, 
         return $this;
     }
 
-    // iNTERFACES IMPLEMENTATION
+    // INTERFACES IMPLEMENTATION
 
     /**
      * @return mixed

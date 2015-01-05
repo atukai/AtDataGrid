@@ -213,13 +213,12 @@ class Column
 
     /**
      * @param $value
-     * @param null $row
      * @return mixed
      */
-    public function render($value, $row = null)
+    public function render($value)
     {
         foreach ($this->decorators as $decorator) {
-            $value = $decorator->decorate($value, $row);
+            $value = $decorator->decorate($value);
         }
         return $value;
     }

@@ -269,6 +269,8 @@ class Manager
     {
         $grid = $this->getGrid();
 
+        //var_dump($grid->getData());exit;
+
         return $this->getRenderer()->render(array(
             'gridManager' => $this,
             'grid'        => $grid,

@@ -7,13 +7,12 @@
 
             <?php foreach ($row as $name => $value) : ?>
                 <?php if (isset($this->columns[$name]) && $this->columns[$name]->isVisible()): ?>
-                    <td class="<?php echo 'col-' . $name ?>"><?php echo $this->columns[$name]->render($value, $row) ?></td>
+                    <td class="<?php echo 'col-' . $name ?>"><?php echo $value ?></td>
                 <?php endif; ?>
             <?php endforeach; ?>
 
             <td>
                 <div class="btn-group btn-group-xs pull-right">
-
                     <?php foreach($this->gridManager->getActions() as $action) : ?>
                         <a class="btn <?php if ($action->getName() == 'delete'): ?>btn-danger<?php else: ?>btn-default<?php endif;?> " href="<?php echo $this->url(null, array('action' => $action->getAction(), 'id' => $row[$this->grid->getIdentifierColumnName()])) ?>"
                             <?php if ($action->isConfirm()): ?>
@@ -26,5 +25,5 @@
             </td>
         </tr>
     <?php endforeach; ?>
-    <input type="hidden" value="" id="datagrid-list-form-action" name="cmd"/>
+    <input type="hidden" value="" id="datagrid-list-form-action" name="bulk"/>
 </form>
