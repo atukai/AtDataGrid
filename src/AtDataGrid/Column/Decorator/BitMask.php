@@ -4,19 +4,14 @@ namespace AtDataGrid\Column\Decorator;
 
 class BitMask extends AbstractDecorator
 {
-    /**
-     * @var array
-     */
-    protected $statuses = array();
+    protected $statuses;
 
     /**
      * @param array $statuses
      */
     public function __construct($statuses = array())
     {
-        if ($statuses) {
-            $this->setStatuses($statuses);            
-        }
+        $this->setStatuses($statuses);
     }
 
     /**
@@ -26,13 +21,13 @@ class BitMask extends AbstractDecorator
     {
         $this->statuses = $statuses;
     }
-    
+
     /**
      * @param $value
-     * @param $row
+     * @param array $params
      * @return string
      */
-    public function decorate($value)
+    public function decorate($value, $params = array())
     {
         $str = '';
         foreach ($this->statuses as $name => $status) {
@@ -45,7 +40,7 @@ class BitMask extends AbstractDecorator
         
         return $str;
     }
-    
+
     /**
      * @param $status
      * @param $value

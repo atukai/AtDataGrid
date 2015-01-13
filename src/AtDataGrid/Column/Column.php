@@ -3,6 +3,7 @@
 namespace AtDataGrid\Column;
 
 use AtDataGrid\Column\Decorator\DecoratorInterface;
+use Zend\Form\Element;
 
 class Column
 {
@@ -17,8 +18,8 @@ class Column
     protected $sortable = false;
     
     protected $orderDirection = 'desc';
-    
-    protected $formElement = null;
+
+    protected $formElement;
     
     protected $decorators = array();
 
@@ -29,18 +30,15 @@ class Column
     public function __construct($name)
     {
         $this->setName($name);
-
-        if (null === $this->getName()) {
-            throw new \Exception('Please specify a column name');
-        };
     }
 
     // METADATA
 
     /**
      * Filter a name to only allow valid variable characters
-     * 
-     * @param  string $value 
+     * @link http://php.net/manual/en/language.variables.basics.php
+     *
+     * @param  string $value
      * @return string
      */
     protected function filterName($value)
@@ -57,7 +55,7 @@ class Column
     public function setName($name)
     {
         $name = $this->filterName($name);
-        if ('' === $name) {
+        if (! $name) {
             throw new \Exception('Invalid name provided; must contain only valid
                 variable characters and be non-empty');
         }
@@ -98,7 +96,7 @@ class Column
      */
     public function setVisible($value = true)
 	{
-		$this->visible = $value;
+		$this->visible = (bool)$value;
 		return $this;
 	}
 
@@ -116,7 +114,7 @@ class Column
      */
     public function setSortable($value = true)
     {
-        $this->sortable = (bool) $value;
+        $this->sortable = (bool)$value;
         return $this;
     }
 
@@ -151,7 +149,8 @@ class Column
      */
     public function revertOrderDirection()
     {
-        $this->getOrderDirection() == 'asc' ? $this->orderDirection = 'desc' : $this->orderDirection = 'asc';
+        //$this->getOrderDirection() == 'asc' ? $this->orderDirection = 'desc' : $this->orderDirection = 'asc';
+        $this->orderDirection = ($this->getOrderDirection() == 'asc') ? 'desc' : 'asc';
         return $this;
     }
 
@@ -200,7 +199,7 @@ class Column
 
     /**
      * @param $name
-     * @return DecoratorInterface|null
+     * @return null
      */
     public function getDecorator($name)
     {
@@ -211,32 +210,40 @@ class Column
     	return null;
     }
 
+    public function clearDecorators()
+    {
+        $this->decorators = array();
+        return $this;
+    }
+
     /**
      * @param $value
+     * @param array $params
      * @return mixed
      */
-    public function render($value)
+    public function render($value, $params = array())
     {
         foreach ($this->decorators as $decorator) {
-            $value = $decorator->decorate($value);
+            $value = $decorator->decorate($value, $params);
         }
+
         return $value;
     }
     
     // FORMS
 
     /**
-     * @param $formElement
+     * @param Element $formElement
      * @return $this
      */
-    public function setFormElement($formElement)
+    public function setFormElement(Element $formElement)
     {
     	$this->formElement = $formElement;
     	return $this;
     }
 
     /**
-     * @return \Zend\Form\Element
+     * @return mixed
      */
     public function getFormElement()
     {

@@ -12,7 +12,7 @@ abstract class AbstractDecorator implements DecoratorInterface
     const REPLACE = 'replace';
 
     /**
-     * Default placement: append
+     * Default placement: replace
      * @var string
      */
     protected $placement = self::REPLACE;

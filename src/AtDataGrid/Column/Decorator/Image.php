@@ -31,7 +31,7 @@ class Image extends AbstractDecorator
      * @param  $row
      * @return string
      */
-    public function decorate($content, $row)
+    public function decorate($content, $row = array())
     {
         $params = array();
         

@@ -23,7 +23,7 @@ class Alias extends AbstractDecorator
      * @param $value
      * @return mixed
      */
-    public function decorate($value)
+    public function decorate($value, $params = array())
     {
         if (!isset($this->renameTo)) {
             return $value;

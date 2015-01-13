@@ -31,9 +31,10 @@ class DateFormat extends AbstractDecorator
 
     /**
      * @param $value
+     * @param array $params
      * @return bool|string
      */
-    public function decorate($value)
+    public function decorate($value, $params = array())
     {
         if ($value) {
             return date($this->format, strtotime($value));

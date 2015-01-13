@@ -14,59 +14,61 @@ class DbReference extends Column
     protected $dbAdapter;
 
     /**
-     * @var null
+     * @var string
      */
-    protected $referenceTable;
+    protected $refTable;
 
     /**
      * @var string
      */
-    protected $referenceField;
+    protected $refField;
 
     /**
      * @var string
      */
-    protected $resultFieldName;
+    protected $resultField;
 
     /**
      * @param $name
      * @param Adapter $dbAdapter
      * @param $refTable
      * @param $refField
-     * @param $resultFieldName
-     * @throws \Exception
+     * @param $resultField
      */
-    public function __construct($name, Adapter $dbAdapter, $refTable, $refField, $resultFieldName)
+    public function __construct($name, Adapter $dbAdapter, $refTable, $refField, $resultField)
     {
         parent::__construct($name);
 
         $this->dbAdapter = $dbAdapter;
-        $this->referenceTable = $refTable;
-        $this->referenceField = $refField;
-        $this->resultFieldName = $resultFieldName;
+        $this->refTable = $refTable;
+        $this->refField = $refField;
+        $this->resultField = $resultField;
 
-        $sql = new Sql($this->dbAdapter, $this->referenceTable);
+        $sql = new Sql($this->dbAdapter, $this->refTable);
 
         // Decorator
-        $decorator = new \AtDataGrid\Column\Decorator\DbReference(
-            $sql,
-            $this->referenceField,
-            $this->resultFieldName
-        );
+        $decorator = new Decorator\DbReference($sql, $this->refField, $this->resultField);
         $this->addDecorator($decorator);
 
         // Form element
+        $this->setFormElement($this->buildFormElement());
+    }
+
+    protected function buildFormElement($identityColumn = 'id')
+    {
+        $sql = new Sql($this->dbAdapter, $this->refTable);
         $select = $sql->select();
         $statement = $sql->prepareStatementForSqlObject($select);
         $rowset = $statement->execute();
 
         $options = array('' => '');
         foreach ($rowset as $row) {
-            $options[$row['id']] = $row[$this->resultFieldName];
+            $options[$row[$identityColumn]] = $row[$this->resultField];
         }
 
         $formElement = new Select($this->getName());
         $formElement->setValueOptions($options);
-        $this->setFormElement($formElement);
+
+        return $formElement;
     }
 }

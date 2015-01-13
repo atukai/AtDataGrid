@@ -39,21 +39,5 @@ var DataGrid = new Object({
     confirmAction: function(sender, message) {
         message = message || "Are you sure?";
         return confirm(message)
-    },
-
-    loadDataPanel: function(url, panel) {
-        $.ajax({
-            type: 'GET',
-            url: url,
-            cache: true,
-            data: 'panel=' + panel,
-            dataType: 'html',
-            success: function (result) {
-                $('#' + panel).html(result);
-            },
-            error: function(){
-                $('#' + panel).html('Oops! Error occured.');
-            }
-        });
     }
 });

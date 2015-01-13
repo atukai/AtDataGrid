@@ -12,8 +12,16 @@ use ZfcBase\EventManager\EventProvider;
 class DataGrid extends EventProvider implements \Countable, \IteratorAggregate, \ArrayAccess
 {
     const EVENT_GRID_INIT = 'at-datagrid.grid.init';
+
     const EVENT_GRID_PERSIST_PRE = 'at-datagrid.grid.persist.pre';
     const EVENT_GRID_PERSIST_POST = 'at-datagrid.grid.persist.post';
+
+    const EVENT_GRID_INSERT_PRE = 'at-datagrid.grid.insert.pre';
+    const EVENT_GRID_INSERT_POST = 'at-datagrid.grid.insert.post';
+
+    const EVENT_GRID_UPDATE_PRE = 'at-datagrid.grid.update.pre';
+    const EVENT_GRID_UPDATE_POST = 'at-datagrid.grid.update.post';
+
     const EVENT_GRID_DELETE_PRE = 'at-datagrid.grid.delete.pre';
     const EVENT_GRID_DELETE_POST = 'at-datagrid.grid.delete.post';
 
@@ -27,7 +35,7 @@ class DataGrid extends EventProvider implements \Countable, \IteratorAggregate, 
     /**
      * Data source
      *
-     * @var
+     * @var DataSource\AbstractDataSource
      */
     protected $dataSource;
 
@@ -389,9 +397,7 @@ class DataGrid extends EventProvider implements \Countable, \IteratorAggregate, 
     }
 
     /**
-     * Get data source object
-     *
-     * @return mixed
+     * @return DataSource\AbstractDataSource
      */
     public function getDataSource()
     {
@@ -468,27 +474,32 @@ class DataGrid extends EventProvider implements \Countable, \IteratorAggregate, 
             }
         }
 
+        unset($row);
+
         /**
          * Apply decorators only for visible columns
          */
-        foreach ($data as &$row) {
+        $decoratedData = array();
+        foreach ($data as $row) {
+            $decoratedRow = array();
             foreach ($row as $colName => $value) {
                 $column = $this->getColumn($colName);
                 if ($column->isVisible()) {
-                    $row[$colName] = $column->render($value);
-                } else {
-                    // Remove invisible column data
+                    $decoratedRow[$colName] = $column->render($value, $row);
+                }/* else {
+                    // Remove invisible column data to decrease memory usage
                     unset($row[$colName]);
-                }
+                }*/
             }
+            $decoratedData[] = $decoratedRow;
         }
 
-        $this->data = $data;
+        $this->data = $decoratedData;
         return $this->data;
     }
 
     /**
-     * @return mixed
+     * @return Paginator
      */
     public function getPaginator()
     {
@@ -510,11 +521,11 @@ class DataGrid extends EventProvider implements \Countable, \IteratorAggregate, 
             $data = $eventResult;
         }
 
-        if ($identifier) {
-            $id = $this->update($data, $identifier);
-        } else {
+        if (!$identifier) {
             $id = $this->insert($data);
             $data[$this->getIdentifierColumnName()] = $id;
+        } else {
+            $id = $this->update($data, $identifier);
         }
 
         $this->getEventManager()->trigger(self::EVENT_GRID_PERSIST_POST, $this, $data);
@@ -528,7 +539,17 @@ class DataGrid extends EventProvider implements \Countable, \IteratorAggregate, 
      */
     public function insert($data)
     {
-        return $this->getDataSource()->insert($data);
+        $eventResult = $this->getEventManager()->trigger(self::EVENT_GRID_INSERT_PRE, $this, $data)->last();
+        if ($eventResult) {
+            $data = $eventResult;
+        }
+
+        $id = $this->getDataSource()->insert($data);
+
+        $data[$this->getIdentifierColumnName()] = $id;
+        $this->getEventManager()->trigger(self::EVENT_GRID_INSERT_POST, $this, $data);
+
+        return $id;
     }
 
     /**
@@ -538,17 +559,29 @@ class DataGrid extends EventProvider implements \Countable, \IteratorAggregate, 
      */
     public function update($data, $primary)
     {
-        return $this->getDataSource()->update($data, $primary);
+        $eventResult = $this->getEventManager()->trigger(self::EVENT_GRID_UPDATE_PRE, $this, $data)->last();
+        if ($eventResult) {
+            $data = $eventResult;
+        }
+
+        $this->getDataSource()->update($data, $primary);
+        $data[$this->getIdentifierColumnName()] = $primary;
+
+        $this->getEventManager()->trigger(self::EVENT_GRID_UPDATE_POST, $this, $data);
+
+        return $primary;
     }
 
     /**
-     * @param $identifier
+     * @param $id
      */
-    public function delete($identifier)
+    public function delete($id)
     {
-        $this->getEventManager()->trigger(self::EVENT_GRID_DELETE_PRE, $this, array('id' => $identifier));
-        $this->getDataSource()->delete($identifier);
-        $this->getEventManager()->trigger(self::EVENT_GRID_DELETE_POST, $this, array('id' => $identifier));
+        $identifierColumnName = $this->getIdentifierColumnName();
+
+        $this->getEventManager()->trigger(self::EVENT_GRID_DELETE_PRE, $this, array($identifierColumnName => $id));
+        $this->getDataSource()->delete($id);
+        $this->getEventManager()->trigger(self::EVENT_GRID_DELETE_POST, $this, array($identifierColumnName => $id));
     }
 
     // FILTERS

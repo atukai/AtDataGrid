@@ -2,6 +2,7 @@
 
 namespace AtDataGrid\Column\Decorator;
 
+// @todo Use zf2 escaper component
 class Literal extends AbstractDecorator
 {
     /**
@@ -67,12 +68,14 @@ class Literal extends AbstractDecorator
     public function getEncoding()
     {
         return $this->encoding;
-    }    
-    
+    }
+
     /**
-     * Render escaping the value
+     * @param $value
+     * @param array $params
+     * @return mixed
      */
-    public function decorate($value)
+    public function decorate($value, $params = array())
     {
         return $this->escape($value);
     }

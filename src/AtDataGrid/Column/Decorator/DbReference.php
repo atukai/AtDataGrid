@@ -8,46 +8,40 @@ use Zend\Db\Sql\Sql;
 class DbReference extends AbstractDecorator
 {
     /**
-     * @var null|Select
+     * @var string
      */
-    protected $select = null;
+    protected $refField;
 
     /**
      * @var string
      */
-    protected $referenceField = '';
-
-    /**
-     * @var string
-     */
-    protected $resultFieldName = '';
+    protected $resultField;
 
     /**
      * @param Sql $sql
-     * @param $referenceField
-     * @param $resultFieldName
+     * @param $refField
+     * @param $resultField
      */
-    public function __construct(Sql $sql, $referenceField, $resultFieldName)
+    public function __construct(Sql $sql, $refField, $resultField)
     {
-        $this->sql             = $sql;
-        $this->referenceField  = $referenceField;
-        $this->resultFieldName = $resultFieldName;
+        $this->sql = $sql;
+        $this->refField = $refField;
+        $this->resultField = $resultField;
     }
 
     /**
      * @param $value
-     * @return string
+     * @return mixed
      */
-    public function decorate($value)
+    public function decorate($value, $params = array())
     {
         $select = $this->sql->select();
-        $select->columns(array($this->resultFieldName))
-            ->where(array($this->referenceField => $value))
-            ->limit(1);
+        $select->columns(array($this->resultField))
+            ->where(array($this->refField => $value));
 
         $statement = $this->sql->prepareStatementForSqlObject($select);
         $row = $statement->execute()->current();
 
-        return $row[$this->resultFieldName];
+        return $row[$this->resultField];
     }
 }

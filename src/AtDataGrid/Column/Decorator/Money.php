@@ -19,7 +19,7 @@ class Money extends AbstractDecorator
      * @param $value
      * @return string
      */
-    public function decorate($value)
+    public function decorate($value, $params = array())
     {
         if ($value) {
             return money_format($this->getFormat(), $value);

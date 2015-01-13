@@ -10,11 +10,6 @@ class HyperLink extends AbstractDecorator
     protected $url = '#';
 
     /**
-     * @var array
-     */
-    protected $params = array();
-
-    /**
      * @param $url
      */
     public function __construct($url)
@@ -24,19 +19,21 @@ class HyperLink extends AbstractDecorator
 
     /**
      * @param $value
+     * @param array $params
      * @return string
      */
-    public function decorate($value)
+    public function decorate($value, $params = array())
     {
-        $params = array($value);
+        $p = array();
+        $v = array();
 
-        foreach ($this->params as $key => $param) {
-            /*$params[$key] = $param instanceof Column
-                          ? $row[$param->getName()]
-                          : $params[$key] = $param;*/
+        foreach ($params as $key => $val) {
+            $p[] = '%'. $key .'%';
+            $v[] = $val;
         }
-        
-        $url = vsprintf($this->url, $params);
+
+        $url = str_replace($p, $v, $this->url);
+
         
         return '<a href="' . $url . '">' . $value . '</a>';
     }
@@ -48,16 +45,6 @@ class HyperLink extends AbstractDecorator
     public function setUrl($url)
     {
         $this->url = $url;
-        return $this;
-    }
-
-    /**
-     * @param $params
-     * @return $this
-     */
-    public function setParams($params)
-    {
-        $this->params = $params;
         return $this;
     }
 }
