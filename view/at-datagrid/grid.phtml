@@ -5,15 +5,15 @@
     <?php $this->headLink()->appendStylesheet($this->customCss) ?>
 <? endif; ?>
 
-<h1 class="page-header"><?php echo $this->translate($this->grid->getTitle()) ?></h1>
+<h1 class="page-header"><?= $this->translate($this->grid->getTitle()) ?></h1>
 
 <div class="row">
     <div class="col-md-12">
-        <?php echo $this->render('at-datagrid/grid/paginator'); ?>
+        <?= $this->render('at-datagrid/grid/paginator'); ?>
         <hr>
 
-        <div class="at-grid">
-            <table class="table table-striped">
+        <div class="at-grid table-responsive">
+            <table class="table table-striped table-hover">
                 <thead>
                     <tr>
                         <th>
@@ -21,12 +21,12 @@
                         </th>
                         <?php foreach ($this->grid as $column) : ?>
                             <?php if ($column->isVisible()): ?>
-                                <th id="col-<?php echo $column->getName() ?>">
+                                <th id="col-<?= $column->getName() ?>">
                                     <?php if ($column->isSortable()): ?>
-                                        <a class="sortable" href="<?php echo $this->atBaseQueryParams(array('page' => 1, 'order' => $column->getName() . '~' . $column->getOrderDirection())) ?>">
+                                        <a class="sortable" href="<?= $this->atBaseQueryParams(array('page' => 1, 'order' => $column->getName() . '~' . $column->getOrderDirection())) ?>">
                                             <?php if ($this->grid->getCurrentOrderColumnName() == $column->getName()): ?>
                                                 <span class="active">
-                                                    <?php echo $column->getLabel() ?>
+                                                    <?= $column->getLabel() ?>
                                                     <?php if ($this->grid->getCurrentOrderDirection() == 'asc'): ?>
                                                         &uarr;
                                                     <?php elseif($this->grid->getCurrentOrderDirection() == 'desc'): ?>
@@ -34,38 +34,38 @@
                                                     <?php endif; ?>
                                                 </span>
                                             <?php else: ?>
-                                                <?php echo $column->getLabel() ?>
+                                                <?= $column->getLabel() ?>
                                             <?php endif; ?>
                                         </a>
                                     <?php else: ?>
-                                        <?php echo $column->getLabel() ?>
+                                        <?= $column->getLabel() ?>
                                     <?php endif; ?>
                                 </th>
                             <?php endif; ?>
                         <?php endforeach; ?>
-                        <th style="width: <?php echo count($this->gridManager->getActions())*24+20 ?>px;"></th>
+                        <th style="width: <?= count($this->gridManager->getActions())*24+20 ?>px;"></th>
                     </tr>
                 </thead>
                 <tbody>
 
-                    <?php echo $this->render('at-datagrid/grid/filters') ?>
+                    <?= $this->render('at-datagrid/grid/filters') ?>
 
                     <?php if (count($this->data)): ?>
-                        <?php echo $this->render('at-datagrid/grid/rows') ?>
+                        <?= $this->render('at-datagrid/grid/rows') ?>
                     <?php endif ?>
 
                 </tbody>
             </table>
             <?php if (!count($this->data)): ?>
-                <div><?php echo $this->translate("No items found") ?></div>
+                <div><?= $this->translate("No items found") ?></div>
             <?php endif ?>
         </div>
 
         <?php if (count($this->data)): ?>
-            <?php echo $this->render('at-datagrid/grid/group-actions') ?>
+            <?= $this->render('at-datagrid/grid/group-actions') ?>
         <? endif; ?>
 
         <hr>
-        <?php echo $this->render('at-datagrid/grid/paginator'); ?>
+        <?= $this->render('at-datagrid/grid/paginator'); ?>
     </div>
 </div>

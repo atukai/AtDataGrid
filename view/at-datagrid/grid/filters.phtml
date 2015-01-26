@@ -17,21 +17,21 @@
             <td>
                 <?php if ($this->grid->hasFilter($column->getName())): ?>
                     <?php $filter = $this->grid->getFilter($column->getName()); ?>
-                    <?php echo $this->formElement($form->get($filter->getName())); ?>
+                    <?= $this->formElement($form->get($filter->getName())); ?>
                 <?php endif; ?>
             </td>
             <?php endif; ?>
         <?php endforeach; ?>
         <td>
             <div class="btn-group btn-group-xs pull-right">
-                <button class="btn btn-default" type="submit" title="<?php echo $this->translate('Apply filters'); ?>">
+                <button class="btn btn-default" type="submit" title="<?= $this->translate('Apply filters'); ?>">
                     <span class="glyphicon glyphicon-search glyphicon-white"></span>
                 </button>
-                <a class="btn btn-warning" href="<?php echo $this->url(null, array(), true)?>" title="<?php echo $this->translate('Reset filters'); ?>">
+                <a class="btn btn-warning" href="<?= $this->url(null, array(), true)?>" title="<?= $this->translate('Reset filters'); ?>">
                     <span class="glyphicon glyphicon-remove glyphicon-white"></span>
                 </a>
             </div>
         </td>
     </tr>
-    <?php echo $this->form()->closeTag(); ?>
+    <?= $this->form()->closeTag(); ?>
 <?php endif; ?>

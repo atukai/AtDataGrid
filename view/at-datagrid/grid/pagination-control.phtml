@@ -2,10 +2,10 @@
 <div class="b-pager">
     <table>
         <tr>
-            <td><?php echo $this->translate('Pages'); ?>:</td>
+            <td><?= $this->translate('Pages'); ?>:</td>
             <td class="prev">
 		        <?php if (isset($this->previous)): ?>
-		          <a href="<?php echo $this->atBaseQueryParams(array('page' => $this->previous)); ?>" title="<?php echo $this->translate('Previous page'); ?>">
+		          <a href="<?= $this->atBaseQueryParams(array('page' => $this->previous)); ?>" title="<?= $this->translate('Previous page'); ?>">
 		            <i class="glyphicon glyphicon-chevron-left"></i>
 		          </a>
 		        <?php endif; ?>
@@ -15,9 +15,9 @@
                 <ul>
 			        <?php foreach ($this->pagesInRange as $page): ?>
 			            <?php if ($page != $this->current): ?>
-			                <li><a href="<?php echo $this->atBaseQueryParams(array('page' => $page)) ?>"><?php echo $page ?></a></li>
+			                <li><a href="<?= $this->atBaseQueryParams(array('page' => $page)) ?>"><?= $page ?></a></li>
 			            <?php else: ?>
-			                <li class="active"><?php echo $page; ?></li>
+			                <li class="active"><?= $page; ?></li>
 			            <?php endif; ?>
 			        <?php endforeach; ?>
                 </ul>
@@ -25,7 +25,7 @@
 
             <td class="next">
 		        <?php if (isset($this->next)): ?>
-                    <a href="<?php echo $this->atBaseQueryParams(array('page' => $this->next)); ?>" title="<?php echo $this->translate('Next page'); ?>">
+                    <a href="<?= $this->atBaseQueryParams(array('page' => $this->next)); ?>" title="<?= $this->translate('Next page'); ?>">
                         <i class="glyphicon glyphicon-chevron-right"></i>
                     </a>
 		        <?php endif; ?>

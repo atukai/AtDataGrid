@@ -2,23 +2,23 @@
     <?php foreach ($this->data as $row) : ?>
         <tr>
             <td>
-                <input class="grid-table-checker" type="checkbox" value="<?php echo $row[$this->grid->getIdentifierColumnName()] ?>" id="item_id_<?php echo $row[$this->grid->getIdentifierColumnName()] ?>" name="items[]"/>
+                <input class="grid-table-checker" type="checkbox" value="<?= $row[$this->grid->getIdentifierColumnName()] ?>" id="item_id_<?= $row[$this->grid->getIdentifierColumnName()] ?>" name="items[]"/>
             </td>
 
             <?php foreach ($row as $name => $value) : ?>
                 <?php if (isset($this->columns[$name]) && $this->columns[$name]->isVisible()): ?>
-                    <td class="<?php echo 'col-' . $name ?>"><?php echo $value ?></td>
+                    <td class="<?= 'col-' . $name ?>"><?= $value ?></td>
                 <?php endif; ?>
             <?php endforeach; ?>
 
             <td>
                 <div class="btn-group btn-group-xs pull-right">
                     <?php foreach($this->gridManager->getActions() as $action) : ?>
-                        <a class="btn <?php if ($action->getName() == 'delete'): ?>btn-danger<?php else: ?>btn-default<?php endif;?> " href="<?php echo $this->url(null, array('action' => $action->getAction(), 'id' => $row[$this->grid->getIdentifierColumnName()])) ?>"
+                        <a class="btn <?php if ($action->getName() == 'delete'): ?>btn-danger<?php else: ?>btn-default<?php endif;?> " href="<?= $this->url(null, array('action' => $action->getAction(), 'id' => $row[$this->grid->getIdentifierColumnName()])) ?>"
                             <?php if ($action->isConfirm()): ?>
-                                onclick="return DataGrid.confirmAction(this, '<?php echo $this->translate($action->getConfirmMessage()) ?>')"
+                                onclick="return DataGrid.confirmAction(this, '<?= $this->translate($action->getConfirmMessage()) ?>')"
                             <?php endif;?>>
-                            <span title="<?php echo $this->translate($action->getLabel()) ?>" class="<?php echo $action->getClass() ?>"></span>
+                            <span title="<?= $this->translate($action->getLabel()) ?>" class="<?= $action->getClass() ?>"></span>
                         </a>
                     <?php endforeach; ?>
                 </div>

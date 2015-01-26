@@ -13,8 +13,8 @@
         }
     ],
     "require": {
-        "zendframework/zendframework": "2.*",
-        "zf-commons/zfc-base": "*"
+        "php": ">=5.4",
+        "zendframework/zendframework": "2.*"
     },
     "autoload": {
         "psr-0": {

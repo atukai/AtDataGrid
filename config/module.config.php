@@ -1,6 +1,6 @@
 <?php
 
-return array(
+return [
     'translator' => [
         'translation_file_patterns' => [
             [
@@ -11,9 +11,9 @@ return array(
         ],
     ],
 
-    'view_manager' => array(
-        'template_path_stack' => array(
+    'view_manager' => [
+        'template_path_stack' => [
             __DIR__ . '/../view',
-        ),
-    ),
-);
+        ],
+    ],
+];

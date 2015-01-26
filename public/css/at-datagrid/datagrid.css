@@ -3,7 +3,7 @@
 .at-grid table label {font-size: 1em; width: 50px;}
 .at-grid table .checkbox {padding: 0; width: 36px; text-align: center;}
 .at-grid table th {text-transform: uppercase;}
-.at-grid table th, .at-grid table td {padding: 3px 6px; font-size: 12px; vertical-align: middle !important; }
+.at-grid table th, .at-grid table td {padding: 3px 6px; vertical-align: middle !important; }
 .at-grid table th input[type="checkbox"], .at-grid table td input[type="checkbox"] {margin-top: -2px;}
 .at-grid table th a {color: #2D444F; text-decoration: none;}
 .at-grid table th a:hover {text-decoration: underline;}

@@ -5,12 +5,15 @@ namespace AtDataGrid;
 use AtDataGrid\DataSource;
 use AtDataGrid\Column\Column;
 use AtDataGrid\Filter\AbstractFilter;
+use AtDataGrid\Filter\FilterInterface;
 use Zend\Db\ResultSet\ResultSet;
+use Zend\EventManager\EventManagerAwareTrait;
 use Zend\Paginator\Paginator;
-use ZfcBase\EventManager\EventProvider;
 
-class DataGrid extends EventProvider implements \Countable, \IteratorAggregate, \ArrayAccess
+class DataGrid implements \Countable, \IteratorAggregate, \ArrayAccess
 {
+    use EventManagerAwareTrait;
+
     const EVENT_GRID_INIT = 'at-datagrid.grid.init';
 
     const EVENT_GRID_PERSIST_PRE = 'at-datagrid.grid.persist.pre';
@@ -44,7 +47,7 @@ class DataGrid extends EventProvider implements \Countable, \IteratorAggregate, 
      *
      * @var array
      */
-    protected $columns = array();
+    protected $columns = [];
 
     /**
      * @var string
@@ -90,14 +93,14 @@ class DataGrid extends EventProvider implements \Countable, \IteratorAggregate, 
     /**
      * @var array
      */
-    protected $filters = array();
+    protected $filters = [];
 
     /**
      * Array of rows from data source
      *
      * @var array
      */
-    protected $data = array();
+    protected $data = [];
 
     /**
      * @param $dataSource
@@ -105,9 +108,7 @@ class DataGrid extends EventProvider implements \Countable, \IteratorAggregate, 
     public function __construct($dataSource)
     {
         $this->setDataSource($dataSource);
-
         $this->columns = $this->getDataSource()->loadColumns();
-
         $this->getEventManager()->trigger(self::EVENT_GRID_INIT, $this);
     }
     
@@ -479,9 +480,9 @@ class DataGrid extends EventProvider implements \Countable, \IteratorAggregate, 
         /**
          * Apply decorators only for visible columns
          */
-        $decoratedData = array();
+        $decoratedData = [];
         foreach ($data as $row) {
-            $decoratedRow = array();
+            $decoratedRow = [];
             foreach ($row as $colName => $value) {
                 $column = $this->getColumn($colName);
                 if ($column->isVisible()) {
@@ -579,9 +580,9 @@ class DataGrid extends EventProvider implements \Countable, \IteratorAggregate, 
     {
         $identifierColumnName = $this->getIdentifierColumnName();
 
-        $this->getEventManager()->trigger(self::EVENT_GRID_DELETE_PRE, $this, array($identifierColumnName => $id));
+        $this->getEventManager()->trigger(self::EVENT_GRID_DELETE_PRE, $this, [$identifierColumnName => $id]);
         $this->getDataSource()->delete($id);
-        $this->getEventManager()->trigger(self::EVENT_GRID_DELETE_POST, $this, array($identifierColumnName => $id));
+        $this->getEventManager()->trigger(self::EVENT_GRID_DELETE_POST, $this, [$identifierColumnName => $id]);
     }
 
     // FILTERS
@@ -659,6 +660,7 @@ class DataGrid extends EventProvider implements \Countable, \IteratorAggregate, 
      */
     public function setFiltersData($values)
     {
+        /** @var FilterInterface $filter */
         foreach ($this->getFilters() as $filter) {
             $filter->setValue($values[$filter->getName()]);
         }

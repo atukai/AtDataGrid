@@ -2,11 +2,13 @@
 
 namespace AtDataGrid\DataSource;
 
+use Zend\EventManager\EventManagerAwareTrait;
 use Zend\Paginator\Adapter\AdapterInterface;
-use ZfcBase\EventManager\EventProvider;
 
-abstract class AbstractDataSource extends EventProvider
+abstract class AbstractDataSource
 {
+    use EventManagerAwareTrait;
+
     const EVENT_DATASOURCE_PREPARE_POST = 'at-datagrid.datasource.prepare.post';
 
     /**

@@ -2,7 +2,6 @@
 
 namespace AtDataGrid\Filter;
 
-use Zend\Db\Sql\Select;
 use Zend\Form\ElementInterface;
 
 abstract class AbstractFilter implements FilterInterface
@@ -170,39 +169,6 @@ abstract class AbstractFilter implements FilterInterface
         }
         
         return $value;
-    } 
-
-    /**
-     * Формирует полное название поля для селекта. Учитывается название таблицы.
-     * Сделано, так как в mySQL нельзя использовать псевдонимы полей в условии
-     * where.
-     *
-     * @todo Очень жестко зарефакторить этот говнокод
-     */
-    protected function findTableColumnName(Select $select, $columnName)
-    {
-        $parsedName = explode('__', $columnName);
-        
-        if (count($parsedName) == 2) {
-            $fullColumnName = $parsedName[0] . '.' . $parsedName[1];
-        } else {        
-        
-            $selectColumns = $select->getPart(Zend_Db_Select::COLUMNS);
-    
-            foreach ($selectColumns as $column) {
-                if (!$i = array_search($columnName, $column)) {
-                    continue;
-                }
-            }
-            
-            if (false != $i) {
-                $fullColumnName = $selectColumns[$i][0] . '.' . $selectColumns[$i][1];
-            } else {
-            	$fullColumnName = $selectColumns[0][0] . '.' . $columnName;
-            }       
-        }
-
-        return $fullColumnName;
     }
 
     /**

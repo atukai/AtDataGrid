@@ -1,18 +1,18 @@
 <div class="at-grid-group-actions">
     <div class="btn-group btn-group-xs">
         <button type="button" class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown">
-            <?php echo $this->translate("With selected") ?>
+            <?= $this->translate("With selected") ?>
             <span class="caret"></span>
         </button>
         <ul class="dropdown-menu">
             <?php foreach($this->gridManager->getActions() as $action) : ?>
                 <?php if ($action->isBulk()): ?>
                     <li>
-                        <a onclick="DataGrid.action('<?php echo $action->getAction() ?>')"
+                        <a onclick="DataGrid.action('<?= $action->getAction() ?>')"
                            <?php if ($action->isConfirm()): ?>
-                               onclick="return DataGrid.confirmAction(this, '<?php echo $action->getConfirmMessage() ?>')"
+                               onclick="return DataGrid.confirmAction(this, '<?= $action->getConfirmMessage() ?>')"
                            <?php endif;?>>
-                           <?php echo $this->translate($action->getLabel()) ?></a>
+                           <?= $this->translate($action->getLabel()) ?></a>
                     </li>
                 <?php endif; ?>
             <?php endforeach; ?>

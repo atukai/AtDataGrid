@@ -18,7 +18,7 @@
                     <?php $element = $form->get($filter->getName()); ?>
 
                     <?php //echo $this->formLabel($element) ?>
-                    <?php echo $this->formElement($element); ?>
+                    <?= $this->formElement($element); ?>
 
                 <?php endif; ?>
             </div>
@@ -26,13 +26,13 @@
     <?php endforeach; ?>
     <div>
         <div class="btn-group btn-group-xs pull-right">
-            <button class="btn btn-info" type="submit" title="<?php echo $this->translate('Apply filters'); ?>">
+            <button class="btn btn-info" type="submit" title="<?= $this->translate('Apply filters'); ?>">
                 <span class="glyphicon glyphicon-search glyphicon-white"></span>
             </button>
-            <a class="btn btn-danger" href="<?php echo $this->url(null, array(), true)?>" title="<?php echo $this->translate('Reset filters'); ?>">
+            <a class="btn btn-danger" href="<?= $this->url(null, array(), true)?>" title="<?= $this->translate('Reset filters'); ?>">
                 <span class="glyphicon glyphicon-remove glyphicon-white"></span>
             </a>
         </div>
     </div>
-    <?php echo $this->form()->closeTag(); ?>
+    <?= $this->form()->closeTag(); ?>
 <?php endif; ?>

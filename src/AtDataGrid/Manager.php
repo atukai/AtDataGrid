@@ -45,7 +45,7 @@ class Manager
      *
      * @var array
      */
-    protected $actions = array();
+    protected $actions = [];
 
     /**
      * @param DataGrid $grid
@@ -197,7 +197,7 @@ class Manager
         }
 
         // Apply button
-        $form->add(new Element\Submit('apply', array('label' => 'Search')));
+        $form->add(new Element\Submit('apply', ['label' => 'Search']));
 
         $this->filtersForm = $form;
 
@@ -219,7 +219,7 @@ class Manager
      * @param array $actions
      * @return $this
      */
-    public function addActions($actions = array())
+    public function addActions($actions = [])
     {
         foreach ($actions as $action) {
             $this->addAction($action);
@@ -269,13 +269,13 @@ class Manager
     {
         $grid = $this->getGrid();
 
-        return $this->getRenderer()->render(array(
+        return $this->getRenderer()->render([
             'gridManager' => $this,
             'grid'        => $grid,
             'columns'     => $grid->getColumns(),
             'data'        => $grid->getData(),
             'paginator'   => $grid->getPaginator(),
             'filtersForm' => $this->getFiltersForm(),
-        ));
+        ]);
     }
 }
