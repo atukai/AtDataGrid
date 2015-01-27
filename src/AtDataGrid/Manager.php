@@ -4,6 +4,8 @@ namespace AtDataGrid;
 
 use AtDataGrid\Renderer\AbstractRenderer;
 use AtDataGrid\Row\Action;
+use Zend\Cache\Storage\StorageInterface;
+use Zend\Db\ResultSet\ResultSet;
 use Zend\Form\Element;
 use Zend\Form\Form;
 use Zend\Http\PhpEnvironment\Request;
@@ -24,6 +26,11 @@ class Manager
      * @var Form
      */
     protected $filtersForm;
+
+    /**
+     * @var StorageInterface
+     */
+    protected $cache;
 
     /**
      * @var bool
@@ -79,6 +86,22 @@ class Manager
     public function getRenderer()
     {
         return $this->renderer;
+    }
+
+    /**
+     * @param StorageInterface $cache
+     */
+    public function setCache(StorageInterface $cache)
+    {
+        $this->cache = $cache;
+    }
+
+    /**
+     * @return StorageInterface
+     */
+    public function getCache()
+    {
+        return $this->cache;
     }
 
     /**
@@ -263,6 +286,49 @@ class Manager
     }
 
     /**
+     * @param $data
+     * @return array
+     * @throws \Exception
+     */
+    public function prepareData($data)
+    {
+        $grid = $this->getGrid();
+
+        /**
+         * Add all columns from grid
+         */
+        foreach ($grid->getColumns() as $name => $column) {
+            foreach ($data as &$row) {
+                if (! array_key_exists($name, $row)) {
+                    $row[$name] = '';
+                }
+            }
+        }
+
+        unset($row);
+
+        /**
+         * Apply decorators only for visible columns
+         */
+        $decoratedData = [];
+        foreach ($data as $row) {
+            $decoratedRow = [];
+            foreach ($row as $colName => $value) {
+                $column = $grid->getColumn($colName);
+                if ($column->isVisible()) {
+                    $decoratedRow[$colName] = $column->render($value, $row);
+                } else {
+                    //unset($row[$colName]);
+                    $decoratedRow[$colName] = $value;
+                }
+            }
+            $decoratedData[] = $decoratedRow;
+        }
+
+        return $decoratedData;
+    }
+
+    /**
      *
      */
     public function render()
@@ -273,7 +339,7 @@ class Manager
             'gridManager' => $this,
             'grid'        => $grid,
             'columns'     => $grid->getColumns(),
-            'data'        => $grid->getData(),
+            'data'        => $this->prepareData($grid->getData()),
             'paginator'   => $grid->getPaginator(),
             'filtersForm' => $this->getFiltersForm(),
         ]);

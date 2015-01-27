@@ -442,7 +442,6 @@ class DataGrid implements \Countable, \IteratorAggregate, \ArrayAccess
         $this->paginator->setCurrentPageNumber($this->currentPage);
         $this->paginator->setItemCountPerPage($this->itemsPerPage);
         $this->paginator->setPageRange($this->pageRange);
-
         $data = $this->paginator->getCurrentItems();
 
         /**
@@ -460,42 +459,11 @@ class DataGrid implements \Countable, \IteratorAggregate, \ArrayAccess
                     $type = gettype($data);
                 }
 
-                throw new \Exception('The paginator returned a result of unsupported type: ' . $type . '. Should be \ArrayIterator or an Array)');
+                throw new \Exception('The paginator returned a result of unsupported type: ' . $type . '. Should be convertable to array.');
             }
         }
 
-        /**
-         * Add all columns from grid
-         */
-        foreach ($this->getColumns() as $name => $column) {
-            foreach ($data as &$row) {
-                if (! array_key_exists($name, $row)) {
-                    $row[$name] = '';
-                }
-            }
-        }
-
-        unset($row);
-
-        /**
-         * Apply decorators only for visible columns
-         */
-        $decoratedData = [];
-        foreach ($data as $row) {
-            $decoratedRow = [];
-            foreach ($row as $colName => $value) {
-                $column = $this->getColumn($colName);
-                if ($column->isVisible()) {
-                    $decoratedRow[$colName] = $column->render($value, $row);
-                }/* else {
-                    // Remove invisible column data to decrease memory usage
-                    unset($row[$colName]);
-                }*/
-            }
-            $decoratedData[] = $decoratedRow;
-        }
-
-        $this->data = $decoratedData;
+        $this->data = $data;
         return $this->data;
     }
 
