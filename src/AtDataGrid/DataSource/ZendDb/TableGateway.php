@@ -5,6 +5,7 @@ namespace AtDataGrid\DataSource\ZendDb;
 use Zend\Db\Adapter\Adapter;
 use Zend\Db\Metadata\Metadata;
 use Zend\Db\Sql\Select;
+use Zend\Db\TableGateway\Feature\RowGatewayFeature;
 use Zend\Db\TableGateway\TableGateway as ZendTableGateway;
 use Zend\Paginator\Adapter\DbSelect as DbSelectPaginatorAdapter;
 use AtDataGrid\DataSource\AbstractDataSource;
@@ -50,12 +51,16 @@ class TableGateway extends AbstractDataSource
 
     /**
      * @param ZendTableGateway $tableGateway
+     * @param string $primaryKey
      */
-    public function __construct(ZendTableGateway $tableGateway)
+    public function __construct(ZendTableGateway $tableGateway, $primaryKey = 'id')
 	{
+        $this->setIdentifierFieldName($primaryKey);
+        $tableGateway->getFeatureSet()->addFeature(new RowGatewayFeature($primaryKey));
         $this->tableGateway = $tableGateway;
+
         $this->dbAdapter = $tableGateway->getAdapter();
-        $this->select = $this->getTableGateway()->getSql()->select();
+        $this->select = $tableGateway->getSql()->select();
         $this->paginatorAdapter = new DbSelectPaginatorAdapter($this->select, $this->dbAdapter);
 	}
 
@@ -193,7 +198,8 @@ class TableGateway extends AbstractDataSource
     /**
      * @param $order
      * @param array $filters
-     * @return $this|mixed
+     * @return $this
+     * @throws \Exception
      */
     public function prepare($order, $filters = array())
     {

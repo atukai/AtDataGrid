@@ -4,7 +4,6 @@ namespace AtDataGrid;
 
 use AtDataGrid\DataSource;
 use AtDataGrid\Column\Column;
-use AtDataGrid\Filter\AbstractFilter;
 use AtDataGrid\Filter\FilterInterface;
 use Zend\Db\ResultSet\ResultSet;
 use Zend\EventManager\EventManagerAwareTrait;
@@ -556,11 +555,11 @@ class DataGrid implements \Countable, \IteratorAggregate, \ArrayAccess
     // FILTERS
 
     /**
-     * @param AbstractFilter $filter
+     * @param FilterInterface $filter
      * @param Column $column
      * @return $this
      */
-    public function addFilter(AbstractFilter $filter, Column $column)
+    public function addFilter(FilterInterface $filter, Column $column)
     {
         if (! $filter->getName()) {
             $filter->setName($column->getName());
@@ -568,12 +567,6 @@ class DataGrid implements \Countable, \IteratorAggregate, \ArrayAccess
 
         if (! $filter->getLabel()) {
             $filter->setLabel($column->getLabel());
-        }
-
-        if (! $filter->getFormElement()) {
-            $filterFormElement = clone $column->getFormElement();
-            $filterFormElement->setName($filter->getName());
-            $filter->setFormElement($filterFormElement);
         }
 
         $this->filters[$filter->getName()] = $filter;

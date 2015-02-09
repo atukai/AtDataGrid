@@ -8,5 +8,5 @@ abstract class AbstractRenderer implements RendererInterface
      * @param array $variables
      * @return mixed
      */
-    abstract public function render($variables = array());
+    abstract public function render($variables = []);
 }

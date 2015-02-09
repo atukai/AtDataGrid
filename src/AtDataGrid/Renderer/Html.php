@@ -59,7 +59,7 @@ class Html extends AbstractRenderer
      * @param array $variables
      * @return mixed|ViewModel
      */
-    public function render($variables = array())
+    public function render($variables = [])
     {
         if ($this->getCustomCss()) {
             $variables['customCss'] = $this->getCustomCss();

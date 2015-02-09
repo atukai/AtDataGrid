@@ -34,10 +34,12 @@ class DateFormat extends AbstractDecorator
      * @param array $params
      * @return bool|string
      */
-    public function decorate($value, $params = array())
+    public function decorate($value, $params = [])
     {
         if ($value) {
             return date($this->format, strtotime($value));
         }
+
+        return $value;
     }
 }

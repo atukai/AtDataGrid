@@ -3,7 +3,6 @@
 namespace AtDataGrid\Column;
 
 use AtDataGrid\Column\Decorator;
-use Zend\Form\Element\DateTime;
 
 class Date extends Column
 {
@@ -11,7 +10,7 @@ class Date extends Column
     {
     	parent::__construct($name);
     	
-        $this->setFormElement(new DateTime($this->getName()))
+        $this->setFormElement(new \Zend\Form\Element\DateTime($this->getName()))
              ->addDecorator(new Decorator\DateFormat('d.m.Y'));
     }
 }

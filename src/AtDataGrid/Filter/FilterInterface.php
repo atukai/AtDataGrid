@@ -5,14 +5,6 @@ namespace AtDataGrid\Filter;
 interface FilterInterface
 {
     /**
-     * @param $source
-     * @param $columnName
-     * @param null $value
-     * @return mixed
-     */
-    public function apply($source, $columnName, $value = null);
-
-    /**
      * @param $name
      * @return mixed
      */
@@ -28,4 +20,18 @@ interface FilterInterface
      * @return mixed
      */
     public function setValue($value);
+
+    /**
+     * @todo: Remove from this
+     * @return mixed
+     */
+    public function getFormElement();
+
+    /**
+     * @param $source
+     * @param $columnName
+     * @param $value
+     * @return mixed
+     */
+    public function apply($source, $columnName, $value);
 }

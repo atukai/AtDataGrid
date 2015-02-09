@@ -2,13 +2,12 @@
 
 namespace AtDataGrid;
 
+use AtDataGrid\Filter\FilterInterface;
 use AtDataGrid\Renderer\AbstractRenderer;
 use AtDataGrid\Row\Action;
 use Zend\Cache\Storage\StorageInterface;
-use Zend\Db\ResultSet\ResultSet;
 use Zend\Form\Element;
 use Zend\Form\Form;
-use Zend\Http\PhpEnvironment\Request;
 
 class Manager
 {
@@ -214,8 +213,16 @@ class Manager
         $grid = $this->getGrid();
         $form = new Form('at-datagrid-filters-form');
 
+        /** @var FilterInterface $filter */
         foreach ($grid->getFilters() as $filter) {
             $element = $filter->getFormElement();
+            if (! $element) {
+                $column = $grid->getColumn($filter->getName());
+                $element = clone $column->getFormElement();
+                $element->setName($filter->getName());
+                $filter->setFormElement($element);
+            }
+
             $form->add($element);
         }
 
@@ -315,11 +322,10 @@ class Manager
             $decoratedRow = [];
             foreach ($row as $colName => $value) {
                 $column = $grid->getColumn($colName);
+                $decoratedRow[$colName] = $value;
+
                 if ($column->isVisible()) {
                     $decoratedRow[$colName] = $column->render($value, $row);
-                } else {
-                    //unset($row[$colName]);
-                    $decoratedRow[$colName] = $value;
                 }
             }
             $decoratedData[] = $decoratedRow;
@@ -341,7 +347,7 @@ class Manager
             'columns'     => $grid->getColumns(),
             'data'        => $this->prepareData($grid->getData()),
             'paginator'   => $grid->getPaginator(),
-            'filtersForm' => $this->getFiltersForm(),
+            'filtersForm' => $this->getFiltersForm()
         ]);
     }
 }

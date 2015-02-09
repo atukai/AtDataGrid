@@ -10,10 +10,10 @@
 .at-grid table th.ordered {background-color: #FFFAD2;}
 
 /* Grid filters */
-.at-grid table .filters {background-color: #E3EFF1; font-size: 0.9em;}
-.at-grid table .filters td div {vertical-align: top; white-space: nowrap;}
-.at-grid table .filters td input, .at-grid table .filters td select {width: 100%; height: 24px; font-size: 12px;}
-.at-grid table .filters td div {clear: both;}
+.at-grid tr.filters {background-color: #E3EFF1 !important; font-size: 0.9em;}
+.at-grid tr.filters td div {vertical-align: top; white-space: nowrap;}
+.at-grid tr.filters td input, .at-grid tr.filters td select {width: 100%; height: 24px; font-size: 12px;}
+.at-grid tr.filters td div {clear: both;}
 
 /* List options */
 .show-items-list {margin-left: 0; margin-bottom: 0; padding-left: 0;}

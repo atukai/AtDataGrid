@@ -6,32 +6,41 @@ use Zend\Form\ElementInterface;
 
 abstract class AbstractFilter implements FilterInterface
 {
+    const OP_EQUAL            = 'equal';
+    const OP_NOT_EQUAL        = 'not_equal';
+    const OP_GREATER          = 'greater';
+    const OP_GREATER_OR_EQUAL = 'greater_or_equal';
+    const OP_LESS             = 'less';
+    const OP_LESS_OR_EQUAL    = 'less_or_equal';
+    const OP_LIKE             = 'like';
+    const OP_LIKE_LEFT        = 'like_left';
+    const OP_LIKE_RIGHT       = 'like_right';
+    const OP_NOT_LIKE         = 'not_like';
+    const OP_NOT_LIKE_LEFT    = 'not_like_left';
+    const OP_NOT_LIKE_RIGHT   = 'not_like_right';
+    const OP_IN               = 'in';
+    const OP_NOT_IN           = 'not_in';
+    const OP_BETWEEN          = 'between';
+
     /**
-     * Value types
+     * @var string
      */
-    const VALUE_TYPE_STRING = 'string';
-    const VALUE_TYPE_INTEGER = 'integer';
-    const VALUE_TYPE_DATETIME = 'datetime';
+    private $operator;
 
     /**
      * @var
      */
-    protected $name;
+    private $name;
 
     /**
      * @var
      */
-    protected $label;
+    private $label;
 
     /**
      * @var
      */
-    protected $value;
-
-    /**
-     * @var
-     */
-    protected $valueType = self::VALUE_TYPE_STRING;
+    private $value;
 
     /**
      * @var ElementInterface
@@ -39,17 +48,15 @@ abstract class AbstractFilter implements FilterInterface
     protected $formElement;
 
     /**
+     * @param string $operator
      * @param null $name
-     * @param null $type
      */
-    public function __construct($name = null, $type = null)
+    public function __construct($operator, $name = null)
     {
-    	if ($name) {
-    		$this->setName($name);
-    	}
+        $this->operator = $operator;
 
-        if ($type) {
-            $this->setValueType($type);
+        if ($name) {
+            $this->setName($name);
         }
     }
 
@@ -108,24 +115,6 @@ abstract class AbstractFilter implements FilterInterface
     }
 
     /**
-     * @param $type
-     * @return $this
-     */
-    public function setValueType($type)
-    {
-        $this->valueType = $type;
-        return $this;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getValueType()
-    {
-        return $this->valueType;
-    }
-
-    /**
      * @param ElementInterface $element
      * @return $this
      */
@@ -144,39 +133,10 @@ abstract class AbstractFilter implements FilterInterface
     }
 
     /**
-     * @param $value
-     * @return bool|int|string
+     * @return string
      */
-    protected function applyValueType($value)
+    public function getOperator()
     {
-        $value = trim($value);
-
-        switch ($this->valueType) {
-            case self::VALUE_TYPE_INTEGER:
-                $value = (integer) $value;
-                break;
-
-            case self::VALUE_TYPE_STRING:
-                $value = (string) $value;
-                break;
-                
-            case self::VALUE_TYPE_DATETIME:
-                $value = date('Y-m-d H:i:s', strtotime($value));
-                break;
-                
-            default:
-                break;
-        }
-        
-        return $value;
-    }
-
-    /**
-     * @param $string
-     * @return bool
-     */
-    public function isNotEmptyString($string)
-    {
-        return is_string($string) && !empty($string);
+        return $this->operator;
     }
 }
