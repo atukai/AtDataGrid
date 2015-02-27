@@ -3,10 +3,10 @@
         <ul class="show-items-list clearfix pull-left">
             <li><?= $this->translate('View')?> </li>
             <li>
-                <?php if ($this->grid->getItemsPerPage() == 10): ?>
-                    <span class="b">10</span>
+                <?php if ($this->grid->getItemsPerPage() == 20): ?>
+                    <span class="b">20</span>
                 <?php else: ?>
-                    <a href="<?= $this->atBaseQueryParams(array('show_items' => 10)) ?>">10</a>
+                    <a href="<?= $this->atBaseQueryParams(array('show_items' => 20)) ?>">20</a>
                 <?php endif; ?>
             </li>
             <li>

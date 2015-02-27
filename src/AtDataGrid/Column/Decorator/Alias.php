@@ -5,25 +5,24 @@ namespace AtDataGrid\Column\Decorator;
 class Alias extends AbstractDecorator
 {
     /**
-     * @var null
+     * @var array
      */
     protected $renameTo;
 
     /**
-     * @param null $renameTo
+     * @param array $renameTo
      */
-    public function __construct($renameTo = null)
+    public function __construct($renameTo = [])
     {
-        if ($renameTo) {
-            $this->setRenameTo($renameTo);
-        }
+        $this->setRenameTo($renameTo);
     }
 
     /**
      * @param $value
+     * @param array $params
      * @return mixed
      */
-    public function decorate($value, $params = array())
+    public function decorate($value, $params = [])
     {
         if (!isset($this->renameTo)) {
             return $value;
@@ -39,7 +38,7 @@ class Alias extends AbstractDecorator
     /**
      * @param array $renameTo
      */
-    public function setRenameTo($renameTo = array())
+    public function setRenameTo($renameTo = [])
     {
         $this->renameTo = $renameTo;
     }

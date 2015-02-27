@@ -61,7 +61,7 @@ class DataGrid implements \Countable, \IteratorAggregate, \ArrayAccess
     /**
      * @var null
      */
-    protected $currentOrderColumnName = null;
+    protected $currentOrderColumnName;
 
     /**
      * @var string
@@ -80,7 +80,7 @@ class DataGrid implements \Countable, \IteratorAggregate, \ArrayAccess
      *
      * @var integer
      */
-    protected $itemsPerPage = 10;
+    protected $itemsPerPage = 20;
 
     /**
      * Page range
@@ -169,15 +169,14 @@ class DataGrid implements \Countable, \IteratorAggregate, \ArrayAccess
      *
      * @param Column $column
      * @param bool $overwrite
-     * @return DataGrid
-     * @throws \Exception
+     * @return $this
      */
     public function addColumn(Column $column, $overwrite = false)
     {
         $columnName = $column->getName();
 
         if ( (false == $overwrite) && ($this->hasColumn($columnName)) ) {
-            throw new \Exception('Column `' . $columnName . '` already in a column list. Use another name.');
+            throw new \DomainException('Column `' . $columnName . '` already in a column list. Use another name.');
         }    
         
         $this->columns[$columnName] = $column;
@@ -195,7 +194,7 @@ class DataGrid implements \Countable, \IteratorAggregate, \ArrayAccess
      * Alias for addColumn($column, true)
      *
      * @param Column $column
-     * @return DataGrid
+     * @return $this
      */
     public function setColumn(Column $column)
     {
@@ -208,7 +207,7 @@ class DataGrid implements \Countable, \IteratorAggregate, \ArrayAccess
      *
      * @param array $columns
      * @param bool $overwrite
-     * @return DataGrid
+     * @return $this
      */
     public function addColumns(array $columns, $overwrite = false)
     {
@@ -452,17 +451,12 @@ class DataGrid implements \Countable, \IteratorAggregate, \ArrayAccess
             } elseif ($data instanceof \ArrayIterator) {
                 $data = $data->getArrayCopy();
             } else {
-                if (is_object($data)) {
-                    $type = get_class($data);
-                } else {
-                    $type = gettype($data);
-                }
-
-                throw new \Exception('The paginator returned a result of unsupported type: ' . $type . '. Should be convertable to array.');
+                throw new \RuntimeException('Result data couldn\'t be converted to array');
             }
         }
 
         $this->data = $data;
+
         return $this->data;
     }
 

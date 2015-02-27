@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: AtDataGrid\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-10-29 18:33+0300\n"
-"PO-Revision-Date: 2014-10-29 18:33+0300\n"
+"POT-Creation-Date: 2015-02-09 17:14+0300\n"
+"PO-Revision-Date: 2015-02-09 17:15+0300\n"
 "Last-Translator: vragovR <vragovR@yandex.ru>\n"
 "Language-Team: Alexander Tukai <atukai@gmail.com>\n"
 "Language: en_US\n"
@@ -12,21 +12,13 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Poedit-KeywordsList: translate\n"
 "X-Poedit-Basepath: .\n"
-"X-Generator: Poedit 1.6.10\n"
+"X-Generator: Poedit 1.7.4\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Poedit-SearchPath-0: ..\n"
 
-#: ../view/at-datagrid/create.phtml:4
-msgid "Create"
-msgstr "Создать"
-
-#: ../view/at-datagrid/edit.phtml:4
-msgid "View & Edit"
-msgstr "Просмотр и редактирование"
-
-#: ../view/at-datagrid/form.phtml:42 ../view/at-datagrid/form.phtml:43
-msgid "Back to list"
-msgstr "Назад к списку"
+#: ../view/at-datagrid/grid.phtml:60
+msgid "No items found"
+msgstr "Записи не найдены"
 
 #: ../view/at-datagrid/grid/filters-side.phtml:29
 #: ../view/at-datagrid/grid/filters.phtml:27
@@ -67,17 +59,21 @@ msgstr "записей на странице"
 msgid "Total <span class=\"b\">%d</span> record(s)"
 msgstr "Всего <span class=\"b\">%d</span> записей"
 
-#: ../view/at-datagrid/list.phtml:8
-msgid "Add new record"
-msgstr "Добавить новую запись"
-
-#: ../view/at-datagrid/list.phtml:9
+#: ../view/at-datagrid/grid/toolbar.phtml:6
 msgid "Add"
 msgstr "Добавить"
 
-#: ../view/at-datagrid/list.phtml:65
-msgid "No items found"
-msgstr "Записи не найдены"
+#~ msgid "Create"
+#~ msgstr "Создать"
+
+#~ msgid "View & Edit"
+#~ msgstr "Просмотр и редактирование"
+
+#~ msgid "Back to list"
+#~ msgstr "Назад к списку"
+
+#~ msgid "Add new record"
+#~ msgstr "Добавить новую запись"
 
 #~ msgid "Total"
 #~ msgstr "Всего"
@@ -100,15 +96,8 @@ msgstr "Записи не найдены"
 #~ msgid "Welcome to %sZend Framework 2%s"
 #~ msgstr "Привет, %sZend Framework 2%s"
 
-#~ msgid ""
-#~ "Congratulations! You have successfully installed the %sZF2 Skeleton "
-#~ "Application%s. You are currently running Zend Framework version %s. This "
-#~ "skeleton can serve as a simple starting point for you to begin building "
-#~ "your application on ZF2."
-#~ msgstr ""
-#~ "Поздравляем! Вы успешно установили %sZF2 Skeleton Application%s. У вас "
-#~ "установлен Zend Framework версии %s. Этот каркас может служить простой "
-#~ "отправной точкой, чтобы начать строить приложения на ZF2."
+#~ msgid "Congratulations! You have successfully installed the %sZF2 Skeleton Application%s. You are currently running Zend Framework version %s. This skeleton can serve as a simple starting point for you to begin building your application on ZF2."
+#~ msgstr "Поздравляем! Вы успешно установили %sZF2 Skeleton Application%s. У вас установлен Zend Framework версии %s. Этот каркас может служить простой отправной точкой, чтобы начать строить приложения на ZF2."
 
 #~ msgid "Fork Zend Framework 2 on GitHub"
 #~ msgstr "Fork Zend Framework 2 на GitHub"
@@ -116,18 +105,8 @@ msgstr "Записи не найдены"
 #~ msgid "Follow Development"
 #~ msgstr "Следи за Разработкой"
 
-#~ msgid ""
-#~ "Zend Framework 2 is under active development. If you are interested in "
-#~ "following the development of ZF2, there is a special ZF2 portal on the "
-#~ "official Zend Framework website which provides links to the ZF2 %swiki%s, "
-#~ "%sdev blog%s, %sissue tracker%s, and much more. This is a great resource "
-#~ "for staying up to date with the latest developments!"
-#~ msgstr ""
-#~ "Zend Framework 2 активно развивается. Если вы заинтересованы в его "
-#~ "развитии, для вас есть специальный портал ZF2 на официальном сайте Zend "
-#~ "Framework который дает ссылки на ZF2 %swiki%s, %sdev blog%s, %sissue "
-#~ "tracker%s, и многое другое. Это отличный ресурс для того чтобы быть в "
-#~ "курсе последних событий."
+#~ msgid "Zend Framework 2 is under active development. If you are interested in following the development of ZF2, there is a special ZF2 portal on the official Zend Framework website which provides links to the ZF2 %swiki%s, %sdev blog%s, %sissue tracker%s, and much more. This is a great resource for staying up to date with the latest developments!"
+#~ msgstr "Zend Framework 2 активно развивается. Если вы заинтересованы в его развитии, для вас есть специальный портал ZF2 на официальном сайте Zend Framework который дает ссылки на ZF2 %swiki%s, %sdev blog%s, %sissue tracker%s, и многое другое. Это отличный ресурс для того чтобы быть в курсе последних событий."
 
 #~ msgid "ZF2 Development Portal"
 #~ msgstr "ZF2 Портал Разработчика"
@@ -135,15 +114,8 @@ msgstr "Записи не найдены"
 #~ msgid "Discover Modules"
 #~ msgstr "Узнай о Модулях"
 
-#~ msgid ""
-#~ "The community is working on developing a community site to serve as a "
-#~ "repository and gallery for ZF2 modules. The project is available %son "
-#~ "GitHub%s. The site is currently live and currently contains a list of "
-#~ "some of the modules already available for ZF2."
-#~ msgstr ""
-#~ "Сообщество работает над созданием сайта, который служит хранилищем и "
-#~ "галереей для ZF2 модулей. Проект доступен %sна GitHub%s. Сайт в настоящее "
-#~ "время активен и содержит список модулей уже доступных для ZF2."
+#~ msgid "The community is working on developing a community site to serve as a repository and gallery for ZF2 modules. The project is available %son GitHub%s. The site is currently live and currently contains a list of some of the modules already available for ZF2."
+#~ msgstr "Сообщество работает над созданием сайта, который служит хранилищем и галереей для ZF2 модулей. Проект доступен %sна GitHub%s. Сайт в настоящее время активен и содержит список модулей уже доступных для ZF2."
 
 #~ msgid "Explore ZF2 Modules"
 #~ msgstr "Узнать о ZF2 модулях"
@@ -151,16 +123,8 @@ msgstr "Записи не найдены"
 #~ msgid "Help &amp; Support"
 #~ msgstr "Помощь и Поддержка"
 
-#~ msgid ""
-#~ "If you need any help or support while developing with ZF2, you may reach "
-#~ "us via IRC: %s#zftalk on Freenode%s. We'd love to hear any questions or "
-#~ "feedback you may have regarding the beta releases. Alternatively, you may "
-#~ "subscribe and post questions to the %smailing lists%s."
-#~ msgstr ""
-#~ "Если вам нужна помощь или поддержка при разработке с ZF2, вы можете "
-#~ "связаться с нами по IRC: %s#zftalk on Freenode%s. Мы хотели бы узнать "
-#~ "какие вопросы или предложения вы имеете относительно текущей версии. "
-#~ "Кроме того, вы можете задавать вопросы в %smailing lists%s."
+#~ msgid "If you need any help or support while developing with ZF2, you may reach us via IRC: %s#zftalk on Freenode%s. We'd love to hear any questions or feedback you may have regarding the beta releases. Alternatively, you may subscribe and post questions to the %smailing lists%s."
+#~ msgstr "Если вам нужна помощь или поддержка при разработке с ZF2, вы можете связаться с нами по IRC: %s#zftalk on Freenode%s. Мы хотели бы узнать какие вопросы или предложения вы имеете относительно текущей версии. Кроме того, вы можете задавать вопросы в %smailing lists%s."
 
 #~ msgid "Ping us on IRC"
 #~ msgstr "Присоединяйся к IRC"
@@ -189,12 +153,8 @@ msgstr "Записи не найдены"
 #~ msgid "The requested controller was unable to dispatch the request."
 #~ msgstr "Запрашиваемый контроллер не смог отправить запрос."
 
-#~ msgid ""
-#~ "The requested controller could not be mapped to an existing controller "
-#~ "class."
-#~ msgstr ""
-#~ "Запрашиваемый контроллер не может быть сопоставлен с существующими "
-#~ "классом контроллера."
+#~ msgid "The requested controller could not be mapped to an existing controller class."
+#~ msgstr "Запрашиваемый контроллер не может быть сопоставлен с существующими классом контроллера."
 
 #~ msgid "The requested controller was not dispatchable."
 #~ msgstr "Запрашиваемый контроллер не доступен."

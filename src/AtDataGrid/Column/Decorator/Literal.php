@@ -31,24 +31,6 @@ class Literal extends AbstractDecorator
     }    
 
     /**
-     * Escapes a value for output in a view script.
-     *
-     * If escaping mechanism is one of htmlspecialchars or htmlentities, uses
-     * {@link $_encoding} setting.
-     *
-     * @param mixed $var The output to escape.
-     * @return mixed The escaped value.
-     */
-    public function escape($var)
-    {
-        if (in_array($this->escape, array('htmlspecialchars', 'htmlentities'))) {
-            return call_user_func($this->escape, $var, ENT_COMPAT, $this->encoding);
-        }
-
-        return call_user_func($this->escape, $var);
-    }
-
-    /**
      * Set encoding to use with htmlentities() and htmlspecialchars()
      *
      * @param string $encoding
@@ -77,6 +59,10 @@ class Literal extends AbstractDecorator
      */
     public function decorate($value, $params = array())
     {
-        return $this->escape($value);
+        if (in_array($this->escape, array('htmlspecialchars', 'htmlentities'))) {
+            return call_user_func($this->escape, $value, ENT_COMPAT, $this->encoding);
+        }
+
+        return call_user_func($this->escape, $value);
     }
 }

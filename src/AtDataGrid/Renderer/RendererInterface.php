@@ -8,5 +8,5 @@ interface RendererInterface
      * @param array $variables
      * @return mixed
      */
-    public function render($variables = array());
+    public function render($variables = []);
 }

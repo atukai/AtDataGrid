@@ -35,32 +35,13 @@ class Column
     // METADATA
 
     /**
-     * Filter a name to only allow valid variable characters
-     * @link http://php.net/manual/en/language.variables.basics.php
-     *
-     * @param  string $value
-     * @return string
-     */
-    protected function filterName($value)
-    {
-        $charset = '^a-zA-Z0-9_\x7f-\xff';
-        return preg_replace('/[' . $charset . ']/', '', (string) $value);
-    }
-
-    /**
      * @param $name
      * @return Column
      * @throws \Exception
      */
     public function setName($name)
     {
-        $name = $this->filterName($name);
-        if (! $name) {
-            throw new \Exception('Invalid name provided; must contain only valid
-                variable characters and be non-empty');
-        }
         $this->name = $name;
-
         return $this;
     }
 
@@ -149,7 +130,6 @@ class Column
      */
     public function revertOrderDirection()
     {
-        //$this->getOrderDirection() == 'asc' ? $this->orderDirection = 'desc' : $this->orderDirection = 'asc';
         $this->orderDirection = ($this->getOrderDirection() == 'asc') ? 'desc' : 'asc';
         return $this;
     }
@@ -223,6 +203,7 @@ class Column
      */
     public function render($value, $params = array())
     {
+        /** @var DecoratorInterface $decorator */
         foreach ($this->decorators as $decorator) {
             $value = $decorator->decorate($value, $params);
         }
@@ -230,7 +211,7 @@ class Column
         return $value;
     }
     
-    // FORMS
+    // FORM ELEMENTS
 
     /**
      * @param Element $formElement

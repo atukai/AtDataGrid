@@ -3,7 +3,6 @@
 namespace AtDataGrid\Renderer;
 
 use Zend\View\Model\ViewModel;
-use Zend\View\Renderer\PhpRenderer;
 
 class Html extends AbstractRenderer
 {

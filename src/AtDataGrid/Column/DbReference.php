@@ -54,14 +54,23 @@ class DbReference extends Column
         $this->setFormElement($this->buildFormElement());
     }
 
-    protected function buildFormElement($identityColumn = 'id')
+    /**
+     * @param string $identityColumn
+     * @param bool $addEmptyOption
+     * @return Select
+     */
+    protected function buildFormElement($identityColumn = 'id', $addEmptyOption = true)
     {
         $sql = new Sql($this->dbAdapter, $this->refTable);
         $select = $sql->select();
         $statement = $sql->prepareStatementForSqlObject($select);
         $rowset = $statement->execute();
 
-        $options = array('' => '');
+        $options = [];
+        if ($addEmptyOption) {
+            $options = ['' => ''];
+        }
+
         foreach ($rowset as $row) {
             $options[$row[$identityColumn]] = $row[$this->resultField];
         }

@@ -10,12 +10,10 @@ class DateTime extends Column
     {
         parent::__construct($name);
 
-        $dateTimeElement = new \Zend\Form\Element\DateTime($this->getName());
-        $dateTimeElement->setOptions(array(
-            'format' => 'Y-m-d H:i:s'
-        ));
+        $formElement = new \Zend\Form\Element\DateTime($this->getName());
+        $formElement->setOptions(['format' => 'Y-m-d H:i:s']);
 
-        $this->setFormElement($dateTimeElement)
-             ->addDecorator(new Decorator\DateFormat());
+        $this->setFormElement($formElement)
+            ->addDecorator(new Decorator\DateFormat());
     }
 }

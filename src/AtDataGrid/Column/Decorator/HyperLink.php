@@ -22,7 +22,7 @@ class HyperLink extends AbstractDecorator
      * @param array $params
      * @return string
      */
-    public function decorate($value, $params = array())
+    public function decorate($value, $params = [])
     {
         $p = array();
         $v = array();

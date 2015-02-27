@@ -5,7 +5,7 @@
     <?php $this->headLink()->appendStylesheet($this->customCss) ?>
 <? endif; ?>
 
-<h1 class="page-header"><?= $this->translate($this->grid->getTitle()) ?></h1>
+<?= $this->render('at-datagrid/grid/toolbar'); ?>
 
 <div class="row">
     <div class="col-md-12">

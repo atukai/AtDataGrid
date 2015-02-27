@@ -53,6 +53,41 @@ a.sortable:hover {text-decoration: none;}
 .item-info .back a {text-decoration: none;}
 .item-info .info {font-size: 14px;}
 
+/* Status icons */
+.status {
+    border-radius: 3px;
+    margin-right: 10px;
+    color: white;
+    background: #aaa;
+    padding: 4px 5px 3px 5px;
+    vertical-align: middle;
+    border: solid 1px #a0a0a0;
+}
+
+.status.ico-status-circle {
+    border-width: 1px !important;
+    width: 12px;
+    height: 12px;
+    padding: 0;
+    display: inline-block;
+    border-radius: 100%;
+    background: #95a7b7;
+    margin-top: -2px;
+    margin-right: 4px;
+}
+
+.status.success {
+    background-color: #e5f2ce;
+    color: #4b6319;
+    border: solid 1px #cddeb5;
+}
+
+.status.warning {
+    background-color: #f4c58f;
+    color: #815621;
+    border: solid 1px #e6b77f;
+}
+
 /* Pager */
 .b-pager {
     margin: 0;

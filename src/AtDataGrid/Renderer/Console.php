@@ -8,7 +8,7 @@ class Console extends AbstractRenderer
      * @param array $variables
      * @return string
      */
-    public function render($variables = array())
+    public function render($variables = [])
     {
         return '';
     }
