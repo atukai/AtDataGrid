@@ -150,7 +150,7 @@ class TableGateway extends AbstractDataSource
                     $column = new Column\Date($columnName);
                     break;
 
-                case in_array($columnDataType, array('mediumtext', 'text')):
+                case in_array($columnDataType, array('mediumtext', 'text', 'longtext')):
                     $column = new Column\Textarea($columnName);
                     break;
 

@@ -2,6 +2,7 @@
 
 namespace AtDataGrid\Column;
 
+use AtDataGrid\Column\Decorator\Callback;
 use AtDataGrid\Column\Decorator\DecoratorInterface;
 use Zend\Form\Element;
 
@@ -21,7 +22,7 @@ class Column
 
     protected $formElement;
     
-    protected $decorators = array();
+    protected $decorators = [];
 
     /**
      * @param $name
@@ -192,7 +193,7 @@ class Column
 
     public function clearDecorators()
     {
-        $this->decorators = array();
+        $this->decorators = [];
         return $this;
     }
 
@@ -201,7 +202,7 @@ class Column
      * @param array $params
      * @return mixed
      */
-    public function render($value, $params = array())
+    public function render($value, $params = [])
     {
         /** @var DecoratorInterface $decorator */
         foreach ($this->decorators as $decorator) {

@@ -8,7 +8,7 @@
             <?php foreach($this->gridManager->getActions() as $action) : ?>
                 <?php if ($action->isBulk()): ?>
                     <li>
-                        <a onclick="DataGrid.action('<?= $action->getAction() ?>')"
+                        <a onclick="DataGrid.action('')"
                            <?php if ($action->isConfirm()): ?>
                                onclick="return DataGrid.confirmAction(this, '<?= $action->getConfirmMessage() ?>')"
                            <?php endif;?>>

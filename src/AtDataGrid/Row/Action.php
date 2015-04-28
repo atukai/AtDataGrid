@@ -6,7 +6,9 @@ class Action
 {
     private $name;
 
-    private $action;
+    private $routeName;
+
+    private $routeParams = [];
 
     private $label;
 
@@ -26,22 +28,6 @@ class Action
     public function __construct($name)
     {
         $this->setName($name);
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getAction()
-    {
-        return $this->action;
-    }
-
-    /**
-     * @param mixed $action
-     */
-    public function setAction($action)
-    {
-        $this->action = $action;
     }
 
     /**
@@ -154,5 +140,37 @@ class Action
     public function setName($name)
     {
         $this->name = $name;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getRouteName()
+    {
+        return $this->routeName;
+    }
+
+    /**
+     * @param mixed $routeName
+     */
+    public function setRouteName($routeName = null)
+    {
+        $this->routeName = $routeName;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getRouteParams()
+    {
+        return $this->routeParams;
+    }
+
+    /**
+     * @param mixed $routeParams
+     */
+    public function setRouteParams($routeParams = [])
+    {
+        $this->routeParams = $routeParams;
     }
 }
