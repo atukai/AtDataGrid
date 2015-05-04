@@ -20,7 +20,7 @@
                         ?>
                         <a class="btn <?php if ($action->getName() == 'delete'): ?>btn-danger<?php else: ?>btn-default<?php endif;?>" href="<?= $actionUrl ?>"
                             <?php if ($action->isConfirm()): ?>
-                                onclick="return DataGrid.confirmAction(this, '<?= $this->translate($action->getConfirmMessage()) ?>')"
+                                onclick="DataGrid.confirmAction(this, '<?= $this->translate($action->getConfirmMessage()) ?>')"
                             <?php endif;?>>
                             <span title="<?= $this->translate($action->getLabel()) ?>" class="<?= $action->getClass() ?>"></span>
                         </a>
