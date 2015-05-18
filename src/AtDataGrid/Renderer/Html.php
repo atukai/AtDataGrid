@@ -21,6 +21,13 @@ class Html extends AbstractRenderer
     protected $customCss;
 
     /**
+     * Additional js file path
+     *
+     * @var string
+     */
+    protected $customJs;
+
+    /**
      * @param $template
      * @return $this
      */
@@ -55,14 +62,29 @@ class Html extends AbstractRenderer
     }
 
     /**
+     * @return string
+     */
+    public function getCustomJs()
+    {
+        return $this->customJs;
+    }
+
+    /**
+     * @param string $customJs
+     */
+    public function setCustomJs($customJs)
+    {
+        $this->customJs = $customJs;
+    }
+
+    /**
      * @param array $variables
      * @return mixed|ViewModel
      */
     public function render($variables = [])
     {
-        if ($this->getCustomCss()) {
-            $variables['customCss'] = $this->getCustomCss();
-        }
+        $variables['customCss'] = $this->getCustomCss();
+        $variables['customJs'] = $this->getCustomJs();
 
         $viewModel = new ViewModel($variables);
         $viewModel->setTemplate($this->getTemplate());

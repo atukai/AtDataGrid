@@ -2,6 +2,7 @@
 
 namespace AtDataGrid\DataSource\ZendDb;
 
+use AtDataGrid\Filter\ZendSqlFilter;
 use Zend\Db\Adapter\Adapter;
 use Zend\Db\Metadata\Metadata;
 use Zend\Db\Sql\Select;
@@ -17,11 +18,6 @@ class TableGateway extends AbstractDataSource
      * @var ZendTableGateway
      */
     protected $tableGateway;
-
-    /**
-     * @var Adapter
-     */
-    protected $dbAdapter;
 
     /**
      * @var Select
@@ -51,17 +47,14 @@ class TableGateway extends AbstractDataSource
 
     /**
      * @param ZendTableGateway $tableGateway
-     * @param string $primaryKey
      */
-    public function __construct(ZendTableGateway $tableGateway, $primaryKey = 'id')
+    public function __construct(ZendTableGateway $tableGateway)
 	{
-        $this->setIdentifierFieldName($primaryKey);
-        $tableGateway->getFeatureSet()->addFeature(new RowGatewayFeature($primaryKey));
+        $tableGateway->getFeatureSet()->addFeature(new RowGatewayFeature());
         $this->tableGateway = $tableGateway;
 
-        $this->dbAdapter = $tableGateway->getAdapter();
         $this->select = $tableGateway->getSql()->select();
-        $this->paginatorAdapter = new DbSelectPaginatorAdapter($this->select, $this->dbAdapter);
+        $this->paginatorAdapter = new DbSelectPaginatorAdapter($this->select, $tableGateway->getAdapter());
 	}
 
     /**
@@ -70,14 +63,6 @@ class TableGateway extends AbstractDataSource
     public function getTableGateway()
     {
         return $this->tableGateway;
-    }
-
-    /**
-     * @return Adapter|\Zend\Db\Adapter\AdapterInterface
-     */
-    public function getDbAdapter()
-    {
-        return $this->dbAdapter;
     }
 
     /**
@@ -201,12 +186,15 @@ class TableGateway extends AbstractDataSource
      * @return $this
      * @throws \Exception
      */
-    public function prepare($order, $filters = array())
+    public function prepare($order, $filters = [])
     {
         /**
          * Filtering
          */
         foreach ($filters as $columnName => $filter) {
+            if (!$filter instanceof ZendSqlFilter) {
+                throw new \RuntimeException('ZendDb/TableGateway data source requires Filter\ZendSql filters');
+            }
             $filter->apply($this->getSelect(), $columnName, $filter->getValue());
         }
 
@@ -285,5 +273,13 @@ class TableGateway extends AbstractDataSource
     public function delete($key)
     {
         return $this->getTableGateway()->delete(array($this->getIdentifierFieldName() => $key));
+    }
+
+    /**
+     * @return Adapter|\Zend\Db\Adapter\AdapterInterface
+     */
+    protected function getDbAdapter()
+    {
+        return $this->tableGateway->getAdapter();
     }
 }

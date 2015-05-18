@@ -1,15 +1,21 @@
 <?php $this->headScript()->appendFile('/js/at-datagrid/datagrid.js') ?>
 <?php $this->headLink()->appendStylesheet('/css/at-datagrid/datagrid.css') ?>
 
-<? if ($this->customCss): ?>
+<?php if ($this->customCss): ?>
     <?php $this->headLink()->appendStylesheet($this->customCss) ?>
+<?php endif; ?>
+
+<? if ($this->customJs): ?>
+    <?php $this->headScript()->appendFile($this->customJs) ?>
 <? endif; ?>
 
-<?= $this->render('at-datagrid/grid/toolbar'); ?>
+<?= $this->render('at-datagrid/grid/toolbar.phtml'); ?>
 
 <div class="row">
     <div class="col-md-12">
-        <?= $this->render('at-datagrid/grid/paginator'); ?>
+
+        <?= $this->render('at-datagrid/grid/toolbar-display.phtml'); ?>
+
         <hr>
 
         <div class="at-grid table-responsive">
@@ -63,9 +69,10 @@
 
         <?php if (count($this->data)): ?>
             <?= $this->render('at-datagrid/grid/group-actions') ?>
-        <? endif; ?>
+        <?php endif; ?>
 
         <hr>
-        <?= $this->render('at-datagrid/grid/paginator'); ?>
+
+        <div class="pull-right"><?= $this->paginationControl($this->paginator, null, 'at-datagrid/grid/pagination-control'); ?></div>
     </div>
 </div>

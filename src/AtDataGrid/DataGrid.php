@@ -13,16 +13,14 @@ class DataGrid implements \Countable, \IteratorAggregate, \ArrayAccess
 {
     use EventManagerAwareTrait;
 
-    const EVENT_GRID_INIT = 'at-datagrid.grid.init';
-
-    const EVENT_GRID_PERSIST_PRE = 'at-datagrid.grid.persist.pre';
-    const EVENT_GRID_PERSIST_POST = 'at-datagrid.grid.persist.post';
-
     const EVENT_GRID_INSERT_PRE = 'at-datagrid.grid.insert.pre';
     const EVENT_GRID_INSERT_POST = 'at-datagrid.grid.insert.post';
 
     const EVENT_GRID_UPDATE_PRE = 'at-datagrid.grid.update.pre';
     const EVENT_GRID_UPDATE_POST = 'at-datagrid.grid.update.post';
+
+    const EVENT_GRID_PERSIST_PRE = 'at-datagrid.grid.persist.pre';
+    const EVENT_GRID_PERSIST_POST = 'at-datagrid.grid.persist.post';
 
     const EVENT_GRID_DELETE_PRE = 'at-datagrid.grid.delete.pre';
     const EVENT_GRID_DELETE_POST = 'at-datagrid.grid.delete.post';
@@ -90,6 +88,8 @@ class DataGrid implements \Countable, \IteratorAggregate, \ArrayAccess
     protected $pageRange = 10;
 
     /**
+     * array of column filters
+     *
      * @var array
      */
     protected $filters = [];
@@ -103,12 +103,15 @@ class DataGrid implements \Countable, \IteratorAggregate, \ArrayAccess
 
     /**
      * @param $dataSource
+     * @param string $title
      */
-    public function __construct($dataSource)
+    public function __construct($dataSource, $title = '')
     {
         $this->setDataSource($dataSource);
+        $this->setTitle($title);
+
+        // Collect column names from data source and create default column objects
         $this->columns = $this->getDataSource()->loadColumns();
-        $this->getEventManager()->trigger(self::EVENT_GRID_INIT, $this);
     }
     
     // METADATA
@@ -478,17 +481,17 @@ class DataGrid implements \Countable, \IteratorAggregate, \ArrayAccess
     public function save($data, $identifier = null)
     {
         $eventResult = $this->getEventManager()->trigger(self::EVENT_GRID_PERSIST_PRE, $this, $data)->last();
-
         if ($eventResult) {
             $data = $eventResult;
         }
 
         if (!$identifier) {
             $id = $this->insert($data);
-            $data[$this->getIdentifierColumnName()] = $id;
         } else {
             $id = $this->update($data, $identifier);
         }
+
+        $data[$this->getIdentifierColumnName()] = $id;
 
         $this->getEventManager()->trigger(self::EVENT_GRID_PERSIST_POST, $this, $data);
 

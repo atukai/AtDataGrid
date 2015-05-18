@@ -4,6 +4,7 @@ namespace AtDataGrid\DataSource\Doctrine;
 
 use AtDataGrid\DataSource\AbstractDataSource;
 use AtDataGrid\Column;
+use AtDataGrid\Filter\Doctrine2Filter;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Tools\Pagination\Paginator;
 use DoctrineORMModule\Paginator\Adapter\DoctrinePaginator;
@@ -16,17 +17,31 @@ class QueryBuilder extends AbstractDataSource
     protected $em;
 
     /**
-     * @param EntityManager $em
+     * @var \Doctrine\ORM\QueryBuilder
      */
-    public function __construct(EntityManager $em)
+    protected $qb;
+
+    /**
+     * @var string
+     */
+    protected $entityName;
+
+    /**
+     * @param EntityManager $em
+     * @param $entityName
+     */
+    public function __construct(EntityManager $em, $entityName)
     {
         $this->em = $em;
-        //$paginator = new Paginator(new DoctrinePaginator(new ORMPaginator($book)));
-        $this->paginatorAdapter = new DoctrinePaginator(new Paginator());
+        $this->qb = $this->em->createQueryBuilder();
+        $this->entityName = $entityName;
+        $this->qb->select('f')->from($entityName, 'f');
+
+        $this->paginatorAdapter = new DoctrinePaginator(new Paginator($this->qb));
     }
 
     /**
-     * @return ZendTableGateway
+     * @return EntityManager
      */
     public function getEntityManager()
     {
@@ -34,55 +49,11 @@ class QueryBuilder extends AbstractDataSource
     }
 
     /**
-     * @return Adapter|\Zend\Db\Adapter\AdapterInterface
+     * @return \Doctrine\ORM\QueryBuilder
      */
-    public function getDbAdapter()
+    public function getQueryBuilder()
     {
-        return $this->dbAdapter;
-    }
-
-    /**
-     * @return Select
-     */
-    public function getSelect()
-    {
-        return $this->select;
-    }
-
-    /**
-     * Join other table and collect joined columns
-     *
-     * @param $joinedTableName
-     * @param $alias
-     * @param $keyName
-     * @param $foreignKeyName
-     * @param null $columns
-     */
-    public function with($joinedTableName, $alias, $keyName, $foreignKeyName, $columns = null)
-    {
-        $tableMetadata = new Metadata($this->getDbAdapter());
-        $joinedTableColumns = $tableMetadata->getColumns($joinedTableName);
-
-        $joinedColumns = array();
-
-        foreach ($joinedTableColumns as $column) {
-            $columnName = $column->getName();
-
-            if ($columns != null && ! in_array($columnName, $columns)) {
-                continue;
-            }
-
-            $fullColumnName = $alias . '__' . $columnName;
-
-            $joinedColumns[$fullColumnName] = $columnName;
-            $this->joinedColumns[$fullColumnName] = $fullColumnName;
-        }
-
-        $this->getSelect()->join(
-            array($alias => $joinedTableName),
-            $this->getTableGateway()->getTable(). '.' . $keyName . ' = '. $alias . '.' . $foreignKeyName,
-            $joinedColumns
-        );
+        return $this->qb;
     }
 
     /**
@@ -90,14 +61,13 @@ class QueryBuilder extends AbstractDataSource
      */
     public function loadColumns()
     {
-        $columns = array();
-        $tableMetadata = new Metadata($this->getDbAdapter());
-        $baseTableColumns = $tableMetadata->getColumns($this->getTableGateway()->getTable());
+        $columns = [];
+        $classMetadata = $this->em->getClassMetadata($this->entityName);
+        $baseTableColumns = $classMetadata->getFieldNames();
 
         // Setup default settings for base table column fields
-        foreach ($baseTableColumns as $column) {
-            $columnName = $column->getName();
-            $columnDataType = $column->getDataType();
+        foreach ($baseTableColumns as $columnName) {
+            $columnDataType = $classMetadata->getTypeOfField($columnName);
 
             $this->tableColumns[] = $columnName;
 
@@ -111,7 +81,7 @@ class QueryBuilder extends AbstractDataSource
                     $column = new Column\Date($columnName);
                     break;
 
-                case in_array($columnDataType, array('mediumtext', 'text')):
+                case in_array($columnDataType, array('mediumtext', 'text', 'longtext')):
                     $column = new Column\Textarea($columnName);
                     break;
 
@@ -122,38 +92,18 @@ class QueryBuilder extends AbstractDataSource
 
             $column->setLabel($columnName);
 
-            $columns[$columnName] = $column;
+            $columns[$classMetadata->getColumnName($columnName)] = $column;
         }
 
-        // Setup default settings for joined table column fields
-        foreach ($this->joinedColumns as $columnName) {
-            $column = new Column\Literal($columnName);
+        $joinedColumns = $classMetadata->getAssociationNames();
+        foreach ($joinedColumns as $columnName) {
+            $column = new Column\Literal($classMetadata->getSingleAssociationJoinColumnName($columnName));
             $column->setLabel($columnName);
 
-            $columns[$columnName] = $column;
+            $columns[$classMetadata->getSingleAssociationJoinColumnName($columnName)] = $column;
         }
-
-        $this->setCommentAsLabel($columns);
 
         return $columns;
-    }
-
-    /**
-     * @param $columns
-     */
-    protected function setCommentAsLabel($columns)
-    {
-        $query = 'SELECT COLUMN_NAME as name, COLUMN_COMMENT as comment FROM information_schema.COLUMNS
-                  WHERE TABLE_SCHEMA = "' . $this->getDbAdapter()->getCurrentSchema() . '" AND TABLE_NAME = "' . $this->getTableGateway()->getTable() . '"';
-
-        $columnsInfo = $this->getDbAdapter()->query($query, Adapter::QUERY_MODE_EXECUTE);
-        if ($columnsInfo) {
-            foreach ($columnsInfo as $info) {
-                if (!empty($info['comment'])) {
-                    $columns[$info['name']]->setLabel($info['comment']);
-                }
-            }
-        }
     }
 
     /**
@@ -161,30 +111,34 @@ class QueryBuilder extends AbstractDataSource
      * @param array $filters
      * @return $this|mixed
      */
-    public function prepare($order, $filters = array())
+    public function prepare($order, $filters = [])
     {
         /**
          * Filtering
          */
         foreach ($filters as $columnName => $filter) {
-            $filter->apply($this->getSelect(), $columnName, $filter->getValue());
+            if (!$filter instanceof Doctrine2Filter) {
+                throw new \RuntimeException('Doctrine/QueryBuilder data source requires Filter\Doctrine filters');
+            }
+            $filter->apply($this->getQueryBuilder(), $columnName, $filter->getValue());
         }
 
         /**
          * Sorting
          */
-        if ($order) {
+       /* if ($order) {
             $orderParts = explode(' ', $order);
             if (in_array($orderParts[0], $this->tableColumns)) {
                 $order = $this->getTableGateway()->getTable() . '.' . $order;
             }
             $this->getSelect()->order($order);
-        }
+        }*/
 
-        $this->getEventManager()->trigger(self::EVENT_DATASOURCE_PREPARE_POST, $this->getSelect());
+        $this->getEventManager()->trigger(self::EVENT_DATASOURCE_PREPARE_POST, $this->getQueryBuilder());
 
         //var_dump($this->getSelect()->getSqlString());exit;
         return $this;
+
     }
 
     /**
@@ -195,25 +149,6 @@ class QueryBuilder extends AbstractDataSource
      */
     public function find($key)
     {
-        return $this->getTableGateway()->select(array($this->getIdentifierFieldName() => $key))->current();
-    }
-
-    /**
-     * Get only fields which present in table
-     *
-     * @param array $data
-     * @return array
-     */
-    protected function cleanDataForSql($data = array())
-    {
-        $cleanData = array();
-        foreach ($data as $key => $value) {
-            if (in_array($key, $this->tableColumns)) {
-                $cleanData[$key] = $value;
-            }
-        }
-
-        return $cleanData;
     }
 
     /**
@@ -222,10 +157,6 @@ class QueryBuilder extends AbstractDataSource
      */
     public function insert($data)
     {
-        $table = $this->getTableGateway();
-        $table->insert($this->cleanDataForSql($data));
-
-        return $table->getLastInsertValue();
     }
 
     /**
@@ -235,7 +166,6 @@ class QueryBuilder extends AbstractDataSource
      */
     public function update($data, $key)
     {
-        return $this->getTableGateway()->update($this->cleanDataForSql($data), array($this->getIdentifierFieldName() => $key));
     }
 
     /**
@@ -244,6 +174,5 @@ class QueryBuilder extends AbstractDataSource
      */
     public function delete($key)
     {
-        return $this->getTableGateway()->delete(array($this->getIdentifierFieldName() => $key));
     }
 }

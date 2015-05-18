@@ -1,6 +1,8 @@
 <div class="row">
     <div class="col-md-12">
         <ul class="show-items-list clearfix pull-left">
+            <li><?= sprintf($this->translate('Total <span class="b">%d</span> record(s)'), $this->paginator->getTotalItemCount())?> </li>
+            <li class="divider-vertical">|</li>
             <li><?= $this->translate('View')?> </li>
             <li>
                 <?php if ($this->grid->getItemsPerPage() == 20): ?>
@@ -32,10 +34,6 @@
             </li>
 
             <li><?= $this->translate('records per page') ?></li>
-
-            <li class="divider-vertical">|</li>
-            <li><?= sprintf($this->translate('Total <span class="b">%d</span> record(s)'), $this->paginator->getTotalItemCount())?> </li>
         </ul>
-        <div class="pull-right"><?= $this->paginationControl($this->paginator, null, 'at-datagrid/grid/pagination-control'); ?></div>
     </div>
 </div>

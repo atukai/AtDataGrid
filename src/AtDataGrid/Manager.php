@@ -293,13 +293,13 @@ class Manager
     }
 
     /**
-     * @param $data
      * @return array
      * @throws \Exception
      */
-    public function prepareData($data)
+    protected function composeData()
     {
         $grid = $this->getGrid();
+        $data = $grid->getData();
 
         /**
          * Add all columns from grid
@@ -335,7 +335,7 @@ class Manager
     }
 
     /**
-     *
+     * @return mixed
      */
     public function render()
     {
@@ -345,7 +345,7 @@ class Manager
             'gridManager' => $this,
             'grid'        => $grid,
             'columns'     => $grid->getColumns(),
-            'data'        => $this->prepareData($grid->getData()),
+            'data'        => $this->composeData(),
             'paginator'   => $grid->getPaginator(),
             'filtersForm' => $this->getFiltersForm()
         ]);

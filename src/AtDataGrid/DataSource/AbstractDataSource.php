@@ -5,7 +5,7 @@ namespace AtDataGrid\DataSource;
 use Zend\EventManager\EventManagerAwareTrait;
 use Zend\Paginator\Adapter\AdapterInterface;
 
-abstract class AbstractDataSource
+abstract class AbstractDataSource implements DataSourceInterface
 {
     use EventManagerAwareTrait;
 
@@ -52,41 +52,4 @@ abstract class AbstractDataSource
     {
         return $this->paginatorAdapter;
     }
-
-    /**
-     * @return mixed
-     */
-    abstract public function loadColumns();
-
-    /**
-     * @param $order
-     * @param array $filters
-     * @return mixed
-     */
-    abstract public function prepare($order, $filters = array());
-
-    /**
-     * @param $id
-     * @return mixed
-     */
-    abstract public function find($id);
-
-    /**
-     * @param $data
-     * @return mixed
-     */
-    abstract public function insert($data);
-
-    /**
-     * @param $data
-     * @param $key
-     * @return mixed
-     */
-    abstract public function update($data, $key);
-
-    /**
-     * @param $key
-     * @return mixed
-     */
-    abstract public function delete($key);
 }
