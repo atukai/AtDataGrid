@@ -1,0 +1,46 @@
+<?php
+    /** @var \Zend\Form\Form $form */
+    $form->prepare();
+    $form->setAttribute('action', $this->url(null, [], [], true));
+    $form->setAttribute('method', 'post');
+    $form->setAttribute('id', 'at-datagrid-form');
+    $form->setAttribute('role', 'form');
+    $form->setAttribute('class', 'form-horizontal');
+
+    echo $this->form()->openTag($form);
+?>
+
+<div role="tabpanel">
+
+    <div class="clearfix">
+        <ul class="nav nav-tabs pull-left" role="tablist">
+            <li role="presentation" class="active"><a href="#general" aria-controls="general" role="tab" data-toggle="tab">Свойства</a></li>
+            <?php foreach ($form->getFieldSets() as $fieldset): ?>
+            <li role="presentation"><a href="#<?= $fieldset->getName() ?>" aria-controls="<?= $fieldset->getName() ?>" role="tab" data-toggle="tab"><?= $fieldset->getLabel() ?></a></li>
+            <?php endforeach; ?>
+        </ul>
+
+        <div class="pull-right">
+            <?php
+                $submit = $form->get('submit');
+                $submit->setAttributes(['class' => 'btn btn-success']);
+            ?>
+            <?= $this->formSubmit($submit) ?>
+        </div>
+
+    </div>
+
+    <div class="tab-content">
+        <div role="tabpanel" class="tab-pane active" id="general">
+            <?= $this->render('at-datagrid/form/_elements.phtml', ['elements' => $form->getElements()]) ?>
+        </div>
+
+        <?php foreach ($form->getFieldSets() as $fieldset): ?>
+        <div role="tabpanel" class="tab-pane" id="<?= $fieldset->getName() ?>">
+            <?= $this->render('at-datagrid/form/_elements.phtml', ['elements' => $fieldset->getElements()]) ?>
+        </div>
+        <?php endforeach; ?>
+    </div>
+
+</div>
+<?= $this->form()->closeTag(); ?>

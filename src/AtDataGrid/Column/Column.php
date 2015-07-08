@@ -2,11 +2,11 @@
 
 namespace AtDataGrid\Column;
 
-use AtDataGrid\Column\Decorator\Callback;
 use AtDataGrid\Column\Decorator\DecoratorInterface;
 use Zend\Form\Element;
+use Zend\InputFilter\InputFilterProviderInterface;
 
-class Column
+class Column implements InputFilterProviderInterface
 {
     protected $name;
 
@@ -21,7 +21,9 @@ class Column
     protected $orderDirection = 'desc';
 
     protected $formElement;
-    
+
+    protected $inputFilterSpecification = [];
+
     protected $decorators = [];
 
     /**
@@ -151,7 +153,7 @@ class Column
     public function isVisibleInForm()
     {
         return $this->visibleInForm;
-    }	
+    }
 
     // RENDERING & DECORATORS
 
@@ -230,5 +232,23 @@ class Column
     public function getFormElement()
     {
         return $this->formElement;
+    }
+
+    // INPUT FILTERS
+
+    /**
+     * @param $spec
+     */
+    public function setInputFilterSpecification($spec)
+    {
+        $this->inputFilterSpecification = $spec;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getInputFilterSpecification()
+    {
+        return $this->inputFilterSpecification;
     }
 }

@@ -18,10 +18,8 @@
     },
     "autoload": {
         "psr-0": {
-            "AtDataGrid\\": "src/"
-        },
-        "classmap": [
-            "./Module.php"
-        ]
+            "AtDataGrid\\": "src/",
+            "AtDataGridTest": "test/"
+        }
     }
 }

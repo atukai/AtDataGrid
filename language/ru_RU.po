@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: AtDataGrid\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-02-09 17:14+0300\n"
-"PO-Revision-Date: 2015-02-09 17:15+0300\n"
+"POT-Creation-Date: 2015-06-10 16:12+0300\n"
+"PO-Revision-Date: 2015-06-10 16:15+0300\n"
 "Last-Translator: vragovR <vragovR@yandex.ru>\n"
 "Language-Team: Alexander Tukai <atukai@gmail.com>\n"
 "Language: en_US\n"
@@ -12,11 +12,11 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Poedit-KeywordsList: translate\n"
 "X-Poedit-Basepath: .\n"
-"X-Generator: Poedit 1.7.4\n"
+"X-Generator: Poedit 1.8.1\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Poedit-SearchPath-0: ..\n"
 
-#: ../view/at-datagrid/grid.phtml:60
+#: ../view/at-datagrid/grid.phtml:66
 msgid "No items found"
 msgstr "Записи не найдены"
 
@@ -46,18 +46,18 @@ msgstr "Предыдущая страница"
 msgid "Next page"
 msgstr "Следующая страница"
 
-#: ../view/at-datagrid/grid/paginator.phtml:4
-msgid "View"
-msgstr "Показать"
-
-#: ../view/at-datagrid/grid/paginator.phtml:34
-msgid "records per page"
-msgstr "записей на странице"
-
-#: ../view/at-datagrid/grid/paginator.phtml:37
+#: ../view/at-datagrid/grid/toolbar-display.phtml:4
 #, php-format
 msgid "Total <span class=\"b\">%d</span> record(s)"
 msgstr "Всего <span class=\"b\">%d</span> записей"
+
+#: ../view/at-datagrid/grid/toolbar-display.phtml:6
+msgid "View"
+msgstr "Показать"
+
+#: ../view/at-datagrid/grid/toolbar-display.phtml:36
+msgid "records per page"
+msgstr "записей на странице"
 
 #: ../view/at-datagrid/grid/toolbar.phtml:6
 msgid "Add"

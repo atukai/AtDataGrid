@@ -29,21 +29,21 @@ class TableGateway extends AbstractDataSource
      *
      * @var array
      */
-    protected $tableColumns = array();
+    protected $tableColumns = [];
 
     /**
      * Joined tables
      *
      * @var array
      */
-    protected $joinedTables = array();
+    protected $joinedTables = [];
 
     /**
      * Joined table columns
      *
      * @var array
      */
-    protected $joinedColumns = array();
+    protected $joinedColumns = [];
 
     /**
      * @param ZendTableGateway $tableGateway
@@ -87,7 +87,7 @@ class TableGateway extends AbstractDataSource
         $tableMetadata = new Metadata($this->getDbAdapter());
         $joinedTableColumns = $tableMetadata->getColumns($joinedTableName);
 
-        $joinedColumns = array();
+        $joinedColumns = [];
 
         foreach ($joinedTableColumns as $column) {
             $columnName = $column->getName();
@@ -103,7 +103,7 @@ class TableGateway extends AbstractDataSource
         }
 
         $this->getSelect()->join(
-            array($alias => $joinedTableName),
+            [$alias => $joinedTableName],
             $this->getTableGateway()->getTable(). '.' . $keyName . ' = '. $alias . '.' . $foreignKeyName,
             $joinedColumns
         );
@@ -127,15 +127,15 @@ class TableGateway extends AbstractDataSource
 
             // @todo Move it to separate class
             switch (true) {
-                case in_array($columnDataType, array('datetime', 'timestamp', 'time')):
+                case in_array($columnDataType, ['datetime', 'timestamp', 'time']):
                     $column = new Column\DateTime($columnName);
                     break;
 
-                case in_array($columnDataType, array('date', 'year')):
+                case in_array($columnDataType, ['date', 'year']):
                     $column = new Column\Date($columnName);
                     break;
 
-                case in_array($columnDataType, array('mediumtext', 'text', 'longtext')):
+                case in_array($columnDataType, ['mediumtext', 'text', 'longtext']):
                     $column = new Column\Textarea($columnName);
                     break;
 
@@ -223,7 +223,7 @@ class TableGateway extends AbstractDataSource
      */
     public function find($key)
     {
-        return $this->getTableGateway()->select(array($this->getIdentifierFieldName() => $key))->current();
+        return $this->getTableGateway()->select([$this->getIdentifierFieldName() => $key])->current();
     }
 
     /**
@@ -232,9 +232,9 @@ class TableGateway extends AbstractDataSource
      * @param array $data
      * @return array
      */
-    protected function cleanDataForSql($data = array())
+    protected function cleanDataForSql($data = [])
     {
-        $cleanData = array();
+        $cleanData = [];
         foreach ($data as $key => $value) {
             if (in_array($key, $this->tableColumns)) {
                 $cleanData[$key] = $value;
@@ -263,7 +263,7 @@ class TableGateway extends AbstractDataSource
      */
     public function update($data, $key)
     {
-        return $this->getTableGateway()->update($this->cleanDataForSql($data), array($this->getIdentifierFieldName() => $key));
+        return $this->getTableGateway()->update($this->cleanDataForSql($data), [$this->getIdentifierFieldName() => $key]);
     }
 
     /**
@@ -272,7 +272,7 @@ class TableGateway extends AbstractDataSource
      */
     public function delete($key)
     {
-        return $this->getTableGateway()->delete(array($this->getIdentifierFieldName() => $key));
+        return $this->getTableGateway()->delete([$this->getIdentifierFieldName() => $key]);
     }
 
     /**

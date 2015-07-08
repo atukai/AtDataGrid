@@ -1,0 +1,62 @@
+<?php foreach ($elements as $element): ?>
+    <?php if ($element->getAttribute('type') == 'hidden'): ?>
+        <?= $this->formHidden($element) ?>
+    <?php elseif ($element->getAttribute('type') == 'checkbox'): ?>
+        <div class="form-group">
+            <div class="col-md-7 col-sm-offset-3">
+                <div class="checkbox">
+                    <?php $element->setLabelAttributes(array('class' => 'control-label col-md-3')); ?>
+                    <label>
+                        <?= $this->formCheckbox($element) ?>
+                        <?= $element->getLabel() ?>
+                    </label>
+                </div>
+                <p class="help-block">
+                    <span class="text-danger"><?= $this->formElementErrors($element); ?></span>
+                    <span class="text-muted"><?= $element->getOption('description'); ?></span>
+                </p>
+            </div>
+        </div>
+    <?php elseif ($element->getAttribute('type') == 'multi_checkbox'): ?>
+        <div class="form-group">
+            <?php
+                $element->setLabelAttributes(array('class' => 'control-label col-md-3'));
+                /*$element->setAttributes(array('class' => 'form-control'));*/
+            ?>
+            <?= $this->formLabel($element) ?>
+            <div class="col-md-7">
+                <?php foreach ($element->getValueOptions() as $key => $value): ?>
+                    <div class="checkbox">
+                        <label>
+                            <input type="checkbox" value="<?= $key ?>" name="<?= $element->getName()?>[]">
+                            <?= $value ?>
+                        </label>
+                    </div>
+                <?php endforeach; ?>
+                <p class="help-block">
+                    <span class="text-danger"><?= $this->formElementErrors($element); ?></span>
+                    <span class="text-muted"><?= $element->getOption('description'); ?></span>
+                </p>
+            </div>
+        </div>
+    <?php elseif ($element->getAttribute('type') != 'submit'): ?>
+        <div class="form-group">
+            <?php
+                $element->setLabelAttributes(array('class' => 'control-label col-md-3'));
+                $class = 'form-control';
+                if ($element->getAttribute('class')) {
+                    $class .= ' ' . $element->getAttribute('class');
+                }
+                $element->setAttribute('class', $class);
+            ?>
+            <?= $this->formLabel($element) ?>
+            <div class="col-md-7">
+                <?= $this->formElement($element) ?>
+                <p class="help-block">
+                    <span class="text-danger"><?= $this->formElementErrors($element); ?></span>
+                    <span class="text-muted"><?= $element->getOption('description'); ?></span>
+                </p>
+            </div>
+        </div>
+    <?php endif; ?>
+<?php endforeach; ?>
