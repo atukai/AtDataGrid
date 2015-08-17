@@ -67,16 +67,16 @@ class DbReference extends Column
         $rowset = $statement->execute();
 
         $options = [];
-        if ($addEmptyOption) {
-            $options = ['' => ''];
-        }
-
         foreach ($rowset as $row) {
             $options[$row[$identityColumn]] = $row[$this->resultField];
         }
 
         $formElement = new Select($this->getName());
         $formElement->setValueOptions($options);
+
+        if ($addEmptyOption) {
+            $formElement->setEmptyOption('');
+        }
 
         return $formElement;
     }

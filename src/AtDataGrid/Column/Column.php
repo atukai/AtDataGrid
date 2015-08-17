@@ -22,7 +22,7 @@ class Column implements InputFilterProviderInterface
 
     protected $formElement;
 
-    protected $inputFilterSpecification = [];
+    protected $inputFilterSpecification;
 
     protected $decorators = [];
 

@@ -8,6 +8,7 @@ use Zend\EventManager\EventManagerAwareTrait;
 use Zend\Form\Fieldset;
 use Zend\Form\Form;
 use Zend\Form\Element;
+use Zend\InputFilter\InputFilter;
 
 class FormBuilder
 {
@@ -72,7 +73,7 @@ class FormBuilder
             $element = $column->getFormElement();
 
             // Add input filter
-            if (!empty($column->getInputFilterSpecification())) {
+            if ($column->getInputFilterSpecification()) {
                 $inputFilter->add($column->getInputFilterSpecification());
             }
 
@@ -93,6 +94,7 @@ class FormBuilder
 
         foreach ($formSections as $name => $section) {
             $fieldSet = new Fieldset($name, ['label' => $section['label']]);
+            $inputFilter->add($section['input_filter'], $name);
             foreach ($section['elements'] as $element) {
                 $fieldSet->add($element);
             }
@@ -104,14 +106,14 @@ class FormBuilder
         $submit->setValue('Save');
         $form->add($submit);
 
-        $form->setInputFilter($inputFilter);
-
         $em->trigger(self::EVENT_GRID_FORM_BUILD_POST, $form, $data);
 
         // Set data to form
         if ($data) {
             $form->setData($data);
         }
+
+        $form->setInputFilter($inputFilter);
 
         $this->forms[$context] = $form;
 
@@ -128,12 +130,16 @@ class FormBuilder
 
     /**
      * @param $name
-     * @param $options
+     * @param $label
      * @return $this
      */
-    public function addFormSection($name, $options)
+    public function addFormSection($name, $label)
     {
-        $this->formSections[$name] = $options;
+        $this->formSections[$name] = [
+            'label' => $label,
+            'elements' => [],
+            'input_filter' => new InputFilter()
+        ];
         return $this;
     }
 
@@ -169,13 +175,20 @@ class FormBuilder
      * @return $this
      * @throws \Exception
      */
-    public function addFormSectionElement($sectionName, $element, $inputFilterSpecification = [])
+    public function addFormSectionElement($sectionName, $element, $inputFilterSpecification = null)
     {
         if (! array_key_exists($sectionName, $this->formSections)) {
             throw new \Exception('No section with name "'. $sectionName .'"');
         }
 
         $this->formSections[$sectionName]['elements'][$element->getName()] = $element;
+
+        if ($inputFilterSpecification) {
+            /** @var InputFilter $inputfilter */
+            $inputFilter = $this->formSections[$sectionName]['input_filter'];
+            $inputFilter->add($inputFilterSpecification);
+        }
+
         return $this;
     }
 }

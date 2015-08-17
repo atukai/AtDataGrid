@@ -11,10 +11,29 @@
                         <?= $element->getLabel() ?>
                     </label>
                 </div>
-                <p class="help-block">
-                    <span class="text-danger"><?= $this->formElementErrors($element); ?></span>
-                    <span class="text-muted"><?= $element->getOption('description'); ?></span>
-                </p>
+                <div class="help-block">
+                    <div class="text-danger"><?= $this->formElementErrors($element); ?></div>
+                    <div class="text-muted"><?= $element->getOption('description'); ?></div>
+                </div>
+            </div>
+        </div>
+    <?php elseif ($element->getAttribute('type') == 'radio'): ?>
+        <div class="form-group">
+            <?php $element->setLabelAttributes(array('class' => 'control-label col-md-3')); ?>
+            <?= $this->formLabel($element) ?>
+            <div class="col-md-7">
+                <?php foreach ($element->getValueOptions() as $key => $value): ?>
+                <div class="radio">
+                    <label>
+                        <input type="radio" value="<?= $key ?>" name="<?= $element->getName()?>">
+                        <?= $value ?>
+                    </label>
+                </div>
+                <?php endforeach; ?>
+                <div class="help-block">
+                    <div class="text-danger"><?= $this->formElementErrors($element); ?></div>
+                    <div class="text-muted"><?= $element->getOption('description'); ?></div>
+                </div>
             </div>
         </div>
     <?php elseif ($element->getAttribute('type') == 'multi_checkbox'): ?>
@@ -33,10 +52,10 @@
                         </label>
                     </div>
                 <?php endforeach; ?>
-                <p class="help-block">
-                    <span class="text-danger"><?= $this->formElementErrors($element); ?></span>
-                    <span class="text-muted"><?= $element->getOption('description'); ?></span>
-                </p>
+                <div class="help-block">
+                    <div class="text-danger"><?= $this->formElementErrors($element); ?></div>
+                    <div class="text-muted"><?= $element->getOption('description'); ?></div>
+                </div>
             </div>
         </div>
     <?php elseif ($element->getAttribute('type') != 'submit'): ?>
@@ -52,10 +71,10 @@
             <?= $this->formLabel($element) ?>
             <div class="col-md-7">
                 <?= $this->formElement($element) ?>
-                <p class="help-block">
-                    <span class="text-danger"><?= $this->formElementErrors($element); ?></span>
-                    <span class="text-muted"><?= $element->getOption('description'); ?></span>
-                </p>
+                <div class="help-block">
+                    <div class="text-danger"><?= $this->formElementErrors($element); ?></div>
+                    <div class="text-muted"><?= $element->getOption('description'); ?></div>
+                </div>
             </div>
         </div>
     <?php endif; ?>

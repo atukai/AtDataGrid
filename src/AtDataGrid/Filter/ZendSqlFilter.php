@@ -12,7 +12,7 @@ class ZendSqlFilter extends AbstractFilter
         if ($value !== null && $value !== '') {
             switch ($this->getOperator()) {
                 case self::OP_EQUAL:
-                    $select->where(array($columnName => $value));
+                    $select->where([$columnName => $value]);
                     break;
 
                 case self::OP_LIKE:
@@ -51,8 +51,6 @@ class ZendSqlFilter extends AbstractFilter
                     throw new \Exception('Operator '. $this->getOperator() . ' not supported in this data source');
             }
         }
-
-        //var_dump($select->getSqlString());
 
         return $select;
     }

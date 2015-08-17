@@ -477,24 +477,24 @@ class DataGrid implements \Countable, \IteratorAggregate, \ArrayAccess
      * @param $data
      * @return mixed
      */
-    public function save($data)
+    public function save($data, $identifier = null)
     {
         $eventResult = $this->getEventManager()->trigger(self::EVENT_GRID_PERSIST_PRE, $this, $data)->last();
         if ($eventResult) {
             $data = $eventResult;
         }
 
-        if (!isset($data[$this->getIdentifierColumnName()]) || empty($data[$this->getIdentifierColumnName()])) {
+        if (!$identifier) {
             $id = $this->insert($data);
         } else {
-            $id = $this->update($data, $data[$this->getIdentifierColumnName()]);
+            $id = $this->update($data, $identifier);
         }
 
         $data[$this->getIdentifierColumnName()] = $id;
 
         $this->getEventManager()->trigger(self::EVENT_GRID_PERSIST_POST, $this, $data);
 
-        return $id;
+        return $this->getRow($id);
     }
 
     /**

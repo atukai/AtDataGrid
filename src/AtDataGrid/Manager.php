@@ -219,6 +219,11 @@ class Manager
             if (! $element) {
                 $column = $grid->getColumn($filter->getName());
                 $element = clone $column->getFormElement();
+
+                if ($element instanceof Element\Select) {
+                    $element->setEmptyOption('');
+                }
+
                 $element->setName($filter->getName());
                 $filter->setFormElement($element);
             }
