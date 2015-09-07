@@ -40,7 +40,7 @@ class FormBuilder
     /**
      * @param DataGrid $grid
      * @param string $context
-     * @param array $data
+     * @param $data
      * @return Form
      */
     public function build(DataGrid $grid, $context = self::FORM_CONTEXT_CREATE, $data = [])
@@ -52,9 +52,7 @@ class FormBuilder
         /** @var EventManager $em */
         $em = $this->getEventManager();
 
-        $data[self::FORM_CONTEXT_PARAM_NAME] = $context;
-
-        $eventResult = $em->trigger(self::EVENT_GRID_FORM_BUILD_PRE, null, $data)->last();
+        $eventResult = $em->trigger(self::EVENT_GRID_FORM_BUILD_PRE, null, ['data' => $data, self::FORM_CONTEXT_PARAM_NAME => $context])->last();
         if ($eventResult) {
             $data = $eventResult;
         }
@@ -106,7 +104,7 @@ class FormBuilder
         $submit->setValue('Save');
         $form->add($submit);
 
-        $em->trigger(self::EVENT_GRID_FORM_BUILD_POST, $form, $data);
+        $em->trigger(self::EVENT_GRID_FORM_BUILD_POST, $form, ['data' => $data, self::FORM_CONTEXT_PARAM_NAME => $context]);
 
         // Set data to form
         if ($data) {

@@ -14,18 +14,18 @@ class Html extends AbstractRenderer
     protected $template = 'at-datagrid/grid';
 
     /**
-     * Additional css file path
+     * Additional css files
      *
      * @var string
      */
-    protected $customCss;
+    protected $customCss = [];
 
     /**
-     * Additional js file path
+     * Additional js files
      *
      * @var string
      */
-    protected $customJs;
+    protected $customJs = [];
 
     /**
      * @param $template
@@ -48,9 +48,9 @@ class Html extends AbstractRenderer
     /**
      * @param string $customCss
      */
-    public function setCustomCss($customCss)
+    public function addCustomCss($customCss)
     {
-        $this->customCss = $customCss;
+        $this->customCss[] = $customCss;
     }
 
     /**
@@ -72,9 +72,9 @@ class Html extends AbstractRenderer
     /**
      * @param string $customJs
      */
-    public function setCustomJs($customJs)
+    public function addCustomJs($customJs)
     {
-        $this->customJs = $customJs;
+        $this->customJs[] = $customJs;
     }
 
     /**

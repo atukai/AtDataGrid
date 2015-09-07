@@ -2,11 +2,15 @@
 <?php $this->headLink()->appendStylesheet('/css/at-datagrid/datagrid.css') ?>
 
 <?php if ($this->customCss): ?>
-    <?php $this->headLink()->appendStylesheet($this->customCss) ?>
+    <?php foreach ($this->customCss as $file): ?>
+        <?php $this->headLink()->appendStylesheet($file) ?>
+    <?php endforeach; ?>
 <?php endif; ?>
 
 <? if ($this->customJs): ?>
-    <?php $this->headScript()->appendFile($this->customJs) ?>
+    <?php foreach ($this->customJs as $file): ?>
+        <?php $this->headScript()->appendFile($file) ?>
+    <?php endforeach; ?>
 <? endif; ?>
 
 <?= $this->render('at-datagrid/grid/toolbar.phtml'); ?>

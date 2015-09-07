@@ -1,24 +1,22 @@
 <?php
     /** @var \Zend\Form\Form $form */
     $form->prepare();
-    $form->setAttribute('action', $this->url(null, [], [], true));
+
+    if ($form->getAttribute('action') == '') {
+        $form->setAttribute('action', $this->url(null, [], [], true));
+    }
+
     $form->setAttribute('method', 'post');
-    $form->setAttribute('id', 'at-datagrid-form');
+
+    if ($form->getAttribute('id') == '') {
+        $form->setAttribute('id', 'at-datagrid-form');
+    }
+
     $form->setAttribute('role', 'form');
     $form->setAttribute('class', 'form-horizontal');
 
     echo $this->form()->openTag($form);
 ?>
-
-<div class="clearfix">
-    <div class="pull-right">
-        <?php
-            $submit = $form->get('submit');
-            $submit->setAttributes(['class' => 'btn btn-success']);
-        ?>
-        <?= $this->formSubmit($submit) ?>
-    </div>
-</div>
 
 <div>
     <?= $this->render('at-datagrid/form/_elements.phtml', ['elements' => $form->getElements()]) ?>
@@ -30,5 +28,16 @@
         <?= $this->render('at-datagrid/form/_elements.phtml', ['elements' => $fieldset->getElements()]) ?>
     </div>
 <?php endforeach; ?>
+
+<div class="clearfix">
+    <div class="pull-right">
+        <?php
+            $submit = $form->get('submit');
+            $submit->setAttributes(['class' => 'btn btn-success']);
+        ?>
+        <?= $this->formSubmit($submit) ?>
+    </div>
+</div>
+
 
 <?= $this->form()->closeTag(); ?>

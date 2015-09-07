@@ -1,9 +1,17 @@
 <?php
     /** @var \Zend\Form\Form $form */
     $form->prepare();
-    $form->setAttribute('action', $this->url(null, [], [], true));
+
+    if ($form->getAttribute('action') == '') {
+        $form->setAttribute('action', $this->url(null, [], [], true));
+    }
+
     $form->setAttribute('method', 'post');
-    $form->setAttribute('id', 'at-datagrid-form');
+
+    if ($form->getAttribute('id') == '') {
+        $form->setAttribute('id', 'at-datagrid-form');
+    }
+
     $form->setAttribute('role', 'form');
     $form->setAttribute('class', 'form-horizontal');
 
@@ -11,7 +19,6 @@
 ?>
 
 <div role="tabpanel">
-
     <div class="clearfix">
         <ul class="nav nav-tabs pull-left" role="tablist">
             <li role="presentation" class="active"><a href="#general" aria-controls="general" role="tab" data-toggle="tab">Свойства</a></li>
@@ -19,15 +26,6 @@
             <li role="presentation"><a href="#<?= $fieldset->getName() ?>" aria-controls="<?= $fieldset->getName() ?>" role="tab" data-toggle="tab"><?= $fieldset->getLabel() ?></a></li>
             <?php endforeach; ?>
         </ul>
-
-        <div class="pull-right">
-            <?php
-                $submit = $form->get('submit');
-                $submit->setAttributes(['class' => 'btn btn-success']);
-            ?>
-            <?= $this->formSubmit($submit) ?>
-        </div>
-
     </div>
 
     <div class="tab-content">
@@ -40,6 +38,14 @@
             <?= $this->render('at-datagrid/form/_elements.phtml', ['elements' => $fieldset->getElements()]) ?>
         </div>
         <?php endforeach; ?>
+    </div>
+
+    <div class="pull-right">
+        <?php
+        $submit = $form->get('submit');
+        $submit->setAttributes(['class' => 'btn btn-success']);
+        ?>
+        <?= $this->formSubmit($submit) ?>
     </div>
 
 </div>

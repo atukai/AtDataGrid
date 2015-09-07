@@ -3,7 +3,7 @@
         <?= $this->formHidden($element) ?>
     <?php elseif ($element->getAttribute('type') == 'checkbox'): ?>
         <div class="form-group">
-            <div class="col-md-7 col-sm-offset-3">
+            <div class="col-md-9 col-sm-offset-3">
                 <div class="checkbox">
                     <?php $element->setLabelAttributes(array('class' => 'control-label col-md-3')); ?>
                     <label>
@@ -21,7 +21,7 @@
         <div class="form-group">
             <?php $element->setLabelAttributes(array('class' => 'control-label col-md-3')); ?>
             <?= $this->formLabel($element) ?>
-            <div class="col-md-7">
+            <div class="col-md-9">
                 <?php foreach ($element->getValueOptions() as $key => $value): ?>
                 <div class="radio">
                     <label>
@@ -43,7 +43,7 @@
                 /*$element->setAttributes(array('class' => 'form-control'));*/
             ?>
             <?= $this->formLabel($element) ?>
-            <div class="col-md-7">
+            <div class="col-md-9">
                 <?php foreach ($element->getValueOptions() as $key => $value): ?>
                     <div class="checkbox">
                         <label>
@@ -69,7 +69,7 @@
                 $element->setAttribute('class', $class);
             ?>
             <?= $this->formLabel($element) ?>
-            <div class="col-md-7">
+            <div class="col-md-9">
                 <?= $this->formElement($element) ?>
                 <div class="help-block">
                     <div class="text-danger"><?= $this->formElementErrors($element); ?></div>
