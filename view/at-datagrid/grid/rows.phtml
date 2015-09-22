@@ -14,7 +14,16 @@
             <td>
                 <div class="btn-group btn-group-xs pull-right">
                     <?php foreach($this->gridManager->getActions() as $action) : ?>
-                        <?= $this->rowAction($action, $row) ?>
+                        <?php
+                            $routeParams = array_merge($action->getRouteParams(), ['id' => $row[$this->grid->getIdentifierColumnName()]]);
+                            $actionUrl = $this->url($action->getRouteName(), $routeParams);
+                        ?>
+                        <a class="action-<?= $action->getName() ?> btn <?php if ($action->getName() == 'delete'): ?>btn-danger<?php else: ?>btn-default<?php endif;?>" href="<?= $actionUrl ?>"
+                            <?php if ($action->isConfirm()): ?>
+                                onclick="DataGrid.confirmAction(this, '<?= $this->translate($action->getConfirmMessage()) ?>')"
+                            <?php endif;?>>
+                            <span title="<?= $this->translate($action->getLabel()) ?>" class="<?= $action->getClass() ?>"></span>
+                        </a>
                     <?php endforeach; ?>
                 </div>
             </td>
