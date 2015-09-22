@@ -20,6 +20,10 @@
         "psr-0": {
             "AtDataGrid\\": "src/",
             "AtDataGridTest": "test/"
-        }
+        },
+
+        "classmap": [
+            "./Module.php"
+        ]
     }
 }
