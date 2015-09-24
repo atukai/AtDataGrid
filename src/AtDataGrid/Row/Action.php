@@ -4,22 +4,16 @@ namespace AtDataGrid\Row;
 
 class Action
 {
+    use DisablableTrait;
+
     private $name;
-
     private $routeName;
-
     private $routeParams = [];
-
     private $label;
-
     private $confirm = false;
-
     private $confirmMessage = 'Are you sure?';
-
     private $bulk = true;
-
     private $button = false;
-
     private $class;
 
     /**

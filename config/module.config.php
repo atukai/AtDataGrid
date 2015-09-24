@@ -16,4 +16,14 @@ return [
             __DIR__ . '/../view',
         ],
     ],
+
+    'view_helpers' => [
+        'invokables' => [
+            'rowAction' => 'AtDataGrid\View\Helper\RowAction'
+        ],
+
+        'factories' => [
+
+        ],
+    ]
 ];
