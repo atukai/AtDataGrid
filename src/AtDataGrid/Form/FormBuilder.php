@@ -38,6 +38,11 @@ class FormBuilder
     protected $formSections = [];
 
     /**
+     * @var array
+     */
+    protected $customJs = [];
+
+    /**
      * @param DataGrid $grid
      * @param string $context
      * @param $data
@@ -188,5 +193,21 @@ class FormBuilder
         }
 
         return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getCustomJs()
+    {
+        return $this->customJs;
+    }
+
+    /**
+     * @param string $customJs
+     */
+    public function addCustomJs($customJs)
+    {
+        $this->customJs[] = $customJs;
     }
 }
