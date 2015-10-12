@@ -3,6 +3,7 @@
 namespace AtDataGrid;
 
 use AtDataGrid\Filter\FilterInterface;
+use AtDataGrid\Form\FormBuilder;
 use AtDataGrid\Renderer\AbstractRenderer;
 use AtDataGrid\Row\Action;
 use Zend\Cache\Storage\StorageInterface;
@@ -20,6 +21,11 @@ class Manager
      * @var AbstractRenderer
      */
     protected $renderer;
+
+    /**
+     * @var FormBuilder
+     */
+    protected $formBuilder;
 
     /**
      * @var Form
@@ -203,6 +209,26 @@ class Manager
         }
 
         return $this->filtersForm;
+    }
+
+    /**
+     * @return FormBuilder
+     */
+    public function getFormBuilder()
+    {
+        if (! $this->formBuilder) {
+            $this->formBuilder  = new FormBuilder();
+        }
+
+        return $this->formBuilder;
+    }
+
+    /**
+     * @param FormBuilder $formBuilder
+     */
+    public function setFormBuilder($formBuilder)
+    {
+        $this->formBuilder = $formBuilder;
     }
 
     /**
