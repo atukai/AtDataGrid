@@ -9,21 +9,14 @@ use Zend\InputFilter\InputFilterProviderInterface;
 class Column implements InputFilterProviderInterface
 {
     protected $name;
-
     protected $label;
-
     protected $visible = true;
-
     protected $visibleInForm = true;
-
     protected $sortable = false;
-    
     protected $orderDirection = 'desc';
-
     protected $formElement;
-
+    protected $section;
     protected $inputFilterSpecification;
-
     protected $decorators = [];
 
     /**
@@ -213,8 +206,22 @@ class Column implements InputFilterProviderInterface
 
         return $value;
     }
-    
-    // FORM ELEMENTS
+
+    /**
+     * @return mixed
+     */
+    public function getSection()
+    {
+        return $this->section;
+    }
+
+    /**
+     * @param mixed $section
+     */
+    public function setSection($section)
+    {
+        $this->section = (string)$section;
+    }
 
     /**
      * @param Element $formElement

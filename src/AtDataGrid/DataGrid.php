@@ -278,20 +278,6 @@ class DataGrid implements \Countable, \IteratorAggregate, \ArrayAccess
     }
 
     /**
-     * Set column invisible in grid
-     *
-     * @param $name
-     * @return DataGrid
-     */
-    public function hideColumn($name)
-    {
-        $this->getColumn($name)
-             ->setVisible(false);
-        
-        return $this;   
-    }
-
-    /**
      * Set columns invisible in grid
      *
      * @param array $names
@@ -300,24 +286,10 @@ class DataGrid implements \Countable, \IteratorAggregate, \ArrayAccess
     public function hideColumns(array $names)
     {
         foreach ($names as $name) {
-            $this->hideColumn($name);
+            $this->getColumn($name)->setVisible(false);
         }
 
         return $this;                   
-    }
-
-    /**
-     * Set column invisible in add/edit form
-     *
-     * @param $name
-     * @return DataGrid
-     */
-    public function hideColumnInForm($name)
-    {
-        $this->getColumn($name)
-    	     ->setVisibleInForm(false);
-        
-        return $this;    
     }
 
     /**
@@ -329,12 +301,41 @@ class DataGrid implements \Countable, \IteratorAggregate, \ArrayAccess
     public function hideColumnsInForm(array $names)
     {
         foreach ($names as $name) {
-            $this->hideColumnInForm($name);
+            $this->getColumn($name)->setVisibleInForm(false);
         }
 
         return $this;
     }
 
+    /**
+     * Set columns visible in grid
+     *
+     * @param array $names
+     * @return DataGrid
+     */
+    public function showColumns(array $names)
+    {
+        foreach ($names as $name) {
+            $this->getColumn($name)->setVisible(true);
+        }
+
+        return $this;
+    }
+
+    /**
+     * Set columns visible in form
+     *
+     * @param $names
+     * @return DataGrid
+     */
+    public function showColumnsInForm(array $names)
+    {
+        foreach ($names as $name) {
+            $this->getColumn($name)->setVisibleInForm(true);
+        }
+
+        return $this;
+    }
 
     // SORTING
 

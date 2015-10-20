@@ -62,10 +62,21 @@ class FormBuilder
             $data = $eventResult;
         }
 
-        $form = new Form('at-admin-form');
+        $form = new Form('at-datagrid-form');
         $inputFilter = $form->getInputFilter();
 
-        // Collect elements
+        // Get form section and create fieldsets
+        $formSections = $this->getFormSections();
+        foreach ($formSections as $name => $section) {
+            $fieldSet = new Fieldset($name, ['label' => $section['label']]);
+            $inputFilter->add($section['input_filter'], $name);
+            foreach ($section['elements'] as $element) {
+                $fieldSet->add($element);
+            }
+            $form->add($fieldSet);
+        }
+
+        // Collect elements and add them to form
         /** @var Column $column */
         foreach ($grid->getColumns() as $column) {
             if (!$column->isVisibleInForm()) {
@@ -91,18 +102,6 @@ class FormBuilder
         $csrf = new Element\Csrf('token');
         $csrf->setCsrfValidatorOptions(['timeout' => null]);
         $form->add($csrf);
-
-        // Add section elements
-        $formSections = $this->getFormSections();
-
-        foreach ($formSections as $name => $section) {
-            $fieldSet = new Fieldset($name, ['label' => $section['label']]);
-            $inputFilter->add($section['input_filter'], $name);
-            foreach ($section['elements'] as $element) {
-                $fieldSet->add($element);
-            }
-            $form->add($fieldSet);
-        }
 
         // Submit button
         $submit = new Element\Submit('submit');

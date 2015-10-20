@@ -19,7 +19,7 @@
         </div>
     <?php elseif ($element->getAttribute('type') == 'radio'): ?>
         <div class="form-group">
-            <?php $element->setLabelAttributes(array('class' => 'control-label col-md-3')); ?>
+            <?php $element->setLabelAttributes(['class' => 'control-label col-md-3']); ?>
             <?= $this->formLabel($element) ?>
             <div class="col-md-9">
                 <?php foreach ($element->getValueOptions() as $key => $value): ?>
@@ -39,15 +39,14 @@
     <?php elseif ($element->getAttribute('type') == 'multi_checkbox'): ?>
         <div class="form-group">
             <?php
-                $element->setLabelAttributes(array('class' => 'control-label col-md-3'));
-                /*$element->setAttributes(array('class' => 'form-control'));*/
+                $element->setLabelAttributes(['class' => 'control-label col-md-3']);
             ?>
             <?= $this->formLabel($element) ?>
             <div class="col-md-9">
                 <?php foreach ($element->getValueOptions() as $key => $value): ?>
                     <div class="checkbox">
                         <label>
-                            <input type="checkbox" value="<?= $key ?>" name="<?= $element->getName()?>[]">
+                            <input <?php if ($element->hasAttribute('class')): ?>class="<?= $element->getAttribute('class') ?>"<?php endif; ?>  type="checkbox" value="<?= $key ?>" name="<?= $element->getName()?>[]" <?php if ($element->getAttribute('disabled') == 'disabled'): ?>disabled<?php endif; ?>>
                             <?= $value ?>
                         </label>
                     </div>
