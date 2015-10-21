@@ -22,11 +22,11 @@
             <?php $element->setLabelAttributes(['class' => 'control-label col-md-3']); ?>
             <?= $this->formLabel($element) ?>
             <div class="col-md-9">
-                <?php foreach ($element->getValueOptions() as $key => $value): ?>
+                <?php foreach ($element->getValueOptions() as $value => $label): ?>
                 <div class="radio">
                     <label>
-                        <input type="radio" value="<?= $key ?>" name="<?= $element->getName()?>">
-                        <?= $value ?>
+                        <input type="radio" value="<?= $value ?>" name="<?= $element->getName()?>" <?php if ($element->getValue() == $value): ?>checked<?php endif; ?>>
+                        <?= $label ?>
                     </label>
                 </div>
                 <?php endforeach; ?>
