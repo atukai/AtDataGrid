@@ -88,7 +88,7 @@ class DataGrid implements \Countable, \IteratorAggregate, \ArrayAccess
     protected $pageRange = 10;
 
     /**
-     * array of column filters
+     * Array of column filters
      *
      * @var array
      */
