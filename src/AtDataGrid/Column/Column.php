@@ -20,8 +20,8 @@ class Column implements InputFilterProviderInterface
     protected $decorators = [];
 
     /**
+     * Column constructor.
      * @param $name
-     * @throws \Exception
      */
     public function __construct($name)
     {
@@ -86,6 +86,24 @@ class Column implements InputFilterProviderInterface
     }
 
     /**
+     * @param $value
+     * @return $this
+     */
+    public function setVisibleInForm($value)
+    {
+        $this->visibleInForm = $value;
+        return $this;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isVisibleInForm()
+    {
+        return $this->visibleInForm;
+    }
+
+    /**
      * @param bool $value
      * @return $this
      */
@@ -122,30 +140,13 @@ class Column implements InputFilterProviderInterface
     }
 
     /**
+     * @todo Move to view layer
      * @return $this
      */
     public function revertOrderDirection()
     {
         $this->orderDirection = ($this->getOrderDirection() == 'asc') ? 'desc' : 'asc';
         return $this;
-    }
-
-    /**
-     * @param $value
-     * @return $this
-     */
-    public function setVisibleInForm($value)
-    {
-        $this->visibleInForm = $value;
-        return $this;
-    }
-
-    /**
-     * @return bool
-     */
-    public function isVisibleInForm()
-    {
-        return $this->visibleInForm;
     }
 
     // RENDERING & DECORATORS
@@ -169,7 +170,7 @@ class Column implements InputFilterProviderInterface
         foreach ($decorators as $decorator) {
             $this->addDecorator($decorator);  
         }
-        
+
         return $this;
     }
 
@@ -186,6 +187,9 @@ class Column implements InputFilterProviderInterface
     	return null;
     }
 
+    /**
+     * @return $this
+     */
     public function clearDecorators()
     {
         $this->decorators = [];
@@ -205,22 +209,6 @@ class Column implements InputFilterProviderInterface
         }
 
         return $value;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getSection()
-    {
-        return $this->section;
-    }
-
-    /**
-     * @param mixed $section
-     */
-    public function setSection($section)
-    {
-        $this->section = (string)$section;
     }
 
     /**

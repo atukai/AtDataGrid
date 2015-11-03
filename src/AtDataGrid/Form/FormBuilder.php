@@ -15,7 +15,6 @@ class FormBuilder
     use EventManagerAwareTrait;
 
     const FORM_CONTEXT_PARAM_NAME = '__form_context';
-
     const FORM_CONTEXT_CREATE = 'create';
     const FORM_CONTEXT_EDIT   = 'edit';
 
@@ -174,6 +173,7 @@ class FormBuilder
     /**
      * @param $sectionName
      * @param $element
+     * @param null $inputFilterSpecification
      * @return $this
      * @throws \Exception
      */

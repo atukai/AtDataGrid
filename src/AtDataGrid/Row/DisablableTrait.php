@@ -2,8 +2,6 @@
 
 namespace AtDataGrid\Row;
 
-use Doctrine\ORM\Mapping as ORM;
-
 trait DisablableTrait
 {
     /**
