@@ -33,16 +33,18 @@
                             <?php if ($column->isVisible()): ?>
                                 <th id="col-<?= $column->getName() ?>">
                                     <?php if ($column->isSortable()): ?>
-                                        <a class="sortable" href="<?= $this->atBaseQueryParams(array('page' => 1, 'order' => $column->getName() . '~' . $column->getOrderDirection())) ?>">
-                                            <?php if ($this->grid->getCurrentOrderColumnName() == $column->getName()): ?>
-                                                <span class="active">
+                                        <a class="sortable" href="<?= $this->atBaseQueryParams(['page' => 1, 'order' => $column->getName() . '~asc']) ?>">
+                                            <?php if ($this->grid->getOrderColumn() == $column->getName()): ?>
+                                            <div class="active clearfix">
+                                                <span class="pull-left">
                                                     <?= $column->getLabel() ?>
-                                                    <?php if ($this->grid->getCurrentOrderDirection() == 'asc'): ?>
-                                                        &uarr;
-                                                    <?php elseif($this->grid->getCurrentOrderDirection() == 'desc'): ?>
-                                                        &darr;
-                                                    <?php endif; ?>
                                                 </span>
+                                                <?php if ($this->grid->getOrderDirection() == 'asc'): ?>
+                                                    <span class="fa fa-sort-amount-asc pull-right"></span>
+                                                <?php elseif($this->grid->getOrderDirection() == 'desc'): ?>
+                                                    <span class="fa fa-sort-amount-desc pull-right"></span>
+                                                <?php endif; ?>
+                                            </div>
                                             <?php else: ?>
                                                 <?= $column->getLabel() ?>
                                             <?php endif; ?>

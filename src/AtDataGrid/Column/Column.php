@@ -13,7 +13,6 @@ class Column implements InputFilterProviderInterface
     protected $visible = true;
     protected $visibleInForm = true;
     protected $sortable = false;
-    protected $orderDirection = 'desc';
     protected $formElement;
     protected $section;
     protected $inputFilterSpecification;
@@ -119,34 +118,6 @@ class Column implements InputFilterProviderInterface
     public function isSortable()
     {
         return $this->sortable;
-    }
-
-    /**
-     * @param $value
-     * @return $this
-     */
-    public function setOrderDirection($value)
-    {
-        $this->orderDirection = strtolower($value);
-        return $this;
-    }
-
-    /**
-     * @return string
-     */
-    public function getOrderDirection()
-    {
-        return $this->orderDirection;
-    }
-
-    /**
-     * @todo Move to view layer
-     * @return $this
-     */
-    public function revertOrderDirection()
-    {
-        $this->orderDirection = ($this->getOrderDirection() == 'asc') ? 'desc' : 'asc';
-        return $this;
     }
 
     // RENDERING & DECORATORS

@@ -186,7 +186,7 @@ class TableGateway extends AbstractDataSource
      * @return $this
      * @throws \Exception
      */
-    public function prepare($order, $filters = [])
+    public function prepare($order = [], $filters = [])
     {
         /**
          * Filtering
@@ -201,17 +201,16 @@ class TableGateway extends AbstractDataSource
         /**
          * Sorting
          */
-        if ($order) {
-            $orderParts = explode(' ', $order);
-            if (in_array($orderParts[0], $this->tableColumns)) {
-                $order = $this->getTableGateway()->getTable() . '.' . $order;
+        if (!empty($order)) {
+            if (in_array(key($order), $this->tableColumns)) {
+                $this->getSelect()->order($order);
             }
-            $this->getSelect()->order($order);
         }
 
         $this->getEventManager()->trigger(self::EVENT_DATASOURCE_PREPARE_POST, $this->getSelect());
 
         //var_dump($this->getSelect()->getSqlString());exit;
+
         return $this;
     }
 

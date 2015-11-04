@@ -10,11 +10,11 @@ interface DataSourceInterface
     public function loadColumns();
 
     /**
-     * @param $order
+     * @param array $order
      * @param array $filters
      * @return mixed
      */
-    public function prepare($order, $filters = []);
+    public function prepare($order = [], $filters = []);
 
     /**
      * @param $id

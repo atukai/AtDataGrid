@@ -57,14 +57,11 @@ class DataGrid implements \Countable, \IteratorAggregate, \ArrayAccess
     protected $paginator;
 
     /**
-     * @var null
+     * Order in array format ['id' => 'desc']
+     *
+     * @var array
      */
-    protected $currentOrderColumnName;
-
-    /**
-     * @var string
-     */
-    protected $currentOrderDirection = 'asc';
+    protected $order = [];
 
     /**
      * Current page
@@ -233,7 +230,7 @@ class DataGrid implements \Countable, \IteratorAggregate, \ArrayAccess
         if ($this->hasColumn($name)) {
             return $this->columns[$name];
         }
-        
+
         throw new \Exception("Column '" . $name . "' doesn't exist in column list.");
     }
 
@@ -340,51 +337,45 @@ class DataGrid implements \Countable, \IteratorAggregate, \ArrayAccess
     // SORTING
 
     /**
-     * @param string $order  columnName~orderDirection
+     * @param array $order
      */
-    public function setOrder($order)
+    public function setOrder(array $order)
     {
-        $order = explode('~', $order);
-
-        if (isset($order[1])) {
-            list($columnName, $orderDirection) = $order;
-            $this->setCurrentOrderColumn($columnName, $orderDirection);
+        if ($this->hasColumn(key($order))) {
+            $this->order = $order;
         }
     }
 
     /**
-     * @param $columnName
-     * @param $orderDirection
+     * @return array
      */
-    public function setCurrentOrderColumn($columnName, $orderDirection = 'asc')
+    public function getOrder()
     {
-        try {
-            $column = $this->getColumn($columnName);
-
-            $this->currentOrderColumnName = $column->getName();
-            $this->currentOrderDirection  = $orderDirection;
-
-            $column->setOrderDirection($orderDirection);
-            $column->revertOrderDirection();
-        } catch (\Exception $e) {
-            return;
-        }
+        return $this->order;
     }
 
     /**
-     * @return null
+     * @return mixed
      */
-    public function getCurrentOrderColumnName()
+    public function getOrderColumn()
     {
-        return $this->currentOrderColumnName;
+        return key($this->order);
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getOrderDirection()
+    {
+        return $this->order[key($this->order)];
     }
 
     /**
      * @return string
      */
-    public function getCurrentOrderDirection()
+    public function revertOrderDirection()
     {
-        return $this->currentOrderDirection;
+        return ($this->getOrderDirection() == 'asc') ? 'desc' : 'asc';
     }
 
     // DATA SOURCE
@@ -425,17 +416,9 @@ class DataGrid implements \Countable, \IteratorAggregate, \ArrayAccess
     public function getData()
     {
         /**
-         * Sorting
-         */
-        $order = null;
-        if ($this->getCurrentOrderColumnName()) {
-            $order = $this->getCurrentOrderColumnName() . ' ' . $this->getCurrentOrderDirection();
-        }
-
-        /**
          * Prepare data source for fetching data
          */
-    	$this->getDataSource()->prepare($order, $this->getFilters());
+    	$this->getDataSource()->prepare($this->getOrder(), $this->getFilters());
 
         /**
          * Load data using paginator
