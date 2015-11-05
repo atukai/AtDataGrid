@@ -21,8 +21,9 @@
 .show-items-list li:first-child {margin-left: 0;}
 
 /* Sorting */
-a.sortable:hover {text-decoration: none;}
 .sortable > .active {color: #DD4B39;}
+.sortable > .active i {padding: 4px 6% 0 0;}
+a.sortable:hover {text-decoration: none;}
 
 /* Group actions */
 .at-grid-group-actions {}

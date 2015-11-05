@@ -61,7 +61,7 @@ class DataGrid implements \Countable, \IteratorAggregate, \ArrayAccess
      *
      * @var array
      */
-    protected $order = [];
+    protected $order;
 
     /**
      * Current page
@@ -341,7 +341,7 @@ class DataGrid implements \Countable, \IteratorAggregate, \ArrayAccess
      */
     public function setOrder(array $order)
     {
-        if ($this->hasColumn(key($order))) {
+        if ($this->hasColumn(key($order)) && in_array($order[key($order)], ['asc', 'desc'])) {
             $this->order = $order;
         }
     }
@@ -373,7 +373,7 @@ class DataGrid implements \Countable, \IteratorAggregate, \ArrayAccess
     /**
      * @return string
      */
-    public function revertOrderDirection()
+    public function getRevertOrderDirection()
     {
         return ($this->getOrderDirection() == 'asc') ? 'desc' : 'asc';
     }

@@ -33,22 +33,18 @@
                             <?php if ($column->isVisible()): ?>
                                 <th id="col-<?= $column->getName() ?>">
                                     <?php if ($column->isSortable()): ?>
-                                        <a class="sortable" href="<?= $this->atBaseQueryParams(['page' => 1, 'order' => $column->getName() . '~asc']) ?>">
-                                            <?php if ($this->grid->getOrderColumn() == $column->getName()): ?>
-                                            <div class="active clearfix">
-                                                <span class="pull-left">
+                                        <?php if ($this->grid->getOrderColumn() == $column->getName()): ?>
+                                            <a class="sortable" href="<?= $this->atBaseQueryParams(['page' => 1, 'order' => $column->getName() . '~' . $this->grid->getRevertOrderDirection()]) ?>">
+                                                <div class="active">
                                                     <?= $column->getLabel() ?>
-                                                </span>
-                                                <?php if ($this->grid->getOrderDirection() == 'asc'): ?>
-                                                    <span class="fa fa-sort-amount-asc pull-right"></span>
-                                                <?php elseif($this->grid->getOrderDirection() == 'desc'): ?>
-                                                    <span class="fa fa-sort-amount-desc pull-right"></span>
-                                                <?php endif; ?>
-                                            </div>
-                                            <?php else: ?>
+                                                    <i class="pull-right fa fa-sort-amount-<?php if ($this->grid->getOrderDirection() == 'asc'): ?>asc<?php elseif($this->grid->getOrderDirection() == 'desc'): ?>desc<?php endif; ?>"></i>
+                                                </div>
+                                            </a>
+                                        <?php else: ?>
+                                            <a class="sortable" href="<?= $this->atBaseQueryParams(['page' => 1, 'order' => $column->getName() . '~asc']) ?>">
                                                 <?= $column->getLabel() ?>
-                                            <?php endif; ?>
-                                        </a>
+                                            </a>
+                                        <?php endif; ?>
                                     <?php else: ?>
                                         <?= $column->getLabel() ?>
                                     <?php endif; ?>
