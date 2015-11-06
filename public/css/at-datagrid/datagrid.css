@@ -21,9 +21,10 @@
 .show-items-list li:first-child {margin-left: 0;}
 
 /* Sorting */
-.sortable > .active {color: #DD4B39;}
-.sortable > .active i {padding: 4px 6% 0 0;}
-a.sortable:hover {text-decoration: none;}
+.sortable {display: table}
+.sortable.active {color: #DD4B39;}
+.sortable.active span {display: table-cell;}
+.sortable.active i {padding: 4px 6% 0 0;}
 
 /* Group actions */
 .at-grid-group-actions {}

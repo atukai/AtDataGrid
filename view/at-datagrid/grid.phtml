@@ -34,11 +34,9 @@
                                 <th id="col-<?= $column->getName() ?>">
                                     <?php if ($column->isSortable()): ?>
                                         <?php if ($this->grid->getOrderColumn() == $column->getName()): ?>
-                                            <a class="sortable" href="<?= $this->atBaseQueryParams(['page' => 1, 'order' => $column->getName() . '~' . $this->grid->getRevertOrderDirection()]) ?>">
-                                                <div class="active">
-                                                    <?= $column->getLabel() ?>
-                                                    <i class="pull-right fa fa-sort-amount-<?php if ($this->grid->getOrderDirection() == 'asc'): ?>asc<?php elseif($this->grid->getOrderDirection() == 'desc'): ?>desc<?php endif; ?>"></i>
-                                                </div>
+                                            <a class="sortable active" href="<?= $this->atBaseQueryParams(['page' => 1, 'order' => $column->getName() . '~' . $this->grid->getRevertOrderDirection()]) ?>">
+                                                <span><?= $column->getLabel() ?></span>
+                                                <span class="fa fa-sort-amount-<?php if ($this->grid->getOrderDirection() == 'asc'): ?>asc<?php elseif($this->grid->getOrderDirection() == 'desc'): ?>desc<?php endif; ?>"></span>
                                             </a>
                                         <?php else: ?>
                                             <a class="sortable" href="<?= $this->atBaseQueryParams(['page' => 1, 'order' => $column->getName() . '~asc']) ?>">
@@ -51,7 +49,7 @@
                                 </th>
                             <?php endif; ?>
                         <?php endforeach; ?>
-                        <th style="width: <?php echo (count($this->gridManager->getActions())+1)*28 ?>px;"></th>
+                        <th style="width: <?= (count($this->gridManager->getActions())+1)*28 ?>px;"></th>
                     </tr>
                 </thead>
                 <tbody>
