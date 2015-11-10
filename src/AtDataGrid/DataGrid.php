@@ -359,7 +359,7 @@ class DataGrid implements \Countable, \IteratorAggregate, \ArrayAccess
      */
     public function getOrderColumn()
     {
-        if ($this->order) {
+        if (!empty($this->order)) {
             return key($this->order);
         }
 
@@ -371,7 +371,7 @@ class DataGrid implements \Countable, \IteratorAggregate, \ArrayAccess
      */
     public function getOrderDirection()
     {
-        if ($this->order) {
+        if (!empty($this->order)) {
             return strtolower($this->order[key($this->order)]);
         }
 
@@ -597,11 +597,7 @@ class DataGrid implements \Countable, \IteratorAggregate, \ArrayAccess
      */
     public function hasFilters()
     {
-        if (count($this->getFilters()) > 0) {
-            return true;
-        }
-
-        return false;
+        return count($this->getFilters()) > 0;
     }
 
     /**
