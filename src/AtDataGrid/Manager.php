@@ -325,6 +325,22 @@ class Manager
 
     /**
      * @return array
+     */
+    public function getBulkActions()
+    {
+        $bulkActions = [];
+        foreach ($this->getActions() as $action) {
+            if ($action->isBulk()) {
+                $bulkActions[] = $action;
+            }
+        }
+
+        return $bulkActions;
+    }
+
+
+    /**
+     * @return array
      * @throws \Exception
      */
     protected function composeData()

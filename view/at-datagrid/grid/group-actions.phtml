@@ -1,3 +1,6 @@
+<?php $bulkActions = $this->gridManager->getBulkActions(); ?>
+
+<?php if (!empty($bulkActions)): ?>
 <div class="at-grid-group-actions">
     <div class="btn-group btn-group-xs">
         <button type="button" class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown">
@@ -5,17 +8,16 @@
             <span class="caret"></span>
         </button>
         <ul class="dropdown-menu">
-            <?php foreach($this->gridManager->getActions() as $action) : ?>
-                <?php if ($action->isBulk()): ?>
-                    <li>
-                        <a onclick="DataGrid.action('')"
-                           <?php if ($action->isConfirm()): ?>
-                               onclick="return DataGrid.confirmAction(this, '<?= $action->getConfirmMessage() ?>')"
-                           <?php endif;?>>
-                           <?= $this->translate($action->getLabel()) ?></a>
-                    </li>
-                <?php endif; ?>
+            <?php foreach($bulkActions as $action) : ?>
+                <li>
+                    <a onclick="DataGrid.action('')"
+                       <?php if ($action->isConfirm()): ?>
+                           onclick="return DataGrid.confirmAction(this, '<?= $action->getConfirmMessage() ?>')"
+                       <?php endif;?>>
+                       <?= $this->translate($action->getLabel()) ?></a>
+                </li>
             <?php endforeach; ?>
         </ul>
     </div>
 </div>
+<?php endif; ?>

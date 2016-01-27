@@ -48,7 +48,7 @@
                 <?php foreach ($element->getValueOptions() as $key => $value): ?>
                     <div class="checkbox">
                         <label>
-                            <input <?php if ($element->hasAttribute('class')): ?>class="<?= $element->getAttribute('class') ?>"<?php endif; ?>  type="checkbox" value="<?= $key ?>" name="<?= $element->getName()?>[]" <?php if ($element->getAttribute('disabled') == 'disabled'): ?>disabled<?php endif; ?>>
+                            <input <?php if ($element->hasAttribute('class')): ?>class="<?= $element->getAttribute('class') ?>"<?php endif; ?> type="checkbox" value="<?= $key ?>" name="<?= $element->getName()?>[]" <?php if ($element->getAttribute('disabled') == 'disabled'): ?>disabled<?php endif; ?>>
                             <?= $value ?>
                         </label>
                     </div>

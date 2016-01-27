@@ -1,6 +1,12 @@
 <?php
 
 return [
+    'service_manager' => [
+        'factories' => [
+            'AtDataGrid\Form\FormBuilder' => 'AtDataGrid\Form\FormBuilderFactory'
+        ]
+    ],
+
     'translator' => [
         'translation_file_patterns' => [
             [
