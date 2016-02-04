@@ -188,23 +188,19 @@ class TableGateway extends AbstractDataSource
      */
     public function prepare($order = [], $filters = [])
     {
-        /**
-         * Filtering
-         */
+        // Sorting
+        if (!empty($order)) {
+            if (in_array(key($order), $this->tableColumns)) {
+                $this->getSelect()->order($order);
+            }
+        }
+
+        // Filtering
         foreach ($filters as $columnName => $filter) {
             if (!$filter instanceof ZendSqlFilter) {
                 throw new \RuntimeException('ZendDb/TableGateway data source requires Filter\ZendSql filters');
             }
             $filter->apply($this->getSelect(), $columnName, $filter->getValue());
-        }
-
-        /**
-         * Sorting
-         */
-        if (!empty($order)) {
-            if (in_array(key($order), $this->tableColumns)) {
-                $this->getSelect()->order($order);
-            }
         }
 
         $this->getEventManager()->trigger(self::EVENT_DATASOURCE_PREPARE_POST, $this->getSelect());

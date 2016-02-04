@@ -4,7 +4,7 @@ namespace AtDataGrid;
 
 use AtDataGrid\Filter\FilterInterface;
 use AtDataGrid\Form\FormBuilder;
-use AtDataGrid\Renderer\AbstractRenderer;
+use AtDataGrid\Renderer\RendererInterface;
 use AtDataGrid\Row\Action;
 use Zend\Cache\Storage\StorageInterface;
 use Zend\Form\Element;
@@ -18,7 +18,7 @@ class Manager
     protected $grid;
 
     /**
-     * @var AbstractRenderer
+     * @var RendererInterface
      */
     protected $renderer;
 
@@ -76,17 +76,17 @@ class Manager
     }
 
     /**
-     * @param AbstractRenderer $renderer
+     * @param RendererInterface $renderer
      * @return $this
      */
-    public function setRenderer(AbstractRenderer $renderer)
+    public function setRenderer(RendererInterface $renderer)
     {
         $this->renderer = $renderer;
         return $this;
     }
 
     /**
-     * @return AbstractRenderer
+     * @return RendererInterface
      */
     public function getRenderer()
     {
@@ -343,27 +343,22 @@ class Manager
      * @return array
      * @throws \Exception
      */
-    protected function composeData()
+    public function composeData()
     {
         $grid = $this->getGrid();
         $data = $grid->getData();
 
-        /**
-         * Add all columns from grid
-         */
-        foreach ($grid->getColumns() as $name => $column) {
+        // Add all columns (not only from source) from grid
+        foreach (array_keys($grid->getColumns()) as $name) {
             foreach ($data as &$row) {
-                if (! array_key_exists($name, $row)) {
+                if (!array_key_exists($name, $row)) {
                     $row[$name] = '';
                 }
             }
         }
-
         unset($row);
 
-        /**
-         * Apply decorators only for visible columns
-         */
+        // Apply decorators only for visible columns
         $decoratedData = [];
         foreach ($data as $row) {
             $decoratedRow = [];
@@ -386,15 +381,8 @@ class Manager
      */
     public function render()
     {
-        $grid = $this->getGrid();
-
         return $this->getRenderer()->render([
-            'gridManager' => $this,
-            'grid'        => $grid,
-            'columns'     => $grid->getColumns(),
-            'data'        => $this->composeData(),
-            'paginator'   => $grid->getPaginator(),
-            'filtersForm' => $this->getFiltersForm()
+            'gridManager' => $this
         ]);
     }
 }

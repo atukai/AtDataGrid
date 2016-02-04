@@ -423,23 +423,17 @@ class DataGrid implements \Countable, \IteratorAggregate, \ArrayAccess
      */
     public function getData()
     {
-        /**
-         * Prepare data source for fetching data
-         */
+        // Prepare data source for fetching data
     	$this->getDataSource()->prepare($this->getOrder(), $this->getFilters());
 
-        /**
-         * Load data using paginator
-         */
+        // Load data using paginator
         $this->paginator = new Paginator($this->getDataSource()->getPaginatorAdapter());
         $this->paginator->setCurrentPageNumber($this->currentPage);
         $this->paginator->setItemCountPerPage($this->itemsPerPage);
         $this->paginator->setPageRange($this->pageRange);
         $data = $this->paginator->getCurrentItems();
 
-        /**
-         * Convert data to array
-         */
+        // Convert data to array
         if (! is_array($data)) {
             if ($data instanceof ResultSet) {
                 $data = $data->toArray();
@@ -451,7 +445,6 @@ class DataGrid implements \Countable, \IteratorAggregate, \ArrayAccess
         }
 
         $this->data = $data;
-
         return $this->data;
     }
 

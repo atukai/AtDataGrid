@@ -5,15 +5,10 @@ namespace AtDataGrid\Toolbar;
 class Action
 {
     private $name;
-
     private $action;
-
     private $label;
-
     private $confirm = false;
-
     private $confirmMessage = 'Are you sure?';
-
     private $class;
 
     /**

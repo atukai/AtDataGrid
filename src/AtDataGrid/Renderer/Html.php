@@ -4,7 +4,7 @@ namespace AtDataGrid\Renderer;
 
 use Zend\View\Model\ViewModel;
 
-class Html extends AbstractRenderer
+class Html implements RendererInterface
 {
     /**
      * Html template
@@ -79,9 +79,9 @@ class Html extends AbstractRenderer
 
     /**
      * @param array $variables
-     * @return mixed|ViewModel
+     * @return ViewModel
      */
-    public function render($variables = [])
+    public function render(array $variables = [])
     {
         $variables['customCss'] = $this->getCustomCss();
         $variables['customJs'] = $this->getCustomJs();

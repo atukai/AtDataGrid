@@ -1,9 +1,9 @@
 <div class="page-header clearfix">
-    <h1 class="pull-left"><?php echo $this->translate($this->grid->getTitle()) ?></h1>
+    <h1 class="pull-left"><?= $this->translate($this->grid->getTitle()) ?></h1>
     <div class="pull-right" style="margin-top: 16px;">
         <?php if ($this->gridManager->isAllowCreate()): ?>
-            <a class="btn btn-default" href="<?php echo $this->url(null, array('action' => 'create')) ?>">
-                <?php echo $this->translate('Add') ?>
+            <a class="btn btn-default" href="<?= $this->url(null, ['action' => 'create']) ?>">
+                <?= $this->translate('Add') ?>
             </a>
         <?php endif; ?>
     </div>
