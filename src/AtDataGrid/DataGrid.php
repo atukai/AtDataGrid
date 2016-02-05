@@ -57,7 +57,7 @@ class DataGrid implements \Countable, \IteratorAggregate, \ArrayAccess
     protected $paginator;
 
     /**
-     * Order in array format ['id' => 'desc']
+     * Order in format ['id' => 'desc']
      *
      * @var array
      */
@@ -168,53 +168,28 @@ class DataGrid implements \Countable, \IteratorAggregate, \ArrayAccess
      * Add a column to data grid
      *
      * @param Column $column
-     * @param bool $overwrite
      * @return $this
      */
-    public function addColumn(Column $column, $overwrite = false)
+    public function addColumn(Column $column)
     {
         $columnName = $column->getName();
-
-        if ( (false == $overwrite) && ($this->hasColumn($columnName)) ) {
-            throw new \DomainException('Column `' . $columnName . '` already in a column list. Use another name.');
+        if ($this->hasColumn($columnName) ) {
+            throw new \Exception('Column `' . $columnName . '` already presents in grid.');
         }    
         
         $this->columns[$columnName] = $column;
-    	
-    	// If label is not set, set column name as label
-    	if (null == $column->getLabel()) {
-    		$column->setLabel($columnName);
-    	}
-    	
     	return $this;
     }
 
     /**
      * Set column by given name with overwriting.
-     * Alias for addColumn($column, true)
      *
      * @param Column $column
      * @return $this
      */
     public function setColumn(Column $column)
     {
-        $this->addColumn($column, true);
-        return $this;
-    }
-
-    /**
-     * Add columns to grid
-     *
-     * @param array $columns
-     * @param bool $overwrite
-     * @return $this
-     */
-    public function addColumns(array $columns, $overwrite = false)
-    {
-        foreach ($columns as $column) {
-        	$this->addColumn($column, $overwrite);
-        }
-
+        $this->columns[$column->getName()] = $column;
         return $this;
     }
 
@@ -231,7 +206,7 @@ class DataGrid implements \Countable, \IteratorAggregate, \ArrayAccess
             return $this->columns[$name];
         }
 
-        throw new \Exception("Column '" . $name . "' doesn't exist in column list.");
+        throw new \Exception("Column '" . $name . "' doesn't presents in grid.");
     }
 
     /**
@@ -270,8 +245,8 @@ class DataGrid implements \Countable, \IteratorAggregate, \ArrayAccess
         foreach ($names as $name) {
 	        $this->removeColumn($name);
         }
-        
-        return $this;     	
+
+        return $this;
     }
 
     /**
@@ -341,7 +316,9 @@ class DataGrid implements \Countable, \IteratorAggregate, \ArrayAccess
      */
     public function setOrder(array $order)
     {
-        if ($this->hasColumn(key($order)) && in_array(strtolower($order[key($order)]), ['asc', 'desc'])) {
+        $column = key($order);
+        $direction = $order[$column];
+        if ($this->hasColumn($column) && in_array(strtolower($direction), ['asc', 'desc'])) {
             $this->order = $order;
         }
     }

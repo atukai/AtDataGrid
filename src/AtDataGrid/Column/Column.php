@@ -63,6 +63,9 @@ class Column implements InputFilterProviderInterface
      */
     public function getLabel()
     {
+        if (!$this->label) {
+            return $this->name;
+        }
         return $this->label;
     }
 

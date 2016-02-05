@@ -4,6 +4,7 @@ namespace AtDataGrid\Form;
 
 use AtDataGrid\Column\Column;
 use AtDataGrid\DataGrid;
+use Zend\EventManager\EventManager;
 use Zend\EventManager\EventManagerAwareTrait;
 use Zend\Form\Fieldset;
 use Zend\Form\Form;
@@ -107,13 +108,12 @@ class FormBuilder
         $submit->setValue('Save');
         $form->add($submit);
 
-        $em->trigger(self::EVENT_GRID_FORM_BUILD_POST, $form, ['data' => $data, self::FORM_CONTEXT_PARAM_NAME => $context]);
-
-        // Set data to form
-        if ($data) {
-            $form->setData($data);
+        $eventResult = $em->trigger(self::EVENT_GRID_FORM_BUILD_POST, $form, ['data' => $data, self::FORM_CONTEXT_PARAM_NAME => $context])->last();
+        if ($eventResult) {
+            $data = $eventResult;
         }
 
+        $form->setData($data);
         $form->setInputFilter($inputFilter);
 
         $this->forms[$context] = $form;

@@ -10,10 +10,11 @@ A missing data grid component for Zend Framework 2.
 
 * [PHP 5.5+](http://php.net)
 * [Zend Mvc](https://github.com/zendframework/zend-mvc)
+* [Zend Paginator](https://github.com/zendframework/zend-paginator)
 * [Zend Form](https://github.com/zendframework/zend-form)
 
 ## Installation
 
  1. Add `"atukai/at-datagrid": "dev-master"` to your `composer.json` file and run `php composer.phar update`.
  2. Add `AtDataGrid` to your `config/application.config.php` file under the `modules` key.
- 3. Copy public/css and public/js to your website root directory
+ 3. Copy `public/css` and `public/js` to your website root directory or use any asset manager
