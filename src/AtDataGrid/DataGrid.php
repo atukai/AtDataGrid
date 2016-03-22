@@ -414,7 +414,7 @@ class DataGrid implements \Countable, \IteratorAggregate, \ArrayAccess
         if (! is_array($data)) {
             if ($data instanceof ResultSet) {
                 $data = $data->toArray();
-            } elseif ($data instanceof \ArrayIterator) {
+            } elseif ($data instanceof \ArrayIterator || $data instanceof \ArrayObject) {
                 $data = $data->getArrayCopy();
             } else {
                 throw new \RuntimeException('Result data couldn\'t be converted to array');

@@ -18,6 +18,16 @@ class Manager
     protected $grid;
 
     /**
+     * @var array
+     */
+    protected $rawData;
+
+    /**
+     * @var array
+     */
+    protected $data;
+
+    /**
      * @var RendererInterface
      */
     protected $renderer;
@@ -339,14 +349,21 @@ class Manager
     }
 
 
+    public function getRawData()
+    {
+        return $this->rawData;
+    }
+
     /**
      * @return array
      * @throws \Exception
      */
-    public function composeData()
+    public function getData()
     {
         $grid = $this->getGrid();
         $data = $grid->getData();
+
+        $this->rawData = $data;
 
         // Add all columns (not only from source) from grid
         foreach (array_keys($grid->getColumns()) as $name) {

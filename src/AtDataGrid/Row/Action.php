@@ -7,6 +7,7 @@ class Action
     use DisablableTrait;
 
     private $name;
+    private $url;
     private $routeName;
     private $routeParams = [];
     private $label;
@@ -22,6 +23,22 @@ class Action
     public function __construct($name)
     {
         $this->setName($name);
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getUrl()
+    {
+        return $this->url;
+    }
+
+    /**
+     * @param mixed $url
+     */
+    public function setUrl($url)
+    {
+        $this->url = $url;
     }
 
     /**

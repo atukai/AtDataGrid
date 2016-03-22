@@ -277,4 +277,12 @@ class TableGateway extends AbstractDataSource
     {
         return $this->tableGateway->getAdapter();
     }
+
+    /**
+     * @return AdapterInterface
+     */
+    public function getPaginatorAdapter()
+    {
+        return $this->paginatorAdapter;
+    }
 }

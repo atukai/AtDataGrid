@@ -20,7 +20,7 @@ class Callback extends AbstractDecorator
     /**
      * @param $callback
      */
-    public function __construct($callback)
+    public function __construct(callable $callback)
     {
         $this->setCallback($callback);
     }
@@ -29,12 +29,8 @@ class Callback extends AbstractDecorator
      * @param $callback
      * @return $this
      */
-    public function setCallback($callback)
+    public function setCallback(callable $callback)
     {
-        if (!is_callable($callback)) {
-            throw new \InvalidArgumentException('Invalid callback given');
-        }
-
         $this->callback = $callback;
         return $this;
     }
@@ -44,12 +40,12 @@ class Callback extends AbstractDecorator
      * @param array $params
      * @return mixed
      */
-    public function decorate($value, $params = array())
+    public function decorate($value, $params = [])
     {
         if (!$value || $value == '') {
             $value = $params;
         }
 
-        return call_user_func_array($this->callback, array($value));
+        return call_user_func_array($this->callback, [$value]);
     }
 }

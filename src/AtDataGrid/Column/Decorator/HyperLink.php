@@ -24,8 +24,8 @@ class HyperLink extends AbstractDecorator
      */
     public function decorate($value, $params = [])
     {
-        $p = array();
-        $v = array();
+        $p = [];
+        $v = [];
 
         foreach ($params as $key => $val) {
             $p[] = '%'. $key .'%';

@@ -1,7 +1,8 @@
 <?php
     $this->grid = $this->gridManager->getGrid();
     $this->columns = $this->grid->getColumns();
-    $this->data = $this->gridManager->composeData();
+    $this->data = $this->gridManager->getData();
+    $this->rawData = $this->gridManager->getRawData();
     $this->paginator = $this->grid->getPaginator();
     $this->filtersForm = $this->gridManager->getFiltersForm();
 ?>
