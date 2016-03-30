@@ -114,7 +114,7 @@ class DataGrid implements \Countable, \IteratorAggregate, \ArrayAccess
     // METADATA
 
     /**
-     * @param $title
+     * @param string $title
      * @return $this
      */
     public function setTitle($title)
@@ -169,6 +169,7 @@ class DataGrid implements \Countable, \IteratorAggregate, \ArrayAccess
      *
      * @param Column $column
      * @return $this
+     * @throws \Exception
      */
     public function addColumn(Column $column)
     {
@@ -344,7 +345,7 @@ class DataGrid implements \Countable, \IteratorAggregate, \ArrayAccess
     }
 
     /**
-     * @return mixed
+     * @return string|null
      */
     public function getOrderDirection()
     {

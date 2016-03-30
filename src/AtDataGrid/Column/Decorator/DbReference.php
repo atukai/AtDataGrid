@@ -2,7 +2,6 @@
 
 namespace AtDataGrid\Column\Decorator;
 
-use Zend\Db\Sql\Select;
 use Zend\Db\Sql\Sql;
 
 class DbReference extends AbstractDecorator
@@ -31,13 +30,14 @@ class DbReference extends AbstractDecorator
 
     /**
      * @param $value
+     * @param array $params
      * @return mixed
      */
-    public function decorate($value, $params = array())
+    public function decorate($value, $params = [])
     {
         $select = $this->sql->select();
-        $select->columns(array($this->resultField))
-            ->where(array($this->refField => $value));
+        $select->columns([$this->resultField])
+            ->where([$this->refField => $value]);
 
         $statement = $this->sql->prepareStatementForSqlObject($select);
         $row = $statement->execute()->current();

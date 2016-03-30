@@ -2,6 +2,7 @@
 
 namespace AtDataGrid\DataSource\ZendDb;
 
+use AtDataGrid\Filter\FilterInterface;
 use AtDataGrid\Filter\ZendSqlFilter;
 use Zend\Db\Adapter\Adapter;
 use Zend\Db\Metadata\Metadata;
@@ -181,7 +182,7 @@ class TableGateway extends AbstractDataSource
     }
 
     /**
-     * @param $order
+     * @param $order ['field1' => 'direction1', 'field2' => 'direction2']
      * @param array $filters
      * @return $this
      * @throws \Exception
@@ -197,6 +198,10 @@ class TableGateway extends AbstractDataSource
 
         // Filtering
         foreach ($filters as $columnName => $filter) {
+            if (!$filter instanceof FilterInterface) {
+                throw new \RuntimeException('Data grid filter must implements FilterInterface');
+            }
+
             if (!$filter instanceof ZendSqlFilter) {
                 throw new \RuntimeException('ZendDb/TableGateway data source requires Filter\ZendSql filters');
             }

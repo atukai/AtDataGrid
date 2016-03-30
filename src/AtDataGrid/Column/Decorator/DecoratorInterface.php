@@ -4,5 +4,5 @@ namespace AtDataGrid\Column\Decorator;
 
 interface DecoratorInterface
 {
-    public function decorate($value, $params = array());
+    public function decorate($value, $params = []);
 }

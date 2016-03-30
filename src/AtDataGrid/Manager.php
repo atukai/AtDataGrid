@@ -121,7 +121,7 @@ class Manager
 
     /**
      * @param bool $flag
-     * @return DataGrid
+     * @return $this
      */
     public function setAllowCreate($flag = true)
     {
@@ -151,7 +151,7 @@ class Manager
 
     /**
      * @param bool $flag
-     * @return DataGrid
+     * @return $this
      */
     public function setAllowDelete($flag = true)
     {
@@ -163,7 +163,7 @@ class Manager
      * Alias for setAllowDelete
      *
      * @param bool $flag
-     * @return DataGrid
+     * @return $this
      */
     public function allowDelete($flag = true)
     {
@@ -181,7 +181,7 @@ class Manager
 
     /**
      * @param bool $flag
-     * @return DataGrid
+     * @return $this
      */
     public function setAllowEdit($flag = true)
     {
@@ -365,7 +365,7 @@ class Manager
 
         $this->rawData = $data;
 
-        // Add all columns (not only from source) from grid
+        // Add all columns from grid (not only from source)
         foreach (array_keys($grid->getColumns()) as $name) {
             foreach ($data as &$row) {
                 if (!array_key_exists($name, $row)) {
@@ -382,7 +382,6 @@ class Manager
             foreach ($row as $colName => $value) {
                 $column = $grid->getColumn($colName);
                 $decoratedRow[$colName] = $value;
-
                 if ($column->isVisible()) {
                     $decoratedRow[$colName] = $column->render($value, $row);
                 }

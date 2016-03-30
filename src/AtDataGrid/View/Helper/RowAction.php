@@ -3,6 +3,7 @@
 namespace AtDataGrid\View\Helper;
 
 use AtDataGrid\Row\Action;
+use Zend\Db\ResultSet\ResultSet;
 use Zend\View\Helper\AbstractHelper;
 use Zend\View\View;
 
