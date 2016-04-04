@@ -108,16 +108,12 @@ class FormBuilder
         $submit->setValue('Save');
         $form->add($submit);
 
-        $eventResult = $em->trigger(self::EVENT_GRID_FORM_BUILD_POST, $form, ['data' => $data, self::FORM_CONTEXT_PARAM_NAME => $context])->last();
-        if ($eventResult) {
-            $data = $eventResult;
-        }
-
         $form->setData($data);
         $form->setInputFilter($inputFilter);
 
-        $this->forms[$context] = $form;
+        $em->trigger(self::EVENT_GRID_FORM_BUILD_POST, $form, ['data' => $data, self::FORM_CONTEXT_PARAM_NAME => $context]);
 
+        $this->forms[$context] = $form;
         return $form;
     }
 
