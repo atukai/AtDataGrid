@@ -205,7 +205,7 @@ class TableGateway extends AbstractDataSource
             if (!$filter instanceof ZendSqlFilter) {
                 throw new \RuntimeException('ZendDb/TableGateway data source requires Filter\ZendSql filters');
             }
-            $filter->apply($this->getSelect(), $columnName, $filter->getValue());
+            $filter->apply($this->getSelect(), $this->getTableGateway()->getTable(). '.' . $columnName, $filter->getValue());
         }
 
         $this->getEventManager()->trigger(self::EVENT_DATASOURCE_PREPARE_POST, $this->getSelect());
