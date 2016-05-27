@@ -207,10 +207,12 @@ class Column implements InputFilterProviderInterface
 
     /**
      * @param $spec
+     * @return $this
      */
     public function setInputFilterSpecification($spec)
     {
         $this->inputFilterSpecification = $spec;
+        return $this;
     }
 
     /**
