@@ -3,7 +3,7 @@
     <?php
         $form = $this->filtersForm;
         $form->prepare();
-        $form->setAttribute('action', $this->url(null, array('action' => 'list')));
+        $form->setAttribute('action', $this->url());
         $form->setAttribute('method', 'get');
         $form->setAttribute('id', 'datagrid-filters-form');
 
