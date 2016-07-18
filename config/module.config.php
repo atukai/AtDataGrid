@@ -3,7 +3,7 @@
 return [
     'service_manager' => [
         'factories' => [
-            'AtDataGrid\Form\FormBuilder' => 'AtDataGrid\Form\FormBuilderFactory'
+            \AtDataGrid\Form\FormBuilder::class => \AtDataGrid\Form\FormBuilderFactory::class
         ]
     ],
 
