@@ -13,6 +13,6 @@ A missing data grid component for Zend Framework 2/3.
 
 ## Installation
 
- 1. Add `"atukai/at-datagrid": "~0.3.0"` to your `composer.json` file and run `php composer.phar update`.
- 2. Add `AtDataGrid` to your `config/application.config.php` file under the `modules` key.
- 3. Copy `public/css` and `public/js` to your website root directory or use any asset manager
+ 1. Add `"atukai/at-datagrid": "~0.3.0"` to your `composer.json` file and run `php composer.phar update`;
+ 2. Add `AtDataGrid` to your `config/application.config.php` file under the `modules` key;
+ 3. Copy `public/css` and `public/js` to your website root directory or use any asset manager.
