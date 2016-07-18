@@ -42,7 +42,7 @@ class RowAction extends AbstractHelper
             $actionUrl = str_replace($p, $v, $url);
         } else {
             $routeParams = array_merge($action->getRouteParams(), $row);
-            $actionUrl = $view->url($action->getRouteName(), $routeParams);
+            $actionUrl = $view->url($action->getRouteName(), $routeParams, $action->getRouteOptions());
         }
 
         $onClick = '';

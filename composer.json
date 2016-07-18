@@ -14,14 +14,14 @@
     ],
     "require": {
         "php": ">=5.5",
-        "zendframework/zend-mvc": "^2.0",
-        "zendframework/zend-paginator": "^2.0",
-        "zendframework/zend-form": "^2.0"
+        "zendframework/zend-mvc": "^2.0 || ^3.0",
+        "zendframework/zend-paginator": "^2.0 || ^3.0",
+        "zendframework/zend-form": "^2.0 || ^3.0"
     },
     "autoload": {
         "psr-0": {
             "AtDataGrid\\": "src/",
-            "AtDataGridTest": "test/"
+            "AtDataGridTest\\": "test/"
         },
 
         "classmap": [

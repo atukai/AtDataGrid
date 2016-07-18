@@ -10,6 +10,7 @@ class Action
     private $url;
     private $routeName;
     private $routeParams = [];
+    private $routeOptions = [];
     private $label;
     private $confirm = false;
     private $confirmMessage = 'Are you sure?';
@@ -178,10 +179,26 @@ class Action
     }
 
     /**
-     * @param mixed $routeParams
+     * @param array $routeParams
      */
-    public function setRouteParams($routeParams = [])
+    public function setRouteParams(array $routeParams = [])
     {
         $this->routeParams = $routeParams;
+    }
+
+    /**
+     * @return array
+     */
+    public function getRouteOptions()
+    {
+        return $this->routeOptions;
+    }
+
+    /**
+     * @param array $routeOptions
+     */
+    public function setRouteOptions($routeOptions)
+    {
+        $this->routeOptions = $routeOptions;
     }
 }
