@@ -8,28 +8,28 @@
                 <?php if ($this->grid->getItemsPerPage() == 20): ?>
                     <span class="b">20</span>
                 <?php else: ?>
-                    <a href="<?= $this->atBaseQueryParams(array('show_items' => 20)) ?>">20</a>
+                    <a href="<?= $this->queryParams(['show_items' => 20]) ?>">20</a>
                 <?php endif; ?>
             </li>
             <li>
                 <?php if ($this->grid->getItemsPerPage() == 30): ?>
                     <span class="b">30</span>
                 <?php else: ?>
-                    <a href="<?= $this->atBaseQueryParams(array('show_items' => 30)) ?>">30</a>
+                    <a href="<?= $this->queryParams(['show_items' => 30]) ?>">30</a>
                 <?php endif; ?>
             </li>
             <li>
                 <?php if ($this->grid->getItemsPerPage() == 50): ?>
                     <span class="b">50</span>
                 <?php else: ?>
-                    <a href="<?= $this->atBaseQueryParams(array('show_items' => 50)) ?>">50</a>
+                    <a href="<?= $this->queryParams(['show_items' => 50]) ?>">50</a>
                 <?php endif; ?>
             </li>
             <li>
                 <?php if ($this->grid->getItemsPerPage() == 100): ?>
                     <span class="b">100</span>
                 <?php else: ?>
-                    <a href="<?= $this->atBaseQueryParams(array('show_items' => 100)) ?>">100</a>
+                    <a href="<?= $this->queryParams(['show_items' => 100]) ?>">100</a>
                 <?php endif; ?>
             </li>
 

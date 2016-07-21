@@ -43,12 +43,12 @@
                                 <th id="col-<?= $column->getName() ?>">
                                     <?php if ($column->isSortable()): ?>
                                         <?php if ($this->grid->getOrderColumn() == $column->getName()): ?>
-                                            <a class="sortable active" href="<?= $this->atBaseQueryParams(['page' => 1, 'order' => $column->getName() . '~' . $this->grid->getRevertOrderDirection()]) ?>">
+                                            <a class="sortable active" href="<?= $this->queryParams(['page' => 1, 'order' => $column->getName() . '~' . $this->grid->getRevertOrderDirection()]) ?>">
                                                 <span><?= $column->getLabel() ?></span>
                                                 <span class="fa fa-sort-amount-<?php if ($this->grid->getOrderDirection() == 'asc'): ?>asc<?php elseif($this->grid->getOrderDirection() == 'desc'): ?>desc<?php endif; ?>"></span>
                                             </a>
                                         <?php else: ?>
-                                            <a class="sortable" href="<?= $this->atBaseQueryParams(['page' => 1, 'order' => $column->getName() . '~asc']) ?>">
+                                            <a class="sortable" href="<?= $this->queryParams(['page' => 1, 'order' => $column->getName() . '~asc']) ?>">
                                                 <?= $column->getLabel() ?>
                                             </a>
                                         <?php endif; ?>
