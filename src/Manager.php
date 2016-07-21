@@ -290,7 +290,7 @@ class Manager
      * @param array $actions
      * @return $this
      */
-    public function addActions($actions = [])
+    public function addActions(array $actions = [])
     {
         foreach ($actions as $action) {
             $this->addAction($action);

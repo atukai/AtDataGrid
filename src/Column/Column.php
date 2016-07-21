@@ -20,7 +20,7 @@ class Column implements InputFilterProviderInterface
 
     /**
      * Column constructor.
-     * @param $name
+     * @param string $name
      */
     public function __construct($name)
     {
@@ -30,9 +30,8 @@ class Column implements InputFilterProviderInterface
     // METADATA
 
     /**
-     * @param $name
-     * @return Column
-     * @throws \Exception
+     * @param string $name
+     * @return $this
      */
     public function setName($name)
     {
@@ -49,7 +48,7 @@ class Column implements InputFilterProviderInterface
     }
 
     /**
-     * @param $name
+     * @param string $name
      * @return $this
      */
     public function setLabel($name)
@@ -136,10 +135,10 @@ class Column implements InputFilterProviderInterface
     }
 
     /**
-     * @param $decorators
+     * @param array $decorators
      * @return $this
      */
-    public function addDecorators($decorators)
+    public function addDecorators(array $decorators)
     {
         foreach ($decorators as $decorator) {
             $this->addDecorator($decorator);  
@@ -150,7 +149,7 @@ class Column implements InputFilterProviderInterface
 
     /**
      * @param $name
-     * @return null
+     * @return mixed|null
      */
     public function getDecorator($name)
     {
