@@ -284,7 +284,7 @@ class TableGateway extends AbstractDataSource
     }
 
     /**
-     * @return AdapterInterface
+     * @return DbSelectPaginatorAdapter
      */
     public function getPaginatorAdapter()
     {
