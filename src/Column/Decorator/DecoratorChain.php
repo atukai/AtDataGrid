@@ -79,6 +79,6 @@ class DecoratorChain extends AbstractDecorator implements Countable
      */
     public function count()
     {
-        return count($this->filters);
+        return count($this->decorators);
     }
 }

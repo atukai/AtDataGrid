@@ -15,7 +15,7 @@ class Alias extends AbstractDecorator
      */
     public function __construct(array $mapping)
     {
-        $this->setRenameTo($mapping);
+        $this->setMapping($mapping);
     }
 
     /**
