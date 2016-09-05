@@ -57,9 +57,9 @@ class Literal extends AbstractDecorator
      * @param array $params
      * @return mixed
      */
-    public function decorate($value, $params = array())
+    public function decorate($value, array $params = [])
     {
-        if (in_array($this->escape, array('htmlspecialchars', 'htmlentities'))) {
+        if (in_array($this->escape, ['htmlspecialchars', 'htmlentities'])) {
             return call_user_func($this->escape, $value, ENT_COMPAT, $this->encoding);
         }
 

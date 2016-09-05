@@ -46,9 +46,7 @@ class DbReference extends Column
 
         $sql = new Sql($this->dbAdapter, $this->refTable);
 
-        // Decorator
-        $decorator = new Decorator\DbReference($sql, $this->refField, $this->resultField);
-        $this->addDecorator($decorator);
+        $this->addDecorator(new Decorator\DbReference($sql, $this->refField, $this->resultField));
 
         // Form element
         $this->setFormElement($this->buildFormElement());

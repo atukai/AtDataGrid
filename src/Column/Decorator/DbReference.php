@@ -33,7 +33,7 @@ class DbReference extends AbstractDecorator
      * @param array $params
      * @return mixed
      */
-    public function decorate($value, $params = [])
+    public function decorate($value, array $params = [])
     {
         $select = $this->sql->select();
         $select->columns([$this->resultField])

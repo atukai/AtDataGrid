@@ -2,6 +2,7 @@
 
 namespace AtDataGrid\Column;
 
+use AtDataGrid\Column\Decorator\DecoratorChain;
 use AtDataGrid\Column\Decorator\DecoratorInterface;
 use Zend\Form\Element;
 use Zend\InputFilter\InputFilterProviderInterface;
@@ -16,7 +17,7 @@ class Column implements InputFilterProviderInterface
     protected $formElement;
     protected $section;
     protected $inputFilterSpecification;
-    protected $decorators = [];
+    protected $decorators;
 
     /**
      * Column constructor.
@@ -25,6 +26,7 @@ class Column implements InputFilterProviderInterface
     public function __construct($name)
     {
         $this->setName($name);
+        $this->decorators = new DecoratorChain();
     }
 
     // METADATA
@@ -125,39 +127,13 @@ class Column implements InputFilterProviderInterface
     // RENDERING & DECORATORS
 
     /**
-     * @param DecoratorInterface $decorator
+     * @param callable $decorator
      * @return $this
      */
-    public function addDecorator(DecoratorInterface $decorator)
+    public function addDecorator(callable $decorator)
     {
-        $this->decorators[get_class($decorator)] = $decorator;
+        $this->decorators->attach($decorator);
         return $this;
-    }
-
-    /**
-     * @param array $decorators
-     * @return $this
-     */
-    public function addDecorators(array $decorators)
-    {
-        foreach ($decorators as $decorator) {
-            $this->addDecorator($decorator);  
-        }
-
-        return $this;
-    }
-
-    /**
-     * @param $name
-     * @return mixed|null
-     */
-    public function getDecorator($name)
-    {
-    	if (isset($this->decorators[$name])) {
-    		return $this->decorators[$name];
-    	}
-    	
-    	return null;
     }
 
     /**
@@ -165,7 +141,7 @@ class Column implements InputFilterProviderInterface
      */
     public function clearDecorators()
     {
-        $this->decorators = [];
+        $this->decorators = new DecoratorChain();
         return $this;
     }
 
@@ -174,14 +150,9 @@ class Column implements InputFilterProviderInterface
      * @param array $params
      * @return mixed
      */
-    public function render($value, $params = [])
+    public function render($value, array $params = [])
     {
-        /** @var DecoratorInterface $decorator */
-        foreach ($this->decorators as $decorator) {
-            $value = $decorator->decorate($value, $params);
-        }
-
-        return $value;
+        return $this->decorators->decorate($value, $params);
     }
 
     /**

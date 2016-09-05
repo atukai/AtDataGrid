@@ -9,10 +9,10 @@ class Replace extends AbstractDecorator
      * @param array $params
      * @return mixed
      */
-    public function decorate($value, $params = array())
+    public function decorate($value, array $params = [])
     {
-        $p = array();
-        $v = array();
+        $p = [];
+        $v = [];
 
         foreach ($params as $key => $val) {
             $p[] = '%'. $key .'%';

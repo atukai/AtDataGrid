@@ -412,7 +412,7 @@ class DataGrid implements \Countable, \IteratorAggregate, \ArrayAccess
         $data = $this->paginator->getCurrentItems();
 
         // Convert data to array
-        if (! is_array($data)) {
+        if (!is_array($data)) {
             if ($data instanceof ResultSet) {
                 $data = $data->toArray();
             } elseif ($data instanceof \ArrayIterator || $data instanceof \ArrayObject) {
