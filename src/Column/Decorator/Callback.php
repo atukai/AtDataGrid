@@ -40,12 +40,8 @@ class Callback extends AbstractDecorator
      * @param array $params
      * @return mixed
      */
-    public function decorate($value, $params = [])
+    public function decorate($value, array $params = [])
     {
-        /*if ($value === null || $value === '') {
-            $value = $params;
-        }*/
-
-        return call_user_func_array($this->callback, [$value, $params]);
+        return call_user_func($this->callback, $value, $params);
     }
 }

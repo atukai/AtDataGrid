@@ -9,7 +9,7 @@ class BitMask extends AbstractDecorator
     /**
      * @param array $statuses
      */
-    public function __construct($statuses = array())
+    public function __construct($statuses = [])
     {
         $this->setStatuses($statuses);
     }
@@ -17,7 +17,7 @@ class BitMask extends AbstractDecorator
     /**
      * @param array $statuses
      */
-    public function setStatuses($statuses = array())
+    public function setStatuses($statuses = [])
     {
         $this->statuses = $statuses;
     }
@@ -27,7 +27,7 @@ class BitMask extends AbstractDecorator
      * @param array $params
      * @return string
      */
-    public function decorate($value, $params = array())
+    public function decorate($value, array $params = [])
     {
         $str = '';
         foreach ($this->statuses as $name => $status) {

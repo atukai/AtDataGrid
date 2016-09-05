@@ -24,14 +24,14 @@ class Image extends AbstractDecorator
     /**
      * @var array
      */
-    protected $params = array();
+    protected $params = [];
     
     /**
      * @param  $content
      * @param  $row
      * @return string
      */
-    public function decorate($content, $row = array())
+    public function decorate($content, array $row = [])
     {
         $params = array();
         

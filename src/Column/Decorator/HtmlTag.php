@@ -14,35 +14,16 @@ class HtmlTag extends AbstractDecorator
      */
     public function __construct($tag)
     {
-        $this->tag = (string) $tag;
-    }
-
-    /**
-     * @param $tag
-     * @return $this
-     */
-    public function setTag($tag)
-    {
-        $this->tag = $tag;
-        return $this;
-    }
-
-    /**
-     * @return string
-     */
-    public function getTag()
-    {
-        return $this->tag;
+        $this->tag = (string)$tag;
     }
 
     /**
      * @param $value
+     * @param array $params
      * @return string
      */
-    public function decorate($value, $params = array())
+    public function decorate($value, array $params = [])
     {
-        $content = '<' . $this->tag . '>' . $value . '</' . $this->tag . '>';
-
-        return $content;
+        return '<' . $this->tag . '>' . $value . '</' . $this->tag . '>';
     }
 }

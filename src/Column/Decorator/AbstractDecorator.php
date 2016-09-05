@@ -58,4 +58,14 @@ abstract class AbstractDecorator implements DecoratorInterface
     {
         return $this->separator;
     }
+
+    /**
+     * @param $value
+     * @param array $params
+     * @return mixed
+     */
+    public function __invoke($value, array $params = [])
+    {
+        return $this->decorate($value, $params);
+    }
 }

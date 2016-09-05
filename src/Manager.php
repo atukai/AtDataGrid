@@ -375,15 +375,18 @@ class Manager
         }
         unset($row);
 
-        // Apply decorators only for visible columns
+        // Apply decorators
         $decoratedData = [];
+        /** @var \ArrayObject $row */
         foreach ($data as $row) {
             $decoratedRow = [];
             foreach ($row as $colName => $value) {
                 $column = $grid->getColumn($colName);
                 $decoratedRow[$colName] = $value;
+                // only for visible columns
                 if ($column->isVisible()) {
-                    $decoratedRow[$colName] = $column->render($value, $row);
+                    $params = $row->getArrayCopy();
+                    $decoratedRow[$colName] = $column->render($value, $params);
                 }
             }
             $decoratedData[] = $decoratedRow;

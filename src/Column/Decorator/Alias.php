@@ -7,14 +7,15 @@ class Alias extends AbstractDecorator
     /**
      * @var array
      */
-    protected $renameTo;
+    protected $mapping;
 
     /**
-     * @param array $renameTo
+     * Alias constructor.
+     * @param array $mapping
      */
-    public function __construct($renameTo = [])
+    public function __construct(array $mapping)
     {
-        $this->setRenameTo($renameTo);
+        $this->setRenameTo($mapping);
     }
 
     /**
@@ -22,24 +23,20 @@ class Alias extends AbstractDecorator
      * @param array $params
      * @return mixed
      */
-    public function decorate($value, $params = [])
+    public function decorate($value, array $params = [])
     {
-        if (!isset($this->renameTo)) {
-            return $value;
-        }
-        
-        if (isset($this->renameTo[$value])) {
-            return $this->renameTo[$value];
+        if (isset($this->mapping[$value])) {
+            return $this->mapping[$value];
         }
         
         return $value;
     }
 
     /**
-     * @param array $renameTo
+     * @param array $mapping
      */
-    public function setRenameTo($renameTo = [])
+    public function setMapping(array $mapping = [])
     {
-        $this->renameTo = $renameTo;
+        $this->mapping = $mapping;
     }
 }
