@@ -251,27 +251,26 @@ class Manager
 
         /** @var FilterInterface $filter */
         foreach ($grid->getFilters() as $filter) {
-            $element = $filter->getFormElement();
-            if (! $element) {
+            $formElement = $filter->getFormElement();
+            if (!$formElement) {
                 $column = $grid->getColumn($filter->getName());
-                $element = clone $column->getFormElement();
+                $formElement = clone $column->getFormElement();
 
-                if ($element instanceof Element\Select) {
-                    $element->setEmptyOption('');
+                if ($formElement instanceof Element\Select) {
+                    $formElement->setEmptyOption('');
                 }
 
-                $element->setName($filter->getName());
-                $filter->setFormElement($element);
+                $formElement->setName($filter->getName());
+                $filter->setFormElement($formElement);
             }
 
-            $form->add($element);
+            $form->add($formElement);
         }
 
         // Apply button
         $form->add(new Element\Submit('apply', ['label' => 'Search']));
 
         $this->filtersForm = $form;
-
         return $this->filtersForm;
     }
 
