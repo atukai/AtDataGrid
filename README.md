@@ -14,6 +14,6 @@ A missing data grid component for Zend Framework 2/3.
 
 ## Installation
 
- 1. Run `$ composer require zendframework/zend-expressive`;
+ 1. Run `$ composer require zendframework/at-datagrid`;
  2. Add `AtDataGrid` to your `config/application.config.php` file under the `modules` key;
  3. Copy `public/css` and `public/js` to your website root directory or use any asset manager.
