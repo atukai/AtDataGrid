@@ -25,7 +25,8 @@ return [
 
     'view_helpers' => [
         'invokables' => [
-            'rowAction' => 'AtDataGrid\View\Helper\RowAction'
+            'rowAction' => 'AtDataGrid\View\Helper\RowAction',
+            'queryParams' => \AtDataGrid\View\Helper\QueryParams::class,
         ],
     ]
 ];
