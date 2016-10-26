@@ -27,9 +27,5 @@ return [
         'invokables' => [
             'rowAction' => 'AtDataGrid\View\Helper\RowAction'
         ],
-
-        'factories' => [
-
-        ],
     ]
 ];

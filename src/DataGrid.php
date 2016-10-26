@@ -207,7 +207,7 @@ class DataGrid implements \Countable, \IteratorAggregate, \ArrayAccess
             return $this->columns[$name];
         }
 
-        throw new \Exception("Column '" . $name . "' doesn't presents in grid.");
+        throw new \Exception("Column '" . $name . "' not found.");
     }
 
     /**
@@ -515,16 +515,20 @@ class DataGrid implements \Countable, \IteratorAggregate, \ArrayAccess
 
     /**
      * @param FilterInterface $filter
-     * @param Column $column
+     * @param string|Column $column
      * @return $this
      */
-    public function addFilter(FilterInterface $filter, Column $column)
+    public function addFilter(FilterInterface $filter, $column)
     {
-        if (! $filter->getName()) {
+        if (!$column instanceof Column) {
+            $column = $this->getColumn($column);
+        }
+
+        if (!$filter->getName()) {
             $filter->setName($column->getName());
         }
 
-        if (! $filter->getLabel()) {
+        if (!$filter->getLabel()) {
             $filter->setLabel($column->getLabel());
         }
 
