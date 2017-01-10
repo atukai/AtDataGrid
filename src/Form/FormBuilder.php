@@ -45,8 +45,8 @@ class FormBuilder
     /**
      * @param DataGrid $grid
      * @param string $context
-     * @param $data
-     * @return Form
+     * @param array $data
+     * @return mixed|Form
      */
     public function build(DataGrid $grid, $context = self::FORM_CONTEXT_CREATE, $data = [])
     {

@@ -7,8 +7,8 @@
     $this->filtersForm = $this->gridManager->getFiltersForm();
 ?>
 
-<?php $this->headScript()->appendFile('/js/at-datagrid/datagrid.js') ?>
-<?php $this->headLink()->appendStylesheet('/css/at-datagrid/datagrid.css') ?>
+<link href="/css/at-datagrid/datagrid.css" rel="stylesheet">
+<script src="/js/at-datagrid/datagrid.js"></script>
 
 <?php if ($this->customCss): ?>
     <?php foreach ($this->customCss as $file): ?>

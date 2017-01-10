@@ -1,0 +1,22 @@
+<link href="/css/at-datagrid/datagrid.css" rel="stylesheet">
+<script src="/js/at-datagrid/datagrid.js"></script>
+
+<? if ($this->customJs): ?>
+    <?php foreach ($this->customJs as $file): ?>
+        <?php $this->headScript()->appendFile($file) ?>
+    <?php endforeach; ?>
+<? endif; ?>
+
+<div class="clearfix">
+    <h1><?php echo $this->translate($this->title) ?></h1>
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+        <?php if (count($form->getFieldSets()) > 0): ?>
+            <?php echo $this->render('at-datagrid/form/form-tabbed.phtml'); ?>
+        <?php else: ?>
+            <?php echo $this->render('at-datagrid/form/form-plain.phtml'); ?>
+        <?php endif; ?>
+    </div>
+</div>

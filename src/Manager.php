@@ -6,7 +6,6 @@ use AtDataGrid\Filter\FilterInterface;
 use AtDataGrid\Form\FormBuilder;
 use AtDataGrid\Renderer\RendererInterface;
 use AtDataGrid\Row\Action;
-use Zend\Cache\Storage\StorageInterface;
 use Zend\Form\Element;
 use Zend\Form\Form;
 
@@ -41,11 +40,6 @@ class Manager
      * @var Form
      */
     protected $filtersForm;
-
-    /**
-     * @var StorageInterface
-     */
-    protected $cache;
 
     /**
      * @var bool
@@ -101,22 +95,6 @@ class Manager
     public function getRenderer()
     {
         return $this->renderer;
-    }
-
-    /**
-     * @param StorageInterface $cache
-     */
-    public function setCache(StorageInterface $cache)
-    {
-        $this->cache = $cache;
-    }
-
-    /**
-     * @return StorageInterface
-     */
-    public function getCache()
-    {
-        return $this->cache;
     }
 
     /**
