@@ -30,6 +30,7 @@ class ConfigProvider
             ],
 
             'translator' => [
+                'locale' => 'ru',
                 'translation_file_patterns' => [
                     [
                         'type'     => 'gettext',

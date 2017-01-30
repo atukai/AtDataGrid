@@ -3,7 +3,7 @@
 
 <? if ($this->customJs): ?>
     <?php foreach ($this->customJs as $file): ?>
-        <?php $this->headScript()->appendFile($file) ?>
+        <script src="<?= $file ?>"></script>
     <?php endforeach; ?>
 <? endif; ?>
 

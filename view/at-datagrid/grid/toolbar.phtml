@@ -1,6 +1,6 @@
 <div class="clearfix mb-1">
-    <h1 class="float-xs-left"><?= $this->translate($this->grid->getTitle()) ?></h1>
-    <div class="float-xs-right" style="margin-top: 8px;">
+    <h1 class="float-left"><?= $this->translate($this->grid->getTitle()) ?></h1>
+    <div class="float-right" style="margin-top: 8px;">
         <?php if ($this->gridManager->isAllowCreate()): ?>
             <a class="btn btn-outline-success btn-sm" href="<?= $this->url(null, ['action' => 'add']) ?>">
                 <?= $this->translate('Add') ?>
