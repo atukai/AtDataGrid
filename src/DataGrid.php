@@ -15,88 +15,81 @@ class DataGrid implements \Countable, \IteratorAggregate, \ArrayAccess
 
     const EVENT_GRID_INSERT_PRE = 'at-datagrid.grid.insert.pre';
     const EVENT_GRID_INSERT_POST = 'at-datagrid.grid.insert.post';
-
     const EVENT_GRID_UPDATE_PRE = 'at-datagrid.grid.update.pre';
     const EVENT_GRID_UPDATE_POST = 'at-datagrid.grid.update.post';
-
     const EVENT_GRID_PERSIST_PRE = 'at-datagrid.grid.persist.pre';
     const EVENT_GRID_PERSIST_POST = 'at-datagrid.grid.persist.post';
-
     const EVENT_GRID_DELETE_PRE = 'at-datagrid.grid.delete.pre';
     const EVENT_GRID_DELETE_POST = 'at-datagrid.grid.delete.post';
 
     /**
-     * Grid title
-     *
      * @var string
      */
-    protected $title;
+    private $title;
 
     /**
-     * Data source
-     *
      * @var DataSource\AbstractDataSource
      */
-    protected $dataSource;
+    private $dataSource;
 
     /**
      * Data grid columns
      *
      * @var array
      */
-    protected $columns = [];
+    private $columns = [];
 
     /**
      * @var string
      */
-    protected $identifierColumnName = 'id';
+    private $identifierColumnName = 'id';
 
     /**
      * @var Paginator
      */
-    protected $paginator;
+    private $paginator;
 
     /**
      * Order in format ['id' => 'desc']
      *
      * @var array
      */
-    protected $order;
+    private $order;
 
     /**
      * Current page
      *
      * @var integer
      */
-    protected $currentPage = 1;
+    private $currentPage = 1;
 
     /**
      * Items per page
      *
      * @var integer
      */
-    protected $itemsPerPage = 20;
+    private $itemsPerPage = 20;
 
     /**
      * Page range
      *
      * @var integer
      */
-    protected $pageRange = 10;
+    private $pageRange = 10;
 
     /**
      * Array of column filters
      *
      * @var array
      */
-    protected $filters = [];
+    private $filters = [];
 
     /**
      * Array of rows from data source
      *
      * @var array
      */
-    protected $data = [];
+    private $data = [];
 
     /**
      * @param $dataSource

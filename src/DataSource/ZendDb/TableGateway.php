@@ -59,14 +59,6 @@ class TableGateway extends AbstractDataSource
 	}
 
     /**
-     * @return ZendTableGateway
-     */
-    public function getTableGateway()
-    {
-        return $this->tableGateway;
-    }
-
-    /**
      * @return Select
      */
     public function getSelect()
@@ -105,7 +97,7 @@ class TableGateway extends AbstractDataSource
 
         $this->getSelect()->join(
             [$alias => $joinedTableName],
-            $this->getTableGateway()->getTable(). '.' . $keyName . ' = '. $alias . '.' . $foreignKeyName,
+            $this->tableGateway->getTable(). '.' . $keyName . ' = '. $alias . '.' . $foreignKeyName,
             $joinedColumns
         );
     }
@@ -117,7 +109,7 @@ class TableGateway extends AbstractDataSource
     {
         $columns = array();
         $tableMetadata = new Metadata($this->getDbAdapter());
-        $baseTableColumns = $tableMetadata->getColumns($this->getTableGateway()->getTable());
+        $baseTableColumns = $tableMetadata->getColumns($this->tableGateway->getTable());
 
         // Setup default settings for base table column fields
         foreach ($baseTableColumns as $column) {
@@ -169,7 +161,7 @@ class TableGateway extends AbstractDataSource
     protected function setCommentAsLabel($columns)
     {
         $query = 'SELECT COLUMN_NAME as name, COLUMN_COMMENT as comment FROM information_schema.COLUMNS
-                      WHERE TABLE_SCHEMA = "' . $this->getDbAdapter()->getCurrentSchema() . '" AND TABLE_NAME = "' . $this->getTableGateway()->getTable() . '"';
+            WHERE TABLE_SCHEMA = "' . $this->getDbAdapter()->getCurrentSchema() . '" AND TABLE_NAME = "' . $this->tableGateway->getTable() . '"';
 
         $columnsInfo = $this->getDbAdapter()->query($query, Adapter::QUERY_MODE_EXECUTE);
         if ($columnsInfo) {
@@ -205,7 +197,7 @@ class TableGateway extends AbstractDataSource
             if (!$filter instanceof ZendSqlFilter) {
                 throw new \RuntimeException('ZendDb/TableGateway data source requires Filter\ZendSql filters');
             }
-            $filter->apply($this->getSelect(), $this->getTableGateway()->getTable(). '.' . $columnName, $filter->getValue());
+            $filter->apply($this->getSelect(), $this->tableGateway->getTable(). '.' . $columnName, $filter->getValue());
         }
 
         $this->getEventManager()->trigger(self::EVENT_DATASOURCE_PREPARE_POST, $this->getSelect());
@@ -223,7 +215,7 @@ class TableGateway extends AbstractDataSource
      */
     public function find($key)
     {
-        return $this->getTableGateway()->select([$this->getIdentifierFieldName() => $key])->current();
+        return $this->tableGateway->select([$this->getIdentifierFieldName() => $key])->current();
     }
 
     /**
@@ -250,10 +242,8 @@ class TableGateway extends AbstractDataSource
      */
     public function insert($data)
     {
-        $table = $this->getTableGateway();
-        $table->insert($this->cleanDataForSql($data));
-
-        return $table->getLastInsertValue();
+        $this->tableGateway->insert($this->cleanDataForSql($data));
+        return $this->tableGateway->getLastInsertValue();
     }
 
     /**
@@ -263,7 +253,7 @@ class TableGateway extends AbstractDataSource
      */
     public function update($data, $key)
     {
-        return $this->getTableGateway()->update($this->cleanDataForSql($data), [$this->getIdentifierFieldName() => $key]);
+        return $this->tableGateway->update($this->cleanDataForSql($data), [$this->getIdentifierFieldName() => $key]);
     }
 
     /**
@@ -272,7 +262,7 @@ class TableGateway extends AbstractDataSource
      */
     public function delete($key)
     {
-        return $this->getTableGateway()->delete([$this->getIdentifierFieldName() => $key]);
+        return $this->tableGateway->delete([$this->getIdentifierFieldName() => $key]);
     }
 
     /**
